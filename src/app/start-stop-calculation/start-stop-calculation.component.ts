@@ -27,9 +27,12 @@ export class StartStopCalculationComponent {
   storesub: Subscription;
 
   constructor(private store: Store<{ manualClocks: ClockInOut[] }>) {
-    this.storesub = this.store.pipe(select('manualClocks')).subscribe(s => {
-      this.clocks = s;
-    });
+    this.storesub = this.store.pipe(select('manualClocks'))
+      .subscribe(this.setClocks);
+  }
+
+  setClocks = (clocks: ClockInOut[]) => {
+    this.clocks = clocks;
   }
 
   addClockInOrOut() {
@@ -64,9 +67,7 @@ export class StartStopCalculationComponent {
 
   removeClock(index: number) {
     if (this.clocks.length === 1) return;
-    this.store.dispatch(removeOneManualClock({
-      clocks: this.clocks.filter((_, idx) => idx !== index)
-    }));
+    this.store.dispatch(removeOneManualClock({ index }));
   }
 
   ngOnDestroy() {

@@ -27,8 +27,8 @@ const manualReducer = createReducer(initialManualClocks,
             new ClockInOut("08:00")
         ];
     }),
-    on(removeOneManualClock, (_, { clocks }) => {
-        return clocks;
+    on(removeOneManualClock, (state: ClockInOut[], { index }) => {
+        return state.filter((_, idx) => idx !== index);
     })
 );
 

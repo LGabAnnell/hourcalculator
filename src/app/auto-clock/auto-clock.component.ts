@@ -69,7 +69,7 @@ export class AutoClockComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(saveAutoClocks());
     this.storesub.unsubscribe();
+    this.store.dispatch(saveAutoClocks());
   }
 }
