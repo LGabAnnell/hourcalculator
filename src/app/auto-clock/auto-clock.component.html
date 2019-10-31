@@ -1,0 +1,9 @@
+<div class="container">
+    <mat-card *ngFor="let clock of clocks; index as i" style="margin-bottom: 10px;">
+        {{ i % 2 === 0 ? 'Entrée à ' : 'Sortie à '}}{{clock.value}}
+    </mat-card>
+    <button mat-raised-button style="width:100%; margin-bottom: 10px;" (click)="addClock()">Pointer</button>
+    <div>
+        {{end}}
+    </div>
+</div>
