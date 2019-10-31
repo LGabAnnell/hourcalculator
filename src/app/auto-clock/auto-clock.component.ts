@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ClockInOut } from 'src/model/clockinout';
 import * as moment from 'moment';
 import { TimeCalculator } from '../utils/time-calculator';
-import { StorageHandler } from '../utils/storage-handler';
 import { Store, select } from '@ngrx/store';
 import { deleteAutoClocks, saveAutoClocks } from '../store/actions';
 
