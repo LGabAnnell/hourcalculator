@@ -3,7 +3,13 @@ import { deleteAutoClocks, deleteManualClocks, saveAutoClocks, saveManualClocks,
 import { ClockInOut } from 'src/model/clockinout';
 
 const initialAutoClocks = JSON.parse(localStorage.getItem("autoclocks")) || [];
-const initialManualClocks = JSON.parse(localStorage.getItem("manualclocks")) || [];
+const initialManualClocks = (() => {
+    const clocks = JSON.parse(localStorage.getItem("manualclocks"));
+    if (clocks === null || clocks.length === 0)
+        return [new ClockInOut("08:00")];
+    return clocks;
+})();
+    
 
 const autoClockReducer = createReducer(initialAutoClocks, 
     on(saveAutoClocks, state => {

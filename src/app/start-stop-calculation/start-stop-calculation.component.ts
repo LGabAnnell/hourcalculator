@@ -66,7 +66,6 @@ export class StartStopCalculationComponent {
   }
 
   removeClock(index: number) {
-    if (this.clocks.length === 1) return;
     this.store.dispatch(removeOneManualClock({ index }));
   }
 
