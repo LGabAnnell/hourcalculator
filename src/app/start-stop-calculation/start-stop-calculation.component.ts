@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { TimeCalculator } from '../utils/time-calculator';
 import * as moment from "moment";
 import { ClockInOut } from 'src/model/clockinout';
-import { StorageHandler } from '../utils/storage-handler';
+import { Store, select } from '@ngrx/store';
+import { saveManualClocks, removeOneManualClock } from '../store/actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-start-stop-calculation',
@@ -22,14 +24,12 @@ export class StartStopCalculationComponent {
   public leftToDisplay = "";
   public remaining: string = "";
 
-  constructor() {
-    const loaded = StorageHandler.loadManualClocks();
-    if (loaded.length === 0) 
-      this.clocks.push(new ClockInOut("08:00"));
-    else {
-      this.clocks = loaded;
-      this.calculate();
-    }
+  storesub: Subscription;
+
+  constructor(private store: Store<{ manualClocks: ClockInOut[] }>) {
+    this.storesub = this.store.pipe(select('manualClocks')).subscribe(s => {
+      this.clocks = s;
+    });
   }
 
   addClockInOrOut() {
@@ -64,10 +64,13 @@ export class StartStopCalculationComponent {
 
   removeClock(index: number) {
     if (this.clocks.length === 1) return;
-    this.clocks = this.clocks.filter((_, idx) => idx !== index);
+    this.store.dispatch(removeOneManualClock({
+      clocks: this.clocks.filter((_, idx) => idx !== index)
+    }));
   }
 
   ngOnDestroy() {
-    StorageHandler.saveManualClocks(this.clocks);
+    this.store.dispatch(saveManualClocks());
+    this.storesub.unsubscribe();
   }
 }

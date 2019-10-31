@@ -3,6 +3,8 @@ import { ClockInOut } from 'src/model/clockinout';
 import * as moment from 'moment';
 import { TimeCalculator } from '../utils/time-calculator';
 import { StorageHandler } from '../utils/storage-handler';
+import { Store, select } from '@ngrx/store';
+import { deleteAutoClocks, saveAutoClocks } from '../store/actions';
 
 
 @Component({
@@ -15,15 +17,22 @@ export class AutoClockComponent implements OnInit {
   clocks: ClockInOut[] = [];
   startTime: string;
   timeWorked: string;
-  end;
+  end: string = "";
 
   private supposedTotal = {
     hours: 8,
     minutes: 12
   };
 
-  constructor() {
-    this.clocks = StorageHandler.loadAutoClocks();
+  storesub;
+
+  constructor(private store: Store<{ autoClocks: ClockInOut[] }>) {
+    this.storesub = this.store.pipe(
+      select('autoClocks')
+    ).subscribe(s => {
+      this.clocks = s;
+    });
+
     if (this.clocks.length > 1 && this.clocks.length % 2 !== 0) {
       this.calc();
     }
@@ -60,6 +69,7 @@ export class AutoClockComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    StorageHandler.saveAutoClocks(this.clocks);
+    this.store.dispatch(saveAutoClocks());
+    this.storesub.unsubscribe();
   }
 }

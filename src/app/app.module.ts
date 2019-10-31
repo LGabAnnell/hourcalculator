@@ -10,6 +10,8 @@ import { StartPauseCalculationComponent } from './start-pause-calculation/start-
 import { AutoClockComponent } from './auto-clock/auto-clock.component';
 import { routes } from './app-routes';
 import { RouterModule } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
+import { AutoReducer, ManualReducer } from './store/reducers';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,11 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    MatToolbarModule
+    MatToolbarModule,
+    StoreModule.forRoot({
+      autoClocks: AutoReducer,
+      manualClocks: ManualReducer
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

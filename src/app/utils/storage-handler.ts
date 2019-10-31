@@ -13,6 +13,7 @@ export class StorageHandler {
     }
 
     static saveManualClocks(clocks: ClockInOut[]) {
+        console.log("saving.....");
         localStorage.setItem("manualclocks", JSON.stringify(clocks));
     }
 
@@ -21,5 +22,10 @@ export class StorageHandler {
         if (clocks === null) return [];
 
         return JSON.parse(clocks);
+    }
+
+    static delete() {
+        localStorage.removeItem("autoclocks");
+        localStorage.removeItem("manualclocks");
     }
 }

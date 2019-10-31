@@ -3,7 +3,7 @@
         {{ i % 2 === 0 ? 'Entrée à ' : 'Sortie à '}}{{clock.value}}
     </mat-card>
     <button mat-raised-button style="width:100%; margin-bottom: 10px;" (click)="addClock()">Pointer</button>
-    <div>
-        {{end}}
+    <div *ngIf="end.length > 0">
+        En sortant à {{end}}, vous aurez fait 08:12 aujourd'hui
     </div>
 </div>
