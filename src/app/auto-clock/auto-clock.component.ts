@@ -43,6 +43,8 @@ export class AutoClockComponent implements OnInit {
   addClock() {
     this.clocks.push(new ClockInOut(moment().format("HH:mm")));
 
+    this.store.dispatch(saveAutoClocks());
+
     if (this.clocks.length === 1) {
       this.startTime = this.clocks[0].value;
       return;
@@ -69,6 +71,5 @@ export class AutoClockComponent implements OnInit {
 
   ngOnDestroy() {
     this.storesub.unsubscribe();
-    this.store.dispatch(saveAutoClocks());
   }
 }
