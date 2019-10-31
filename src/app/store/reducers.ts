@@ -9,7 +9,6 @@ const initialManualClocks = (() => {
         return [new ClockInOut("08:00")];
     return clocks;
 })();
-    
 
 const autoClockReducer = createReducer(initialAutoClocks, 
     on(saveAutoClocks, state => {

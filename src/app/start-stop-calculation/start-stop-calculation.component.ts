@@ -40,6 +40,7 @@ export class StartStopCalculationComponent {
     const lastMinute = +last.value[4] + 1; 
     
     this.clocks.push(new ClockInOut(last.value.slice(0, 4) + lastMinute));
+    this.store.dispatch(saveManualClocks());
 
     setTimeout(() => {
       const inputs: HTMLInputElement[] = 
