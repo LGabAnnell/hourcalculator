@@ -33,7 +33,9 @@ const manualReducer = createReducer(initialManualClocks,
     ];
   }),
   on(removeOneManualClock, (state: ClockInOut[], { index }) => {
-    return state.filter((_, idx) => idx !== index);
+    const newState = state.filter((_, idx) => idx !== index);
+    localStorage.setItem("manualclocks", JSON.stringify(newState));
+    return newState;
   })
 );
 
