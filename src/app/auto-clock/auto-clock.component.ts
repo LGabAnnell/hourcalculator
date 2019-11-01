@@ -11,7 +11,7 @@ import { deleteAutoClocks, saveAutoClocks } from '../store/actions';
   templateUrl: './auto-clock.component.html',
   styleUrls: ['./auto-clock.component.scss']
 })
-export class AutoClockComponent implements OnInit {
+export class AutoClockComponent {
 
   clocks: ClockInOut[] = [];
   startTime: string;
@@ -35,9 +35,6 @@ export class AutoClockComponent implements OnInit {
     if (this.clocks.length > 1 && this.clocks.length % 2 !== 0) {
       this.calc();
     }
-  }
-
-  ngOnInit() {
   }
 
   addClock() {
