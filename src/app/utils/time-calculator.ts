@@ -1,5 +1,7 @@
 import * as moment from "moment";
 
+type sn = string | number;
+
 export class TimeCalculator {
   static getDiff(value1: string, value2: string): moment.Duration {
     const start = moment(value1, "HH:mm");
@@ -12,8 +14,8 @@ export class TimeCalculator {
     const h = +d.asHours().toString().split(".")[0];
     const m = d.asMinutes() % 60;
 
-    let retH: number | string = h;
-    let retM: number | string = m;
+    let retH: sn = h;
+    let retM: sn = m;
 
     if (retH < 10) {
       retH = "0" + h;
