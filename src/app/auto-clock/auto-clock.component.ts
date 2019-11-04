@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { TimeCalculator } from '../utils/time-calculator';
 import { Store, select } from '@ngrx/store';
 import { deleteAutoClocks, saveAutoClocks } from '../store/actions';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -23,18 +24,17 @@ export class AutoClockComponent {
     minutes: 12
   };
 
-  storesub;
+  private storesub: Subscription;
 
   constructor(private store: Store<{ autoClocks: ClockInOut[] }>) {
     this.storesub = this.store.pipe(
       select('autoClocks')
-    ).subscribe(s => {
-      this.clocks = s;
+    ).subscribe(({ clocks }) => {
+      this.clocks = clocks;
+      if (this.clocks.length > 1 && this.clocks.length % 2 !== 0) {
+        this.calc();
+      }
     });
-
-    if (this.clocks.length > 1 && this.clocks.length % 2 !== 0) {
-      this.calc();
-    }
   }
 
   addClock() {
@@ -68,5 +68,10 @@ export class AutoClockComponent {
 
   ngOnDestroy() {
     this.storesub.unsubscribe();
+  }
+
+  
+  del() {
+    this.store.dispatch(deleteAutoClocks());
   }
 }

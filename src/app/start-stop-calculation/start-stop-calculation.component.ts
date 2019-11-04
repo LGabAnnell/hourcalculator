@@ -3,7 +3,7 @@ import { TimeCalculator } from '../utils/time-calculator';
 import * as moment from "moment";
 import { ClockInOut } from 'src/model/clockinout';
 import { Store, select } from '@ngrx/store';
-import { saveManualClocks, removeOneManualClock } from '../store/actions';
+import { saveManualClocks, removeOneManualClock, deleteManualClocks } from '../store/actions';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -31,7 +31,10 @@ export class StartStopCalculationComponent {
       .subscribe(this.setClocks);
   }
 
-  setClocks = (clocks: ClockInOut[]) => {
+  setClocks = ({
+    action,
+    clocks
+  }) => {
     this.clocks = clocks;
   }
 
@@ -73,5 +76,9 @@ export class StartStopCalculationComponent {
   ngOnDestroy() {
     this.store.dispatch(saveManualClocks());
     this.storesub.unsubscribe();
+  }
+
+  del() {
+    this.store.dispatch(deleteManualClocks());
   }
 }

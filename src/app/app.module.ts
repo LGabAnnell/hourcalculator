@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MatTabsModule, MatInputModule, MatFormFieldModule, MatButtonModule,
-MatCardModule, MatIconModule, MatToolbarModule } from '@angular/material';
+MatCardModule, MatIconModule, MatToolbarModule, MatSnackBarModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,6 +31,7 @@ import { AutoReducer, ManualReducer } from './store/reducers';
     MatCardModule,
     MatIconModule,
     MatToolbarModule,
+    MatSnackBarModule,
     StoreModule.forRoot({
       autoClocks: AutoReducer,
       manualClocks: ManualReducer

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { deleteAutoClocks, deleteManualClocks } from './store/actions';
+import { Store, select } from '@ngrx/store';
+import { merge } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +12,19 @@ import { deleteAutoClocks, deleteManualClocks } from './store/actions';
 export class AppComponent {
   title = 'material-hourcalculator';
 
-  constructor(private store: Store<any>) {}
+  constructor(private store: Store<any>, private snack: MatSnackBar) {}
 
-  del() {
-    this.store.dispatch(deleteAutoClocks());
-    this.store.dispatch(deleteManualClocks());
+  ngOnInit() {
+    const manual$ = this.store.select('manualClocks');
+    const auto$ = this.store.select('autoClocks');
+
+    merge(manual$, auto$).pipe(filter(({ action }) => 
+      action && (action.type === 'Delete manual clocks' || action.type === 'Delete auto clocks'))
+    ).subscribe(() => {
+      this.snack.open('Delete successful!', null, {
+        duration: 30000,
+        panelClass: 'center-text'
+      });
+    });
   }
 }

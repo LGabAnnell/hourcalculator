@@ -2,40 +2,71 @@ import { createReducer, on } from '@ngrx/store';
 import { deleteAutoClocks, deleteManualClocks, saveAutoClocks, saveManualClocks, removeOneManualClock } from './actions';
 import { ClockInOut } from 'src/model/clockinout';
 
-const initialAutoClocks = JSON.parse(localStorage.getItem("autoclocks")) || [];
+const initialAutoClocks = (() => {
+  let clocks = JSON.parse(localStorage.getItem("autoclocks"));
+  if (clocks === null) 
+    clocks = [];
+  return {
+    action: null,
+    clocks
+  }
+})();
 const initialManualClocks = (() => {
   const clocks = JSON.parse(localStorage.getItem("manualclocks"));
-  if (clocks === null || clocks.length === 0)
-    return [new ClockInOut("08:00")];
-  return clocks;
+  if (clocks === null || clocks.length === 0) {
+    return {
+      action: null,
+      clocks: [new ClockInOut("08:00")]
+    };
+  }
+  
+  return {
+    action: null,
+    clocks: clocks
+  };
 })();
 
 const autoClockReducer = createReducer(initialAutoClocks,
-  on(saveAutoClocks, state => {
-    localStorage.setItem("autoclocks", JSON.stringify(state));
-    return state;
+  on(saveAutoClocks, (state, action) => {
+    localStorage.setItem("autoclocks", JSON.stringify(state.clocks));
+    return {
+      action,
+      clocks: state.clocks
+    };
   }),
-  on(deleteAutoClocks, () => {
+  on(deleteAutoClocks, ({ clocks }, action) => {
     localStorage.removeItem("autoclocks");
-    return [];
+    return {
+      action,
+      clocks: []
+    };
   })
 );
 
 const manualReducer = createReducer(initialManualClocks,
-  on(saveManualClocks, state => {
-    localStorage.setItem("manualclocks", JSON.stringify(state));
-    return state;
+  on(saveManualClocks, (state, action) => {
+    localStorage.setItem("manualclocks", JSON.stringify(state.clocks));
+    return {
+      action,
+      clocks: state.clocks
+    };
   }),
-  on(deleteManualClocks, () => {
+  on(deleteManualClocks, (_ , action) => {
     localStorage.removeItem("manualclocks");
-    return [
-      new ClockInOut("08:00")
-    ];
+    return {
+      action,
+      clocks: [
+        new ClockInOut("08:00")
+      ]
+    };
   }),
-  on(removeOneManualClock, (state: ClockInOut[], { index }) => {
-    const newState = state.filter((_, idx) => idx !== index);
+  on(removeOneManualClock, (state, { index }) => {
+    const newState = state.clocks.filter((_, idx) => idx !== index);
     localStorage.setItem("manualclocks", JSON.stringify(newState));
-    return newState;
+    return {
+      action: state.action,
+      clocks: newState
+    };
   })
 );
 
