@@ -3,7 +3,7 @@ import { ClockInOut } from 'src/model/clockinout';
 import * as moment from 'moment';
 import { TimeCalculator } from '../utils/time-calculator';
 import { Store, select } from '@ngrx/store';
-import { deleteAutoClocks, saveAutoClocks } from '../store/actions';
+import { deleteAutoClocks, saveAutoClocks, removeOneAutoClock } from '../store/actions';
 import { Subscription } from 'rxjs';
 
 
@@ -31,10 +31,16 @@ export class AutoClockComponent {
       select('autoClocks')
     ).subscribe(({ clocks }) => {
       this.clocks = clocks;
-      if (this.clocks.length > 1 && this.clocks.length % 2 !== 0) {
-        this.calc();
-      }
+      this.startCalculation();
     });
+  }
+
+  startCalculation() {
+    if (this.clocks.length > 1 && this.clocks.length % 2 !== 0) {
+      this.calc();
+    } else {
+      this.end = '';
+    }
   }
 
   addClock() {
@@ -47,9 +53,7 @@ export class AutoClockComponent {
       return;
     }
 
-    if (this.clocks.length % 2 !== 0) {
-      this.calc();
-    }
+    this.startCalculation();
   }
 
   calc() {
@@ -73,5 +77,11 @@ export class AutoClockComponent {
   
   del() {
     this.store.dispatch(deleteAutoClocks());
+  }
+
+  removeClock(i: number) {
+    this.store.dispatch(removeOneAutoClock({
+      index: i
+    }));
   }
 }

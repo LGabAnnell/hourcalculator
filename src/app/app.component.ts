@@ -22,8 +22,7 @@ export class AppComponent {
       action && (action.type === 'Delete manual clocks' || action.type === 'Delete auto clocks'))
     ).subscribe(() => {
       this.snack.open('Delete successful!', null, {
-        duration: 30000,
-        panelClass: 'center-text'
+        duration: 2000,
       });
     });
   }

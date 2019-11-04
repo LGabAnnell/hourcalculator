@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { deleteAutoClocks, deleteManualClocks, saveAutoClocks, saveManualClocks, removeOneManualClock } from './actions';
+import { deleteAutoClocks, deleteManualClocks, saveAutoClocks, saveManualClocks, removeOneManualClock, removeOneAutoClock } from './actions';
 import { ClockInOut } from 'src/model/clockinout';
 
 const initialAutoClocks = (() => {
@@ -39,6 +39,14 @@ const autoClockReducer = createReducer(initialAutoClocks,
     return {
       action,
       clocks: []
+    };
+  }),
+  on(removeOneAutoClock, (state, { index }) => {
+    const newState = state.clocks.filter((_, idx) => idx !== index);
+    localStorage.setItem("autoclocks", JSON.stringify(newState));
+    return {
+      action: state.action,
+      clocks: newState
     };
   })
 );

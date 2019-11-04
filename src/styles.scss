@@ -33,12 +33,6 @@ form {
     flex: 1;
 }
 
-.center-text {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 @media screen and (min-width: 1000px) {
     html {
         display: flex;

@@ -1,12 +1,16 @@
+<div class="pad-sides margin-top">
+  <button mat-raised-button style="width:100%" color="warn" (click)="del()">Supprimer tout</button>
+</div>
 <div class="container">
-    <div class="pad-sides margin-top">
-        <button mat-raised-button style="width:100%" color="warn" (click)="del()">Supprimer tout</button>
-      </div>
-    <mat-card *ngFor="let clock of clocks; index as i" style="margin-bottom: 10px;">
-        {{ i % 2 === 0 ? 'Entrée à ' : 'Sortie à '}}{{clock.value}}
-    </mat-card>
-    <button mat-raised-button style="width:100%; margin-bottom: 10px;" (click)="addClock()">Pointer</button>
-    <div *ngIf="end.length > 0">
-        En sortant à {{end}}, vous aurez fait 08:12 aujourd'hui
-    </div>
+  <mat-card *ngFor="let clock of clocks; index as i" style="margin-bottom: 10px; display: flex;">
+      {{ i % 2 === 0 ? 'Entrée à ' : 'Sortie à '}}{{clock.value}}
+      <span flex></span>
+      <mat-icon aria-hidden="false" style="margin-left: 5px;" 
+          aria-label="Example home icon" (click)="removeClock(i)">
+      delete</mat-icon>
+  </mat-card>
+  <button mat-raised-button style="width:100%; margin-bottom: 10px;" (click)="addClock()">Pointer</button>
+  <div *ngIf="end.length > 0">
+      En sortant à {{end}}, vous aurez fait 08:12 aujourd'hui
+  </div>
 </div>
