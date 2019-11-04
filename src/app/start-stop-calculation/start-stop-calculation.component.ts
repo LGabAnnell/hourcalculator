@@ -31,10 +31,7 @@ export class StartStopCalculationComponent {
       .subscribe(this.setClocks);
   }
 
-  setClocks = ({
-    action,
-    clocks
-  }) => {
+  setClocks = ({ clocks }) => {
     this.clocks = clocks;
   }
 
@@ -80,5 +77,10 @@ export class StartStopCalculationComponent {
 
   del() {
     this.store.dispatch(deleteManualClocks());
+  }
+
+  saveValue(index, value: string) {
+    this.clocks[index].value = value;
+    this.store.dispatch(saveManualClocks());
   }
 }

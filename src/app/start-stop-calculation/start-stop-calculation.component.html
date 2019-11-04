@@ -2,48 +2,47 @@
   <button mat-raised-button style="width:100%" color="warn" (click)="del()">Supprimer tout</button>
 </div>
 <form class="example-form" onsubmit="javascript:void(0)" id="clockInOutForm">
-    <div style="display: flex; align-items: center;" *ngFor="let clock of clocks; index as i">
-        <mat-form-field flex>
-            <input matInput placeholder="Pointage {{i + 1}} ({{ i % 2 === 0 ? 'Entrée' : 'Sortie' }})" type="time" [value]="clock.value" (input)="clock.value = $event.target.value" flex>
-        </mat-form-field>
-        <mat-icon aria-hidden="false" style="margin-left: 5px;" 
-            aria-label="Example home icon" (click)="removeClock(i)" [ngStyle]="
+  <div style="display: flex; align-items: center;" *ngFor="let clock of clocks; index as i">
+    <mat-form-field flex>
+      <input matInput placeholder="Pointage {{i + 1}} ({{ i % 2 === 0 ? 'Entrée' : 'Sortie' }})" type="time"
+        [value]="clock.value" (input)="saveValue(i, $event.target.value)" flex>
+    </mat-form-field>
+    <mat-icon aria-hidden="false" style="margin-left: 5px;" aria-label="Example home icon" (click)="removeClock(i)"
+      [ngStyle]="
                 {'display': clocks.length === 1 ? 'none' : 'inline'}
             ">
-            delete</mat-icon>
-    </div> 
+      delete</mat-icon>
+  </div>
 </form>
 <div style="padding-left: 10px; padding-right: 10px; padding-bottom: 10px;">
-    <div style="display: flex; justify-content: space-between;">
-        <button mat-raised-button color="primary" type="submit" (click)="addClockInOrOut()" style="flex: 1;">
-            Ajouter pointage
-        </button>
-        <span style="display: inline-block; width: 20px;"></span>
-        <button mat-raised-button color="secondary" 
-            (click)="calculate()" style="flex: 1;"
-            [disabled]="clocks.length % 2 === 0 || clocks.length === 1"
-        >Calculer</button>
-    </div>
-    <mat-card style="margin-top: 20px;">
-        <table>
-            <tr>
-                <th>
-                    Travaillé
-                </th>
-                <th>Restant</th>
-                <th>Fin</th>
-            </tr>
-            <tr>
-                <td>
-                    {{worked}}
-                </td>
-                <td>
-                    {{leftToDisplay}}
-                </td>
-                <td>
-                    {{remaining}}
-                </td>
-            </tr>
-        </table>
-    </mat-card>
+  <div style="display: flex; justify-content: space-between;">
+    <button mat-raised-button color="primary" type="submit" (click)="addClockInOrOut()" style="flex: 1;">
+      Ajouter pointage
+    </button>
+    <span style="display: inline-block; width: 20px;"></span>
+    <button mat-raised-button color="secondary" (click)="calculate()" style="flex: 1;"
+      [disabled]="clocks.length % 2 === 0 || clocks.length === 1">Calculer</button>
+  </div>
+  <mat-card style="margin-top: 20px;">
+    <table>
+      <tr>
+        <th>
+          Travaillé
+        </th>
+        <th>Restant</th>
+        <th>Fin</th>
+      </tr>
+      <tr>
+        <td>
+          {{worked}}
+        </td>
+        <td>
+          {{leftToDisplay}}
+        </td>
+        <td>
+          {{remaining}}
+        </td>
+      </tr>
+    </table>
+  </mat-card>
 </div>
