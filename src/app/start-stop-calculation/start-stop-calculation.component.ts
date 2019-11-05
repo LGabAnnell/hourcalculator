@@ -4,7 +4,8 @@ import * as moment from "moment";
 import { ClockInOut } from 'src/model/clockinout';
 import { Store, select } from '@ngrx/store';
 import { saveManualClocks, removeOneManualClock, deleteManualClocks } from '../store/actions';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { clockInOutAction, clockInOutWithDateAction } from '../store/reducers';
 
 @Component({
   selector: 'app-start-stop-calculation',
@@ -21,17 +22,20 @@ export class StartStopCalculationComponent {
     minutes: 12
   };
 
+  date: moment.Moment;
+
   public leftToDisplay = "";
   public remaining: string = "";
 
   storesub: Subscription;
 
-  constructor(private store: Store<{ manualClocks: ClockInOut[] }>) {
-    this.storesub = this.store.pipe(select('manualClocks'))
+  constructor(private store: Store<{ obj: clockInOutWithDateAction }>) {
+    this.storesub = (this.store.pipe(select('manualClocks')))
       .subscribe(this.setClocks);
   }
 
-  setClocks = ({ clocks }) => {
+  setClocks = ({ clocks, date }) => {
+    this.date = date;
     this.clocks = clocks;
   }
 
@@ -40,7 +44,7 @@ export class StartStopCalculationComponent {
     const lastMinute = +last.value[4] + 1; 
     
     this.clocks.push(new ClockInOut(last.value.slice(0, 4) + lastMinute));
-    this.store.dispatch(saveManualClocks());
+    this.store.dispatch(saveManualClocks(null));
 
     setTimeout(() => {
       const inputs: HTMLInputElement[] = 
@@ -71,7 +75,7 @@ export class StartStopCalculationComponent {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(saveManualClocks());
+    this.store.dispatch(saveManualClocks(null));
     this.storesub.unsubscribe();
   }
 
@@ -79,8 +83,8 @@ export class StartStopCalculationComponent {
     this.store.dispatch(deleteManualClocks());
   }
 
-  saveValue(index, value: string) {
+  saveValue(index: number, value: string) {
     this.clocks[index].value = value;
-    this.store.dispatch(saveManualClocks());
+    this.store.dispatch(saveManualClocks(null));
   }
 }

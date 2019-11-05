@@ -5,6 +5,7 @@ import { TimeCalculator } from '../utils/time-calculator';
 import { Store, select } from '@ngrx/store';
 import { deleteAutoClocks, saveAutoClocks, removeOneAutoClock } from '../store/actions';
 import { Subscription } from 'rxjs';
+import { clockInOutAction } from '../store/reducers';
 
 
 @Component({
@@ -26,8 +27,8 @@ export class AutoClockComponent {
 
   private storesub: Subscription;
 
-  constructor(private store: Store<{ autoClocks: ClockInOut[] }>) {
-    this.storesub = this.store.pipe(
+  constructor(private store: Store<{ obj: clockInOutAction }>) {
+    this.storesub = this.store.pipe<clockInOutAction>(
       select('autoClocks')
     ).subscribe(({ clocks }) => {
       this.clocks = clocks;

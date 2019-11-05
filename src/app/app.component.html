@@ -18,4 +18,13 @@
      Déb. Matin + temps pause
   </a>
 </nav>
+<div style="display: flex;">
+  <button mat-icon-button (click)="removeDay()"><mat-icon>chevron_left</mat-icon></button>
+  <span flex style="display: flex; justify-content: center; align-items: center;" (click)="picker.open()" >
+    <mat-datepicker touchUi #picker></mat-datepicker>
+    <input style="width: 0px; height: 0; display: hidden; padding: 0; margin: 0; border: none;" 
+    [matDatepicker]="picker" (dateChange)="dateChange($event.targetElement.value)" [value]="date">
+    {{ date.format('DD.MM.YYYY') }}</span>
+    <button mat-icon-button (click)="addDay()"><mat-icon>chevron_right</mat-icon></button>
+</div>
 <router-outlet></router-outlet>

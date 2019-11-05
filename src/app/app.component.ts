@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Component, ViewChildren, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { merge } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDatepicker } from '@angular/material';
+import * as moment from 'moment';
+import { dateChange } from './store/actions';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +13,7 @@ import { MatSnackBar } from '@angular/material';
 })
 export class AppComponent {
   title = 'material-hourcalculator';
+  date: moment.Moment = moment();
 
   constructor(private store: Store<any>, private snack: MatSnackBar) {}
 
@@ -25,5 +28,23 @@ export class AppComponent {
         duration: 2000,
       });
     });
+  }
+
+  ngAfterViewInit() {
+  }
+
+  dateChange(value: string) {
+    this.date = moment(value, 'DD.MM.YYYY');
+    this.store.dispatch(dateChange({ date: this.date }));
+  }
+
+  addDay() {
+    this.date = moment(this.date).add({ days: 1 });
+    this.store.dispatch(dateChange({ date: this.date }));
+  }
+
+  removeDay() {
+    this.date = moment(this.date).subtract({ days: 1 });
+    this.store.dispatch(dateChange({ date: this.date }));
   }
 }
