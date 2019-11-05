@@ -37,6 +37,7 @@ export class StartStopCalculationComponent {
   setClocks = ({ clocks, date }) => {
     this.date = date;
     this.clocks = clocks;
+    this.calculate();
   }
 
   addClockInOrOut() {
@@ -54,8 +55,12 @@ export class StartStopCalculationComponent {
   }
 
   calculate() {
-    if (this.clocks.length % 2 === 0 || this.clocks.length === 1)
+    if (this.clocks.length % 2 === 0 || this.clocks.length === 1) {
+      this.worked = '';
+      this.leftToDisplay = '';
+      this.remaining = '';
       return;
+    }
 
     let total = moment.duration(0);
     for (let i = 0; i < this.clocks.length - 1; i += 2) {

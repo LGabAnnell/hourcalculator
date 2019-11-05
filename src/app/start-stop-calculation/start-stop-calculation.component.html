@@ -19,9 +19,6 @@
     <button mat-raised-button color="primary" type="submit" (click)="addClockInOrOut()" style="flex: 1;">
       Ajouter pointage
     </button>
-    <span style="display: inline-block; width: 20px;"></span>
-    <button mat-raised-button color="secondary" (click)="calculate()" style="flex: 1;"
-      [disabled]="clocks.length % 2 === 0 || clocks.length === 1">Calculer</button>
   </div>
   <mat-card style="margin-top: 20px;">
     <table>
