@@ -15,24 +15,24 @@ export class AppComponent {
   title = 'material-hourcalculator';
   date: moment.Moment = moment();
 
-  constructor(private store: Store<any>, private snack: MatSnackBar) {}
+  constructor(private store: Store<any>, private snack: MatSnackBar) { }
 
   ngOnInit() {
     const manual$ = this.store.select('manualClocks');
     const auto$ = this.store.select('autoClocks');
 
     let deferredPrompt;
-    let hasEventHappened = false;
 
     window.addEventListener('beforeinstallprompt', e => {
       deferredPrompt = e;
       document.body.addEventListener('click', function toRemove() {
-        deferredPrompt.prompt();
-        document.body.removeEventListener('click', toRemove);
+        if (deferredPrompt.prompt()) {
+          document.body.removeEventListener('click', toRemove);
+        }
       });
     });
 
-    merge(manual$, auto$).pipe(filter(({ action }) => 
+    merge(manual$, auto$).pipe(filter(({ action }) =>
       action && (action.type === 'Delete manual clocks' || action.type === 'Delete auto clocks'))
     ).subscribe(() => {
       this.snack.open('Delete successful!', null, {
