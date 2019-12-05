@@ -25,14 +25,13 @@ export class AppComponent {
 
     window.addEventListener('beforeinstallprompt', e => {
       deferredPrompt = e;
-    });
-
-    window.addEventListener('scroll', e => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-      } else {
-        deferredPrompt = false;
-      }
+      window.addEventListener('scroll', e => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+        } else {
+          deferredPrompt = false;
+        }
+      });
     });
 
     merge(manual$, auto$).pipe(filter(({ action }) => 
