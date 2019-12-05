@@ -1,4 +1,4 @@
-import { Component, ViewChildren, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { merge } from 'rxjs';
 import { filter } from 'rxjs/operators';

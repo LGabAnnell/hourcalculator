@@ -4,8 +4,8 @@ import * as moment from "moment";
 import { ClockInOut } from 'src/model/clockinout';
 import { Store, select } from '@ngrx/store';
 import { saveManualClocks, removeOneManualClock, deleteManualClocks } from '../store/actions';
-import { Subscription, Observable } from 'rxjs';
-import { clockInOutAction, clockInOutWithDateAction } from '../store/reducers';
+import { Subscription } from 'rxjs';
+import { clockInOutWithDateAction } from '../store/reducers';
 
 @Component({
   selector: 'app-start-stop-calculation',

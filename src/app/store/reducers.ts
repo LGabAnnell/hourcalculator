@@ -72,7 +72,7 @@ const autoClockReducer = createReducer(initialAutoClocks,
     if (clocks === null) clocks = [];
 
     return {
-      action: { type: type },
+      action: { type },
       clocks: clocks,
       date: date
     }
