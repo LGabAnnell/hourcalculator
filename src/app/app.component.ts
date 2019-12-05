@@ -22,16 +22,18 @@ export class AppComponent {
     const auto$ = this.store.select('autoClocks');
 
     let deferredPrompt;
+    let hasEventHappened = false;
 
     window.addEventListener('beforeinstallprompt', e => {
       deferredPrompt = e;
-      window.addEventListener('scroll', e => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-        } else {
-          deferredPrompt = false;
-        }
-      });
+      hasEventHappened = true;
+    });
+
+    window.addEventListener('scroll', e => {
+      if (hasEventHappened) {
+        deferredPrompt.prompt();
+        hasEventHappened = false;
+      }
     });
 
     merge(manual$, auto$).pipe(filter(({ action }) => 
