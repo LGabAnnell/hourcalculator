@@ -21,19 +21,8 @@ export class AppComponent {
     const manual$ = this.store.select('manualClocks');
     const auto$ = this.store.select('autoClocks');
 
-    let deferredPrompt;
-    let hasEventHappened = false;
-
     window.addEventListener('beforeinstallprompt', e => {
-      deferredPrompt = e;
-      hasEventHappened = true;
-    });
-
-    window.addEventListener('scroll', e => {
-      if (hasEventHappened) {
-        deferredPrompt.prompt();
-        hasEventHappened = false;
-      }
+      (e as any).prompt();
     });
 
     merge(manual$, auto$).pipe(filter(({ action }) => 
