@@ -21,8 +21,15 @@ export class AppComponent {
     const manual$ = this.store.select('manualClocks');
     const auto$ = this.store.select('autoClocks');
 
+    let deferredPrompt;
+    let hasEventHappened = false;
+
     window.addEventListener('beforeinstallprompt', e => {
-      (e as any).prompt();
+      deferredPrompt = e;
+      document.body.addEventListener('click', function toRemove() {
+        deferredPrompt.prompt();
+        document.body.removeEventListener('click', toRemove);
+      });
     });
 
     merge(manual$, auto$).pipe(filter(({ action }) => 
