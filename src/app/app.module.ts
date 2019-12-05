@@ -16,6 +16,8 @@ import { routes } from './app-routes';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { AutoReducer, ManualReducer } from './store/reducers';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { AutoReducer, ManualReducer } from './store/reducers';
     StoreModule.forRoot({
       autoClocks: AutoReducer,
       manualClocks: ManualReducer
-    })
+    }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ch-FR' },
