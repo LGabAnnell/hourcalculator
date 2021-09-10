@@ -23,14 +23,14 @@ export class AppComponent {
 
     let deferredPrompt;
 
-    window.addEventListener('beforeinstallprompt', e => {
+    /* window.addEventListener('beforeinstallprompt', e => {
       deferredPrompt = e;
       document.body.addEventListener('click', function toRemove() {
         if (deferredPrompt.prompt()) {
           document.body.removeEventListener('click', toRemove);
         }
       });
-    });
+    });*/
 
     merge(manual$, auto$).pipe(filter(({ action }) =>
       action && (action.type === 'Delete manual clocks' || action.type === 'Delete auto clocks'))
