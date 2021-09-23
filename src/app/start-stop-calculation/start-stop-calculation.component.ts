@@ -19,7 +19,7 @@ export class StartStopCalculationComponent {
   worked: string = "";
   private left = {
     hours: 8,
-    minutes: 12
+    minutes: 24
   };
 
   date: moment.Moment;

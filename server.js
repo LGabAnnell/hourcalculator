@@ -15,8 +15,8 @@ app.use(express.static("dist/material-hourcalculator"));
 
 const routes = [
   "/",
-  // "/auto",
-  // "/pause"
+  "/auto",
+  "/pause"
 ];
 
 const appGet = route => app.get(route, (_, res) => {

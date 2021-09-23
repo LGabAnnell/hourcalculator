@@ -13,7 +13,7 @@ export class StartPauseCalculationComponent implements OnInit {
 
   supposedTotal = moment.duration({
     hours: 8,
-    minutes: 12
+    minutes: 24
   });
 
   endTime: string = moment(this.dayStart, "HH:mm").clone().add(this.supposedTotal.clone()).format("HH:mm");

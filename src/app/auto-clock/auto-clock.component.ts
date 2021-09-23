@@ -22,7 +22,7 @@ export class AutoClockComponent {
 
   private supposedTotal = {
     hours: 8,
-    minutes: 12
+    minutes: 24
   };
 
   private storesub: Subscription;
