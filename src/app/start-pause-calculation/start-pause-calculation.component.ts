@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import * as moment from "moment";
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-start-pause-calculation',
@@ -16,19 +18,29 @@ export class StartPauseCalculationComponent implements OnInit {
     minutes: 24
   });
 
-  endTime: string = moment(this.dayStart, "HH:mm").clone().add(this.supposedTotal.clone()).format("HH:mm");
+  endTime: string = moment(this.dayStart, "HH:mm").add(this.supposedTotal).add(moment.duration({ hours: 0, minutes: 30 })).format("HH:mm"); 
+  storeHolder: Subscription;
 
-  constructor() { }
+  constructor(private store: Store<{ timeChange: { duration: moment.Duration } }>) {
+    this.storeHolder = store.select('timeChange').subscribe(({ duration }) => {
+      console.log("STORE SUB METHOD CALLED");
+      this.supposedTotal = duration;
+      this.pauseDurationChange(`${duration.hours}:${duration.minutes}`);
+    });
+  }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.storeHolder.unsubscribe();
   }
 
   startChange(value: string) {
     this.dayStart = value;
     const start = moment(value, "HH:mm");
-    const supposedTotalCopy = this.supposedTotal.clone();
 
-    this.endTime = start.add(supposedTotalCopy.add(this.pauseDuration)).format("HH:mm");
+    this.endTime = start.add(this.supposedTotal).add(this.pauseDuration).format("HH:mm");
   }
 
   pauseDurationChange(value: string) {

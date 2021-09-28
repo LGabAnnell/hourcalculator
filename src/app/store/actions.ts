@@ -10,3 +10,5 @@ export const removeOneManualClock = createAction('Remove one manual clock-in', p
 export const deleteManualClocks = createAction('Delete manual clocks');
 
 export const dateChange = createAction('Date changed', props<{ date: moment.Moment }>());
+
+export const totalTimeChange = createAction('Total time changed', props<{ duration: moment.Duration }>())

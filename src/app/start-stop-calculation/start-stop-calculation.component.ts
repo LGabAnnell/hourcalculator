@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TimeCalculator } from '../utils/time-calculator';
 import * as moment from "moment";
 import { ClockInOut } from 'src/model/clockinout';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { saveManualClocks, removeOneManualClock, deleteManualClocks } from '../store/actions';
 import { Subscription } from 'rxjs';
 import { clockInOutWithDateAction } from '../store/reducers';
@@ -17,7 +17,7 @@ export class StartStopCalculationComponent {
   clocks: ClockInOut[] = [];
 
   worked: string = "";
-  private left = {
+  private supposedTotal = {
     hours: 8,
     minutes: 24
   };
@@ -28,15 +28,20 @@ export class StartStopCalculationComponent {
   public remaining: string = "";
 
   storesub: Subscription;
+  totalSupposedAmountSub: Subscription;
 
-  constructor(private store: Store<{ obj: clockInOutWithDateAction }>) {
-    this.storesub = (this.store.pipe(select('manualClocks')))
+  constructor(private store: Store<{ manualClocks: clockInOutWithDateAction, timeChange: { duration: moment.Duration } }>) {
+    this.storesub = this.store.select('manualClocks')
       .subscribe(this.setClocks);
+    this.totalSupposedAmountSub = this.store.select('timeChange').subscribe(({ duration }) => {
+      this.supposedTotal = { hours: duration.hours(), minutes: duration.minutes() };
+      this.calculate();
+    })
   }
 
-  setClocks = ({ clocks, date }) => {
-    this.date = date;
-    this.clocks = clocks;
+  setClocks = (state: clockInOutWithDateAction) => {
+    this.date = state.date;
+    this.clocks = state.clocks;
     this.calculate();
   }
 
@@ -67,7 +72,7 @@ export class StartStopCalculationComponent {
       total.add(TimeCalculator.getDiff(this.clocks[i].value, this.clocks[i + 1].value));
     }
 
-    const left = moment.duration(this.left).subtract(total);
+    const left = moment.duration(this.supposedTotal).subtract(total);
 
     this.worked = TimeCalculator.convertToHoursAndMinutes(total);//  hours + ":" + minutes 
     this.leftToDisplay = TimeCalculator.convertToHoursAndMinutes(left);

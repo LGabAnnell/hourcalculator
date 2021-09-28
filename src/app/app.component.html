@@ -4,7 +4,7 @@
     routerLinkActive #rl1="routerLinkActive" [routerLinkActiveOptions]="{exact: true}"
     [active]="rl1.isActive">
     Pointage &quot;manuel&quot;
- </a>
+  </a>
   <a mat-tab-link
       routerLink="auto"
       routerLinkActive #rl2="routerLinkActive"
@@ -29,3 +29,4 @@
     <button mat-icon-button (click)="addDay()"><mat-icon>chevron_right</mat-icon></button>
 </div>
 <router-outlet></router-outlet>
+<total-time-chooser></total-time-chooser>
