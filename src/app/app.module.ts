@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {  MAT_DATE_LOCALE, MAT_DATE_FORMATS} from '@angular/material/core';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatInputModule } from '@angular/material/input'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material/card'
 import { MatIconModule } from '@angular/material/icon'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
-import { MatDatepickerModule,  } from '@angular/material/datepicker'
+import { MatDatepickerModule, } from '@angular/material/datepicker'
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { AppComponent } from './app.component';
@@ -60,12 +60,14 @@ export const timeChange = totalTimeReducer
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ch-FR' },
-    { provide: MAT_DATE_FORMATS, useValue: {
-      display: {
-        dateInput: 'DD.MM.YYYY',
-        monthYearLabel: 'MMM YYYY'
+    {
+      provide: MAT_DATE_FORMATS, useValue: {
+        display: {
+          dateInput: 'DD.MM.YYYY',
+          monthYearLabel: 'MMM YYYY'
+        }
       }
-    }}
+    }
   ],
   bootstrap: [AppComponent]
 })
