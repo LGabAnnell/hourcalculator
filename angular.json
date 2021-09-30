@@ -56,8 +56,8 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "baseHref": "/hourcalculator",
-              "deployUrl": "/hourcalculator",
+              "baseHref": "hourcalculator/",
+              "deployUrl": "hourcalculator/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
