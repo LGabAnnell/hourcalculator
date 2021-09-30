@@ -3,3 +3,12 @@
   justify-content: center !important;
   align-items: center !important;
 }
+
+.install-service-worker {
+  position: absolute;
+  height: 400px;
+  width: 500px;
+  top: 50px;
+  left: 50px;
+  display: none;
+}
