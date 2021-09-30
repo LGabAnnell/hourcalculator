@@ -12,7 +12,7 @@ const creds = {
 
 const app = express();
 
-app.use(express.static("dist/material-hourcalculator"));
+app.use("/hourcalculator/", express.static("dist/material-hourcalculator"));
 
 const routes = [
   "/hourcalculator/auto",
