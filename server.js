@@ -13,9 +13,6 @@ const creds = {
 const app = express();
 
 app.use(express.static("dist/material-hourcalculator"));
-app.get('/hourcalculator/favicon.ico', () => {
-  res.sendFile(path.resolve(__dirname, "favicon.ico"));
-})
 
 const routes = [
   "/hourcalculator",

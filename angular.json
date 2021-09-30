@@ -57,6 +57,7 @@
                 }
               ],
               "baseHref": "hourcalculator",
+              "deployUrl": "hourcalculator",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
