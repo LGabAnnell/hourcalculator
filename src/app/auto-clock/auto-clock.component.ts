@@ -3,10 +3,9 @@ import { ClockInOut } from 'src/model/clockinout';
 import * as moment from 'moment';
 import { TimeCalculator } from '../utils/time-calculator';
 import { Store, select } from '@ngrx/store';
-import { deleteAutoClocks, saveAutoClocks, removeOneAutoClock } from '../store/actions';
-import { Subscription } from 'rxjs';
+import { deleteAutoClocks, saveAutoClocks, removeOneAutoClock, saveManualClocks } from '../store/actions';
+import { Subscription, map, flatMap } from 'rxjs';
 import { clockInOutAction } from '../store/reducers';
-
 
 @Component({
   selector: 'app-auto-clock',
@@ -27,10 +26,8 @@ export class AutoClockComponent {
 
   private storesub: Subscription;
 
-  constructor(private store: Store<{ obj: clockInOutAction }>) {
-    this.storesub = this.store.pipe<clockInOutAction>(
-      select('autoClocks')
-    ).subscribe(({ clocks }) => {
+  constructor(private store: Store<{ autoClocks: clockInOutAction }>) {
+    this.storesub = this.store.select('autoClocks').subscribe(({ clocks }) => {
       this.clocks = clocks;
       this.startCalculation();
     });

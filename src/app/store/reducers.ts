@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { deleteAutoClocks, deleteManualClocks, saveAutoClocks, saveManualClocks, removeOneManualClock, removeOneAutoClock, dateChange } from './actions';
+import { totalTimeChange, deleteAutoClocks, deleteManualClocks, saveAutoClocks, saveManualClocks, removeOneManualClock, removeOneAutoClock, dateChange } from './actions';
 import { ClockInOut } from 'src/model/clockinout';
 import * as moment from 'moment';
 
@@ -14,7 +14,7 @@ export type clockInOutWithDateAction = clockInOutAction & {
 
 const initialAutoClocks: clockInOutWithDateAction = (() => {
   let clocks: ClockInOut[] = JSON.parse(localStorage.getItem(moment().format('DD.MM.YYYY') + "autoclocks"));
-  if (clocks === null) 
+  if (clocks === null)
     clocks = [];
   return {
     action: null,
@@ -32,7 +32,7 @@ const initialManualClocks: clockInOutWithDateAction = (() => {
       date: moment()
     };
   }
-  
+
   return {
     action: null,
     clocks: clocks,
@@ -40,7 +40,14 @@ const initialManualClocks: clockInOutWithDateAction = (() => {
   };
 })();
 
-const autoClockReducer = createReducer(initialAutoClocks,
+const initialTotalTime = (() => ({
+  duration: moment.duration({
+    hours: 8,
+    minutes: 24
+  })
+}))()
+
+export const autoClockReducer = createReducer(initialAutoClocks,
   on(saveAutoClocks, (state, action) => {
     localStorage.setItem(state.date.format('DD.MM.YYYY') + "autoclocks", JSON.stringify(state.clocks));
     return {
@@ -79,7 +86,7 @@ const autoClockReducer = createReducer(initialAutoClocks,
   })
 );
 
-const manualReducer = createReducer(initialManualClocks,
+export const manualReducer = createReducer(initialManualClocks,
   on(saveManualClocks, (state, action) => {
     localStorage.setItem(state.date.format('DD.MM.YYYY') + "manualclocks", JSON.stringify(state.clocks));
     return {
@@ -88,7 +95,7 @@ const manualReducer = createReducer(initialManualClocks,
       date: state.date
     };
   }),
-  on(deleteManualClocks, ({ date } , action) => {
+  on(deleteManualClocks, ({ date }, action) => {
     localStorage.removeItem(moment(date).format('DD.MM.YYYY') + "manualclocks");
     return {
       action,
@@ -120,10 +127,22 @@ const manualReducer = createReducer(initialManualClocks,
   })
 );
 
+export const totalTimeReducer = createReducer(initialTotalTime, 
+  on(totalTimeChange, (state, { duration }) => {
+    return {
+      duration
+    }
+  })  
+);
+
+/*export function DurationChangeReducer(state: { duration: moment.Duration }, action: any) {
+  return totalTimeReducer(state, action);
+}
+
 export function AutoReducer(state: any, action: any) {
   return autoClockReducer(state, action);
 }
 
 export function ManualReducer(state: any, action: any) {
   return manualReducer(state, action);
-}
+}*/
