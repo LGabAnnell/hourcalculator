@@ -4,11 +4,13 @@
   align-items: center !important;
 }
 
+:host {
+  display: flex;
+}
+
 .install-service-worker {
-  position: absolute;
-  height: 400px;
-  width: 500px;
-  top: 50px;
-  left: 50px;
+  position: fixed;
+  justify-self: center;
+  align-self: center;
   display: none;
 }
