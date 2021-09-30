@@ -14,10 +14,7 @@ import { dateChange } from './store/actions';
 export class AppComponent {
   title = 'material-hourcalculator';
   date: moment.Moment = moment();
-
-  @ViewChild('swinstall')
-  appInstall: ElementRef<HTMLButtonElement>;
-
+  
   constructor(private store: Store<any>, private snack: MatSnackBar) { }
 
   ngOnInit() {
@@ -34,21 +31,7 @@ export class AppComponent {
   }
 
   ngAfterViewInit() {
-    let deferredPrompt;
-    const button: HTMLButtonElement = this.appInstall.nativeElement;
-    button.style.display = 'block';
-    window.addEventListener('beforeinstallprompt', (e) => {
-      console.log('beforInstallPrompt called');
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      e.preventDefault();
-      // Stash the event so it can be triggered later.
-      deferredPrompt = e;
-      // Update UI to notify the user they can add to home screen
-      button.addEventListener('click', () => {
-        deferredPrompt.prompt();
-        button.style.display = 'none';
-      });
-    });
+    
   }
 
   dateChange(value: string) {

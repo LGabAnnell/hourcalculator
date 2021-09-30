@@ -1,16 +1,15 @@
-<button class="install-service-worker" #swinstall>Please install me</button>
 <nav mat-tab-nav-bar>
   <a mat-tab-link
     routerLink=""
     routerLinkActive #rl1="routerLinkActive" [routerLinkActiveOptions]="{exact: true}"
     [active]="rl1.isActive">
-    Pointage &quot;manuel&quot;
+    Pointage manuel
   </a>
   <a mat-tab-link
       routerLink="auto"
       routerLinkActive #rl2="routerLinkActive"
       [active]="rl2.isActive">
-    Pointage &quot;auto&quot;
+    Pointage auto
   </a>
   <a mat-tab-link
      routerLink="pause"
