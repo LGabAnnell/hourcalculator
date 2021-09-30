@@ -15,7 +15,6 @@ const app = express();
 app.use(express.static("dist/material-hourcalculator"));
 
 const routes = [
-  "/hourcalculator",
   "/hourcalculator/auto",
   "/hourcalculator/pause"
 ];
