@@ -14,13 +14,13 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^12.2.7",
-    "@angular/cdk": "^12.2.7",
+    "@angular/cdk": "^12.2.8",
     "@angular/common": "^12.2.7",
     "@angular/compiler": "^12.2.7",
     "@angular/core": "^12.2.7",
     "@angular/forms": "^12.2.7",
-    "@angular/material": "^12.2.7",
-    "@angular/material-moment-adapter": "^12.2.7",
+    "@angular/material": "^12.2.8",
+    "@angular/material-moment-adapter": "^12.2.8",
     "@angular/platform-browser": "^12.2.7",
     "@angular/platform-browser-dynamic": "^12.2.7",
     "@angular/pwa": "^12.2.7",
@@ -42,7 +42,7 @@
     "@types/hammerjs": "^2.0.40",
     "@types/jasmine": "~3.9.1",
     "@types/jasminewd2": "^2.0.10",
-    "@types/node": "~16.9.6",
+    "@types/node": "~16.10.2",
     "codelyzer": "^6.0.2",
     "jasmine-core": "~3.9.0",
     "jasmine-spec-reporter": "~7.0.0",
@@ -52,7 +52,6 @@
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "^1.7.0",
     "protractor": "^7.0.0",
-    "ts-node": "~10.2.1",
-    "typescript": "^4.3.5"
+    "ts-node": "~10.2.1"
   }
 }
