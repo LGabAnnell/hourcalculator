@@ -56,7 +56,7 @@ export const timeChange = totalTimeReducer
       manualClocks,
       timeChange
     }),
-    ServiceWorkerModule.register('hourcalculator/ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ch-FR' },
