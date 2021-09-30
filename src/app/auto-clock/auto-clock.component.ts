@@ -20,21 +20,28 @@ export class AutoClockComponent {
   timeWorked: string;
   end: string = "";
 
-  private supposedTotal = {
-    hours: 8,
-    minutes: 24
-  };
+  supposedTotal: moment.Duration;
 
-  private storesub: Subscription;
+  private autoClocksSubscriber: Subscription;
+  private durationSubscriber: Subscription;
 
-  constructor(private store: Store<{ autoClocks: clockInOutAction }>) {
-    this.storesub = this.store.select('autoClocks').subscribe(({ clocks }) => {
+  constructor(private store: Store<{ autoClocks: clockInOutAction, timeChange: { duration: moment.Duration } }>) {}
+
+  ngOnInit() {
+    this.autoClocksSubscriber = this.store.select('autoClocks').subscribe(({ clocks }) => {
       this.clocks = clocks;
+      this.startCalculation();
+    });
+
+    this.durationSubscriber = this.store.select('timeChange').subscribe(({ duration }) => {
+      this.supposedTotal = duration;
       this.startCalculation();
     });
   }
 
   startCalculation() {
+    if (!this.supposedTotal) return;
+
     if (this.clocks.length > 1 && this.clocks.length % 2 !== 0) {
       this.calc();
     } else {
@@ -61,7 +68,10 @@ export class AutoClockComponent {
       total.add(TimeCalculator.getDiff(this.clocks[i].value, this.clocks[i + 1].value));
     }
 
-    const remaining = moment.duration(this.supposedTotal).subtract(total);
+    const remaining = moment.duration({
+      hours: this.supposedTotal.hours(),
+      minutes: this.supposedTotal.minutes()
+    }).subtract(total);
 
     const lastElIdx = this.clocks.length - 1;
     const lastEl = moment(this.clocks[lastElIdx].value, "HH:mm");
@@ -70,9 +80,9 @@ export class AutoClockComponent {
   }
 
   ngOnDestroy() {
-    this.storesub.unsubscribe();
+    this.autoClocksSubscriber.unsubscribe();
+    this.durationSubscriber.unsubscribe();
   }
-
   
   del() {
     this.store.dispatch(deleteAutoClocks());
