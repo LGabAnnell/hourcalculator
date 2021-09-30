@@ -46,6 +46,7 @@ export class AppComponent {
       // Update UI to notify the user they can add to home screen
       button.addEventListener('click', () => {
         deferredPrompt.prompt();
+        button.style.display = 'none';
       });
     });
   }
