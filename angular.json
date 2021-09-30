@@ -44,6 +44,7 @@
                 "styles": false,
                 "fonts": false
               },
+              "baseHref": "/",
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
