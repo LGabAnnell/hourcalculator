@@ -32,11 +32,15 @@ export class AppComponent {
 
   ngAfterViewInit() {
     let deferredPrompt;
-    const addBtn: HTMLElement = document.querySelector(".add-btn");
     window.addEventListener('beforeinstallprompt', (e) => {
       console.log('beforInstallPrompt called');
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      deferredPrompt = e;
+      // Update UI to notify the user they can add to home screen
+      deferredPrompt.prompt();
     });
-
   }
 
   dateChange(value: string) {
