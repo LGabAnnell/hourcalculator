@@ -3,7 +3,7 @@
         <input matInput placeholder="Arrivée" type="time" [(value)]="dayStart" (input)="startChange($event.target.value)">
     </mat-form-field>
     <mat-form-field class="example-full-width">
-        <input matInput placeholder="Durée pause" type="time" [(value)]="pauseDuration" 
+        <input matInput placeholder="Durée pause" type="time" [value]="pauseDuration | durationToString" 
             (input)="pauseDurationChange($event.target.value)">
     </mat-form-field>
     <mat-card style="margin-bottom: 10px;">

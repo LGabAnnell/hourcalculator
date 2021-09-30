@@ -24,6 +24,7 @@ import { autoClockReducer, manualReducer, totalTimeReducer } from './store/reduc
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { TotalTimeChooserComponent } from './total-time-chooser/total-time-chooser.component';
+import { DurationToStringPipe } from './pipes/duration-to-string'
 
 export const autoClocks = autoClockReducer
 export const manualClocks = manualReducer
@@ -35,7 +36,8 @@ export const timeChange = totalTimeReducer
     StartStopCalculationComponent,
     StartPauseCalculationComponent,
     AutoClockComponent,
-    TotalTimeChooserComponent
+    TotalTimeChooserComponent,
+    DurationToStringPipe
   ],
   imports: [
     BrowserModule,

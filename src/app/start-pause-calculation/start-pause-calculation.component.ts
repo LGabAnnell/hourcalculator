@@ -11,7 +11,8 @@ import { Subject, Subscription } from 'rxjs';
 export class StartPauseCalculationComponent implements OnInit {
 
   dayStart: string = "08:00";
-  pauseDuration: string = "00:30";
+
+  pauseDuration: moment.Duration;
 
   supposedTotal = moment.duration({
     hours: 8,
@@ -22,14 +23,21 @@ export class StartPauseCalculationComponent implements OnInit {
   storeHolder: Subscription;
 
   constructor(private store: Store<{ timeChange: { duration: moment.Duration } }>) {
-    this.storeHolder = store.select('timeChange').subscribe(({ duration }) => {
-      console.log("STORE SUB METHOD CALLED");
-      this.supposedTotal = duration;
-      this.pauseDurationChange(`${duration.hours}:${duration.minutes}`);
-    });
+    
   }
 
   ngOnInit() {
+    this.pauseDuration = moment.duration({
+      hours: 0,
+      minutes: 30
+    });
+    this.storeHolder = this.store.select('timeChange').subscribe(({ duration }) => {
+      this.supposedTotal = duration;
+      this.pauseDurationChange(moment({ 
+        hours: this.pauseDuration.hours(),
+        minutes: this.pauseDuration.minutes()
+      }).format('HH:mm'));
+    });
   }
 
   ngOnDestroy() {
@@ -46,8 +54,16 @@ export class StartPauseCalculationComponent implements OnInit {
   pauseDurationChange(value: string) {
     const ds = moment(this.dayStart, "HH:mm");
 
+    const valuesAsNumbers = value.split(':');
+    const pauseDuration = moment.duration({
+      hours: +valuesAsNumbers[0],
+      minutes: +valuesAsNumbers[1]
+    });
+
+    this.pauseDuration = pauseDuration;
+
     const supposedTotalCopy = this.supposedTotal.clone();
 
-    this.endTime = ds.add(supposedTotalCopy.add(value)).format("HH:mm");
+    this.endTime = ds.add(supposedTotalCopy).add(pauseDuration).format("HH:mm");
   }
 }
