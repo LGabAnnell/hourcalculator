@@ -4,7 +4,8 @@ import * as moment from 'moment';
 import { TimeCalculator } from '../utils/time-calculator';
 import { Store, select } from '@ngrx/store';
 import { deleteAutoClocks, saveAutoClocks, removeOneAutoClock, saveManualClocks } from '../store/actions';
-import { Subscription, map, flatMap } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators';
 import { clockInOutAction } from '../store/reducers';
 
 @Component({
