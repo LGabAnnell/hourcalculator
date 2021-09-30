@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs")
 const https = require("https")
+const path = require("path");
 
 /*const key = fs.readFileSync("keys/75482240_192.168.43.115.key", "utf8")
 const cert = fs.readFileSync("keys/75482240_192.168.43.115.cert", "utf8")
@@ -12,11 +13,14 @@ const creds = {
 const app = express();
 
 app.use(express.static("dist/material-hourcalculator"));
+app.get('/hourcalculator/favicon.ico', () => {
+  res.sendFile(path.resolve(__dirname, "favicon.ico"));
+})
 
 const routes = [
-  "/",
-  "/auto",
-  "/pause"
+  "/hourcalculator",
+  "/hourcalculator/auto",
+  "/hourcalculator/pause"
 ];
 
 const appGet = route => app.get(route, (_, res) => {
