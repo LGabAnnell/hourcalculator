@@ -1,5 +1,14 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction, createSelector, props } from '@ngrx/store';
 import* as moment from 'moment';
+
+
+export interface TimeChange {
+  duration: moment.Duration;
+}
+
+export interface AppState {
+  timeChange: TimeChange;
+}
 
 export const saveAutoClocks = createAction('Save auto clocks');
 export const deleteAutoClocks = createAction('Delete auto clocks');
@@ -11,4 +20,9 @@ export const deleteManualClocks = createAction('Delete manual clocks');
 
 export const dateChange = createAction('Date changed', props<{ date: moment.Moment }>());
 
-export const totalTimeChange = createAction('Total time changed', props<{ duration: moment.Duration }>())
+export const totalTimeChange = createAction('Total time changed', props<TimeChange>());
+
+export const timeChangeSelector = createSelector(
+  (state: AppState) => state.timeChange.duration,
+  (duration: moment.Duration) => duration
+);

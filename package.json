@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "ng": "ng serve"
+    "tet": "ng serve",
+    "serve": "ng serve"
   },
   "private": true,
   "dependencies": {
