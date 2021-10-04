@@ -34,7 +34,7 @@ export class AppComponent {
     
   }
 
-  dateChange(value: string) {
+  public dateChange(value: string) {
     this.date = moment(value, 'DD.MM.YYYY');
     this.store.dispatch(dateChange({ date: this.date }));
   }

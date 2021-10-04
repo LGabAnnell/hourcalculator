@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
+import { timeChange } from '../app.module';
+import { DurationToStringPipe } from '../pipes/duration-to-string';
 
 import { StartPauseCalculationComponent } from './start-pause-calculation.component';
 
@@ -8,7 +11,14 @@ describe('StartPauseCalculationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StartPauseCalculationComponent ]
+      declarations: [ StartPauseCalculationComponent,
+        DurationToStringPipe  
+      ],
+      imports: [
+        StoreModule.forRoot([
+          timeChange
+        ])
+      ]
     })
     .compileComponents();
   }));

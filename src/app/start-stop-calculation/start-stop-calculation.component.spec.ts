@@ -1,4 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
+import { manualClocks } from '../app.module';
 
 import { StartStopCalculationComponent } from './start-stop-calculation.component';
 
@@ -6,9 +8,14 @@ describe('StartStopCalculationComponent', () => {
   let component: StartStopCalculationComponent;
   let fixture: ComponentFixture<StartStopCalculationComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ StartStopCalculationComponent ]
+      declarations: [ StartStopCalculationComponent ],
+      imports: [
+        StoreModule.forRoot([
+          manualClocks
+        ])
+      ]
     })
     .compileComponents();
   }));
