@@ -1,4 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
+import { timeChange } from '../app.module';
 
 import { TotalTimeChooserComponent } from './total-time-chooser.component';
 
@@ -8,7 +10,12 @@ describe('TotalTimeChooserComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TotalTimeChooserComponent ]
+      declarations: [ TotalTimeChooserComponent ],
+      imports: [
+        StoreModule.forRoot([
+          timeChange
+        ])
+      ]
     })
     .compileComponents();
   });
