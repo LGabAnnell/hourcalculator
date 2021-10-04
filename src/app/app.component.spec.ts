@@ -1,55 +1,49 @@
 import { TestBed, async, waitForAsync, ComponentFixture, tick, fakeAsync } from '@angular/core/testing';
-import { BrowserModule, By } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
-import { MatTabsModule } from '@angular/material/tabs'
-import { MatInputModule } from '@angular/material/input'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatButtonModule } from '@angular/material/button'
-import { MatCardModule } from '@angular/material/card'
-import { MatIconModule } from '@angular/material/icon'
-import { MatToolbarModule } from '@angular/material/toolbar'
-import { MatSnackBarModule } from '@angular/material/snack-bar'
-import { MatDatepickerModule, } from '@angular/material/datepicker'
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { provideMockStore, MockStore } from '@ngrx/store/testing'
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { routes } from './app-routes';
-import { RouterModule } from '@angular/router';
+import * as moment from 'moment';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { totalTimeChange } from './store/actions';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { MatTabLinkHarness } from '@angular/material/tabs/testing';
+import { AppModule, timeChange } from './app.module';
 
 
 describe('AppComponent', () => {
+  let component: ComponentFixture<AppComponent>;
   let store: MockStore;
-  let component: ComponentFixture<AppComponent>; 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+  let loader: HarnessLoader;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [],
       imports: [
-        BrowserModule,
-        RouterModule.forRoot(routes),
-        BrowserAnimationsModule,
-        MatTabsModule,
-        MatInputModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatCardModule,
-        MatIconModule,
-        MatToolbarModule,
-        MatSnackBarModule,
-        MatDatepickerModule,
-        MatMomentDateModule,
+        AppModule
       ],
       providers: [
-        provideMockStore({})
+        provideMockStore({
+          initialState: { duration: moment.duration({ hours: 4, minutes: 10 }) },
+          selectors: [
+            { selector: 'timeChange', value: moment.duration({ hours: 4, minutes: 10 }) },
+            { selector: 'manualClocks', value: moment.now() }
+          ]
+        }),
+        { provide: MAT_DATE_LOCALE, useValue: 'ch-FR' },
+        {
+          provide: MAT_DATE_FORMATS, useValue: {
+            display: {
+              dateInput: 'DD.MM.YYYY',
+              monthYearLabel: 'MMM YYYY'
+            }
+          }
+        }
       ]
     }).compileComponents();
     component = TestBed.createComponent(AppComponent);
     store = TestBed.inject(MockStore);
-  }));
+    loader = TestbedHarnessEnvironment.loader(component);
+  });
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
@@ -63,11 +57,9 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('material-hourcalculator');
   });
 
-  it('should go to pause URL when pause button is clicked', fakeAsync(() => {
-    const link = component.debugElement.query(By.css('a[routerLink=pause]'));
-    link.triggerEventHandler('click', null);
-    tick();
-    component.detectChanges();
-    expect(window.location.href).toContain('/pause');
-  }));
+  it('clicks and routes', async () => {
+    const link = await loader.getHarness(MatTabLinkHarness.with({ selector: '[routerLink="pause"]' }));
+    await link.click();
+    expect(location.href).toContain('/pause')
+  });
 });

@@ -56,7 +56,7 @@ export const autoClockReducer = createReducer(initialAutoClocks,
       date: state.date
     };
   }),
-  on(deleteAutoClocks, (state, action: { type: string, }) => {
+  on(deleteAutoClocks, (state, action) => {
     localStorage.removeItem(state.date.format('DD.MM.YYYY') + "autoclocks");
     return {
       action,
@@ -127,22 +127,10 @@ export const manualReducer = createReducer(initialManualClocks,
   })
 );
 
-export const totalTimeReducer = createReducer(initialTotalTime, 
+export const totalTimeReducer = createReducer(initialTotalTime,
   on(totalTimeChange, (state, { duration }) => {
     return {
       duration
     }
-  })  
+  })
 );
-
-/*export function DurationChangeReducer(state: { duration: moment.Duration }, action: any) {
-  return totalTimeReducer(state, action);
-}
-
-export function AutoReducer(state: any, action: any) {
-  return autoClockReducer(state, action);
-}
-
-export function ManualReducer(state: any, action: any) {
-  return manualReducer(state, action);
-}*/

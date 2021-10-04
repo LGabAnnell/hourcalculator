@@ -1,8 +1,6 @@
-<div style="padding-left: 10px; padding-right: 10px; padding-bottom: 10px;">
-  <mat-card>
-    <form action="javascript:void(0)" style="display: flex;">
-      <span>Total à travailler :</span>&nbsp;&nbsp;
-      <input type="time" style="flex: auto;" [value]="displayValue" (input)="valueChange($event.target.value)">
-    </form>
-  </mat-card>
-</div>
+<form action="javascript:void(0)" style="display: flex;">
+  <mat-form-field flex>
+    <input matInput placeholder="Total à travailler" type="time" style="flex: auto;" [value]="displayValue"
+      (input)="valueChange($event.target.value)">
+  </mat-form-field>
+</form>

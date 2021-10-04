@@ -8,9 +8,7 @@
         [value]="clock.value" (input)="saveValue(i, $event.target.value)" flex>
     </mat-form-field>
     <mat-icon aria-hidden="false" style="margin-left: 5px;" aria-label="Example home icon" (click)="removeClock(i)"
-      [ngStyle]="
-                {'display': clocks.length === 1 ? 'none' : 'inline'}
-            ">
+      [ngStyle]="{'display': clocks.length === 1 ? 'none' : 'inline'}">
       delete</mat-icon>
   </div>
 </form>

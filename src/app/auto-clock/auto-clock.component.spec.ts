@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { autoClocks, manualClocks, timeChange } from '../app.module';
+import { AppModule, autoClocks, manualClocks, timeChange } from '../app.module';
 
 import { AutoClockComponent } from './auto-clock.component';
 
@@ -10,16 +10,12 @@ describe('AutoClockComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ AutoClockComponent ],
+      declarations: [AutoClockComponent],
       imports: [
-        StoreModule.forRoot({
-          autoClocks,
-          manualClocks,
-          timeChange
-        }),
+        AppModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -32,5 +28,5 @@ describe('AutoClockComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  
+
 });

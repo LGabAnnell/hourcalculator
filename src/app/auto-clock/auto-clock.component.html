@@ -3,14 +3,13 @@
 </div>
 <div class="container">
   <mat-card *ngFor="let clock of clocks; index as i" style="margin-bottom: 10px; display: flex;">
-      {{ i % 2 === 0 ? 'Entrée à ' : 'Sortie à '}}{{clock.value}}
-      <span flex></span>
-      <mat-icon aria-hidden="false" style="margin-left: 5px;" 
-          aria-label="Example home icon" (click)="removeClock(i)">
+    {{ i % 2 === 0 ? 'Entrée à ' : 'Sortie à '}}{{clock.value}}
+    <span flex></span>
+    <mat-icon aria-hidden="false" style="margin-left: 5px;" aria-label="Example home icon" (click)="removeClock(i)">
       delete</mat-icon>
   </mat-card>
   <button mat-raised-button style="width:100%; margin-bottom: 10px;" (click)="addClock()">Pointer</button>
   <mat-card style="margin-bottom: 10px; display: flex;" *ngIf="end.length > 0">
-      Fin: {{end}}
+    Fin: {{end}}
   </mat-card>
 </div>

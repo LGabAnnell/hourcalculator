@@ -1,32 +1,28 @@
 <nav mat-tab-nav-bar>
-  <a mat-tab-link
-    routerLink=""
-    routerLinkActive #rl1="routerLinkActive" [routerLinkActiveOptions]="{exact: true}"
+  <a mat-tab-link routerLink="" routerLinkActive #rl1="routerLinkActive" [routerLinkActiveOptions]="{exact: true}"
     [active]="rl1.isActive">
     Pointage manuel
   </a>
-  <a mat-tab-link
-      routerLink="auto"
-      routerLinkActive #rl2="routerLinkActive"
-      [active]="rl2.isActive">
+  <a mat-tab-link routerLink="auto" routerLinkActive #rl2="routerLinkActive" [active]="rl2.isActive">
     Pointage auto
   </a>
-  <a mat-tab-link
-     routerLink="pause"
-     routerLinkActive #rl3="routerLinkActive"
-     [active]="rl3.isActive">
-     Déb. Matin + temps pause
+  <a mat-tab-link routerLink="pause" routerLinkActive #rl3="routerLinkActive" [active]="rl3.isActive">
+    Déb. Matin + temps pause
   </a>
 </nav>
 <div style="display: flex; align-items: center; overflow-x: hidden;">
-  <button mat-icon-button (click)="removeDay()"><mat-icon>chevron_left</mat-icon></button>
+  <button mat-icon-button (click)="removeDay()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
   <span flex style="display: flex; justify-content: center; align-items: center;" (click)="picker.open()">
     <mat-datepicker touchUi #picker></mat-datepicker>
-    <input style="width: 0px; height: 0; display: hidden; padding: 0; margin: 0; border: none;" 
-    [matDatepicker]="picker" (dateChange)="dateChange($event.targetElement.value)" [value]="date">
-      <span #dateDiv>{{ date.format('DD.MM.YYYY') }}</span>
-    </span>
-    <button mat-icon-button (click)="addDay()"><mat-icon>chevron_right</mat-icon></button>
+    <input style="width: 0px; height: 0; display: hidden; padding: 0; margin: 0; border: none;" [matDatepicker]="picker"
+      (dateChange)="dateChange($event.targetElement.value)" [value]="date">
+    <span #dateDiv>{{ date.format('DD.MM.YYYY') }}</span>
+  </span>
+  <button mat-icon-button (click)="addDay()">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
 </div>
 <router-outlet></router-outlet>
 <total-time-chooser></total-time-chooser>

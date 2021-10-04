@@ -12,11 +12,14 @@ export class StartPauseCalculationComponent implements OnInit {
 
   dayStart: string = "08:00";
 
-  pauseDuration: moment.Duration;
-
   supposedTotal = moment.duration({
     hours: 8,
     minutes: 24
+  });
+
+  pauseDuration = moment.duration({
+    hours: 0,
+    minutes: 30
   });
 
   endTime: string = moment(this.dayStart, "HH:mm").add(this.supposedTotal).add(moment.duration({ hours: 0, minutes: 30 })).format("HH:mm");
@@ -25,16 +28,11 @@ export class StartPauseCalculationComponent implements OnInit {
   constructor(private store: Store<{ timeChange: { duration: moment.Duration } }>) { }
 
   ngOnInit() {
-    this.pauseDuration = moment.duration({
-      hours: 0,
-      minutes: 45
-    });
-
     this.storeHolder = this.store.select('timeChange').subscribe(({ duration }) => {
       this.supposedTotal = duration;
       this.pauseDurationChange(moment({
-        hours: this.pauseDuration.hours(),
-        minutes: this.pauseDuration.minutes()
+        hours: duration.hours(),
+        minutes: duration.minutes()
       }).format('HH:mm'));
     });
   }

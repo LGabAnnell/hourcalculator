@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
 import { StoreModule } from '@ngrx/store';
-import { timeChange } from '../app.module';
+import { AppModule, timeChange } from '../app.module';
 import { DurationToStringPipe } from '../pipes/duration-to-string';
 
 import { StartPauseCalculationComponent } from './start-pause-calculation.component';
@@ -11,16 +12,11 @@ describe('StartPauseCalculationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StartPauseCalculationComponent,
-        DurationToStringPipe  
-      ],
+      declarations: [],
       imports: [
-        StoreModule.forRoot([
-          timeChange
-        ])
+        AppModule
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
