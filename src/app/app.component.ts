@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { merge } from 'rxjs';
+import { merge, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
@@ -14,24 +14,26 @@ import { dateChange } from './store/actions';
 export class AppComponent {
   title = 'material-hourcalculator';
   date: moment.Moment = moment();
-  
-  constructor(private store: Store<any>, private snack: MatSnackBar) { }
+  storeSubscription: Subscription;
 
-  ngOnInit() {
+  constructor(private store: Store<any>, private snack: MatSnackBar) {
     const manual$ = this.store.select('manualClocks');
     const auto$ = this.store.select('autoClocks');
 
-    merge(manual$, auto$).pipe(filter(({ action }) =>
+    this.storeSubscription = merge(manual$, auto$).pipe(filter(({ action }) =>
       action && (action.type === 'Delete manual clocks' || action.type === 'Delete auto clocks'))
     ).subscribe(() => {
+      console.log('hello world');
       this.snack.open('Delete successful!', null, {
         duration: 2000,
       });
     });
   }
 
-  ngAfterViewInit() {
-    
+  ngOnInit() { }
+
+  ngOnDestroy() {
+    if (this.storeSubscription) this.storeSubscription.unsubscribe();
   }
 
   public dateChange(value: string) {

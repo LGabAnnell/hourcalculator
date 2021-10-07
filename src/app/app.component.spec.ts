@@ -1,65 +1,63 @@
-import { TestBed, async, waitForAsync, ComponentFixture, tick, fakeAsync } from '@angular/core/testing';
+import { TestBed, ComponentFixture, tick, fakeAsync } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppComponent } from './app.component';
-import * as moment from 'moment';
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { totalTimeChange } from './store/actions';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HarnessLoader } from '@angular/cdk/testing';
-import { MatTabLinkHarness } from '@angular/material/tabs/testing';
-import { AppModule, timeChange } from './app.module';
-
+import { MatIconHarness } from '@angular/material/icon/testing';
+import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('AppComponent', () => {
-  let component: ComponentFixture<AppComponent>;
+  let fixture: ComponentFixture<AppComponent>;
   let store: MockStore;
   let loader: HarnessLoader;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [],
+      declarations: [AppComponent],
       imports: [
-        AppModule
+        RouterModule.forRoot([]),
+        MatIconModule,
+        MatSnackBarModule
       ],
       providers: [
         provideMockStore({
-          initialState: { duration: moment.duration({ hours: 4, minutes: 10 }) },
+          initialState: { action: { type: 'Delete manual clocks' } },
           selectors: [
-            { selector: 'timeChange', value: moment.duration({ hours: 4, minutes: 10 }) },
-            { selector: 'manualClocks', value: moment.now() }
+            { selector: 'manualClocks', value: { action: '' } },
           ]
-        }),
-        { provide: MAT_DATE_LOCALE, useValue: 'ch-FR' },
-        {
-          provide: MAT_DATE_FORMATS, useValue: {
-            display: {
-              dateInput: 'DD.MM.YYYY',
-              monthYearLabel: 'MMM YYYY'
-            }
-          }
-        }
+        })
       ]
     }).compileComponents();
-    component = TestBed.createComponent(AppComponent);
     store = TestBed.inject(MockStore);
-    loader = TestbedHarnessEnvironment.loader(component);
+    fixture = TestBed.createComponent(AppComponent);
+    loader = TestbedHarnessEnvironment.loader(fixture);
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+    const component = fixture.debugElement.componentInstance;
+    expect(component).toBeTruthy();
   });
 
   it(`should have as title 'material-hourcalculator'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('material-hourcalculator');
+    const component = fixture.debugElement.componentInstance;
+    expect(component.title).toEqual('material-hourcalculator');
   });
 
-  it('clicks and routes', async () => {
-    const link = await loader.getHarness(MatTabLinkHarness.with({ selector: '[routerLink="pause"]' }));
-    await link.click();
-    expect(location.href).toContain('/pause')
+  it('should call addDay when right chevron clicked', async () => {
+    const icon = await loader.getHarness(MatIconHarness.with({ name: 'chevron_right' }));
+    const spy = spyOn(fixture.debugElement.componentInstance, 'addDay');
+    await (await icon.host()).click();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call removeDay when left chevron clicked', async () => {
+    const icon = await loader.getHarness(MatIconHarness.with({ name: 'chevron_left' }));
+    const spy = spyOn(fixture.debugElement.componentInstance, 'removeDay');
+    store.setState({ action: { type: '' }})
+    await (await icon.host()).click();
+    expect(spy).toHaveBeenCalled();
   });
 });

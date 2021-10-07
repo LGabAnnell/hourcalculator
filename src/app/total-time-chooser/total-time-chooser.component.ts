@@ -20,16 +20,13 @@ export class TotalTimeChooserComponent implements OnInit {
   value: moment.Duration;
   displayValue: string;
   
-  constructor(private store: Store<{ timeChange: { duration: moment.Duration } }>) {
-    this.storeSub = store.select('timeChange').subscribe(({ duration }) => {
+  constructor(private store: Store<{ timeChange: { duration: moment.Duration } }>) {}
+
+  ngOnInit(): void {
+    this.storeSub = this.store.select('timeChange').subscribe(({ duration }) => {
       this.value = duration;
       this.displayValue = `${this.addZeroIfNeeded(this.value.hours())}:${this.addZeroIfNeeded(this.value.minutes())}`
     }); 
-  }
-
-
-  ngOnInit(): void {
-
   }
 
   valueChange(value: string) {
@@ -37,4 +34,7 @@ export class TotalTimeChooserComponent implements OnInit {
     this.store.dispatch(totalTimeChange({ duration: moment.duration({ hours: hoursAndMinutes[0], minutes: hoursAndMinutes[1] }) }))
   }
 
+  ngOnDestroy() {
+    this.storeSub.unsubscribe();
+  }
 }

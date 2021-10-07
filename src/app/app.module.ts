@@ -30,6 +30,19 @@ export const autoClocks = autoClockReducer
 export const manualClocks = manualReducer
 export const timeChange = totalTimeReducer
 
+export const materialImports = [
+    MatTabsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+];
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,16 +56,7 @@ export const timeChange = totalTimeReducer
     BrowserModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
-    MatTabsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSnackBarModule,
-    MatDatepickerModule,
-    MatMomentDateModule,
+    ...materialImports,
     StoreModule.forRoot({
       autoClocks,
       manualClocks,

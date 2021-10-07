@@ -1,7 +1,5 @@
 const express = require("express");
-const fs = require("fs")
-const https = require("https")
-const path = require("path");
+// const bodyParser = require("body-parser");
 
 /*const key = fs.readFileSync("keys/75482240_192.168.43.115.key", "utf8")
 const cert = fs.readFileSync("keys/75482240_192.168.43.115.cert", "utf8")
@@ -22,6 +20,13 @@ const routes = [
 const appGet = route => app.get(route, (_, res) => {
   res.sendFile(__dirname + "/dist/material-hourcalculator/index.html");
 });
+
+// app.use(bodyParser.json());
+
+/* app.post('/hourcalculator/post-time', (req, res) => {
+  console.log(req.body);
+  res.sendStatus(201);
+}); */
 
 routes.forEach(appGet);
 
