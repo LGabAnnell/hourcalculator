@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from "moment";
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-start-pause-calculation',
@@ -19,7 +19,7 @@ export class StartPauseCalculationComponent implements OnInit {
 
   pauseDuration = moment.duration({
     hours: 0,
-    minutes: 30
+    minutes: 45
   });
 
   endTime: string = moment(this.dayStart, "HH:mm").add(this.supposedTotal).add(moment.duration({ hours: 0, minutes: 30 })).format("HH:mm");
@@ -30,10 +30,7 @@ export class StartPauseCalculationComponent implements OnInit {
   ngOnInit() {
     this.storeHolder = this.store.select('timeChange').subscribe(({ duration }) => {
       this.supposedTotal = duration;
-      this.pauseDurationChange(moment({
-        hours: duration.hours(),
-        minutes: duration.minutes()
-      }).format('HH:mm'));
+      this.calculate();
     });
   }
 
@@ -45,6 +42,11 @@ export class StartPauseCalculationComponent implements OnInit {
     const start = moment(value, "HH:mm");
 
     this.endTime = start.add(this.supposedTotal).add(this.pauseDuration).format("HH:mm");
+  }
+
+  calculate() {
+    const ds = moment(this.dayStart, "HH:mm");
+    this.endTime = ds.add(this.supposedTotal).add(this.pauseDuration).format("HH:mm");
   }
 
   pauseDurationChange(value: string) {
