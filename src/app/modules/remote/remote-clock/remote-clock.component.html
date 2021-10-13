@@ -3,7 +3,18 @@
     Hello {{ (user$ | async)?.sub }}
   </mat-card-title>
   <mat-card-content>
-    <button mat-button-primary #tokenHider (click)="revealToken()" *ngIf="!tokenReveal">Reveal your token</button>
-    <input matInput *ngIf="tokenReveal" placeholder="User token" [(value)]="userToken">
+    <button mat-raised-button color="primary" #tokenHider (click)="revealToken()" *ngIf="!tokenReveal">Reveal your
+      token</button>
+    <form action="javascript:void(0)" *ngIf="tokenReveal" style="display: flex; flex-direction: column;">
+      <div style="display: flex;">
+        <button mat-icon-button (click)="copyToClipboard()">
+          <mat-icon class="hover-pointer" aria-hidden="false">file_copy</mat-icon>
+        </button>
+        <mat-form-field flex>
+          <input #token matInput placeholder="User token" type="text" [value]="userToken">
+        </mat-form-field>
+      </div>
+    </form>
+    <button *ngIf="tokenReveal" mat-raised-button color="warn" (click)="hide()">Hide</button>
   </mat-card-content>
 </mat-card>

@@ -46,3 +46,9 @@ form {
         height: calc(100% - 50px);
     }
 }
+
+.hover-pointer {
+    &:hover {
+        cursor: pointer;
+    }
+}

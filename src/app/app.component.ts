@@ -35,7 +35,6 @@ export class AppComponent {
 
   ngOnInit() { 
     this.userService.getUserName().subscribe(user => {
-      console.log('User: ', user)
       this.store.dispatch({
         type: 'User changed!',
         user: user
