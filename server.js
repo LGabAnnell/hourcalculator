@@ -15,7 +15,7 @@ app.use("/hourcalculator/", express.static("dist/material-hourcalculator"));
 const routes = [
   "/hourcalculator/auto",
   "/hourcalculator/pause",
-  "/hourcalculator/rmeote"
+  "/hourcalculator/remote"
 ];
 
 const appGet = route => app.get(route, (_, res) => {
