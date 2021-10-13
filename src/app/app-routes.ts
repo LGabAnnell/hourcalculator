@@ -15,5 +15,9 @@ export const routes: Routes = [
     {
         path: 'pause',
         component: StartPauseCalculationComponent
+    },
+    {
+        path: 'remote',
+        loadChildren: () => import('./modules/remote/remote.module').then(m => m.RemoteModule)
     }
 ];

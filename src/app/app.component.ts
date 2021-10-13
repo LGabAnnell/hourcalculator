@@ -1,10 +1,12 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { merge, Subscription } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
-import { dateChange } from './store/actions';
+import { dateChange, userChange } from './store/actions';
+import { UserService } from './modules/remote/user.service';
+import { UserFromToken } from './model/user-from-token';
 
 @Component({
   selector: 'app-root',
@@ -16,21 +18,30 @@ export class AppComponent {
   date: moment.Moment = moment();
   storeSubscription: Subscription;
 
-  constructor(private store: Store<any>, private snack: MatSnackBar) {
+  user$: Observable<UserFromToken>;
+
+  constructor(private store: Store<any>, private snack: MatSnackBar, private userService: UserService) {
     const manual$ = this.store.select('manualClocks');
     const auto$ = this.store.select('autoClocks');
 
     this.storeSubscription = merge(manual$, auto$).pipe(filter(({ action }) =>
       action && (action.type === 'Delete manual clocks' || action.type === 'Delete auto clocks'))
     ).subscribe(() => {
-      console.log('hello world');
       this.snack.open('Delete successful!', null, {
         duration: 2000,
       });
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.userService.getUserName().subscribe(user => {
+      console.log('User: ', user)
+      this.store.dispatch({
+        type: 'User changed!',
+        user: user
+      });
+    });
+  }
 
   ngOnDestroy() {
     if (this.storeSubscription) this.storeSubscription.unsubscribe();

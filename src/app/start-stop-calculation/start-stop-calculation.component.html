@@ -4,7 +4,7 @@
 <form class="example-form" onsubmit="javascript:void(0)" id="clockInOutForm">
   <div style="display: flex; align-items: center;" *ngFor="let clock of clocks; index as i">
     <mat-form-field flex>
-      <input matInput placeholder="Pointage {{i + 1}} ({{ i % 2 === 0 ? 'Entrée' : 'Sortie' }})" type="time"
+      <input #timeinput matInput placeholder="Pointage {{i + 1}} ({{ i % 2 === 0 ? 'Entrée' : 'Sortie' }})" type="time"
         [value]="clock.value" (input)="saveValue(i, $event.target.value)" flex>
     </mat-form-field>
     <mat-icon aria-hidden="false" style="margin-left: 5px;" aria-label="Example home icon" (click)="removeClock(i)"
@@ -21,9 +21,7 @@
   <mat-card style="margin-top: 20px;">
     <table>
       <tr>
-        <th>
-          Travaillé
-        </th>
+        <th>Travaillé</th>
         <th>Restant</th>
         <th>Fin</th>
       </tr>

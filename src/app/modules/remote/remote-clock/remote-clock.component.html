@@ -1,0 +1,9 @@
+<mat-card>
+  <mat-card-title>
+    Hello {{ (user$ | async)?.sub }}
+  </mat-card-title>
+  <mat-card-content>
+    <button mat-button-primary #tokenHider (click)="revealToken()" *ngIf="!tokenReveal">Reveal your token</button>
+    <input matInput *ngIf="tokenReveal" placeholder="User token" [(value)]="userToken">
+  </mat-card-content>
+</mat-card>

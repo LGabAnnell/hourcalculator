@@ -1,0 +1,12 @@
+<form action="javascript:void(0)" [formGroup]="formGroup" (submit)="submit()">
+  <mat-form-field flex>
+    <input type="text" matInput placeholder="Choose a username" formControlName="username">
+  </mat-form-field>
+  <mat-form-field flex>
+    <input type="text" matInput placeholder="Choose a password" formControlName="password">
+  </mat-form-field>
+  <div>
+    <button mat-raised-button color="primary" type="submit">Let's go!</button>
+  </div>
+</form>
+

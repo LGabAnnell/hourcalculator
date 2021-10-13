@@ -3,3 +3,12 @@
   justify-content: center !important;
   align-items: center !important;
 }
+
+.date-picker-bar {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,12 @@
+<form action="javascript:void(0)" [formGroup]="formGroup" (submit)="submit()">
+  <mat-form-field flex>
+    <input type="text" matInput placeholder="Username" formControlName="username">
+  </mat-form-field>
+  <mat-form-field flex>
+    <input type="text" matInput placeholder="Password" formControlName="password">
+  </mat-form-field>
+  <div>
+    <button mat-raised-button color="primary" type="submit">OK</button>
+    <p><a routerLink="../register">Not registered yet?</a></p>
+  </div>
+</form>

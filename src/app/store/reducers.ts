@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { totalTimeChange, deleteAutoClocks, deleteManualClocks, saveAutoClocks, saveManualClocks, removeOneManualClock, removeOneAutoClock, dateChange } from './actions';
+import { totalTimeChange, deleteAutoClocks, deleteManualClocks, saveAutoClocks, saveManualClocks, removeOneManualClock, removeOneAutoClock, dateChange, userChange } from './actions';
 import { ClockInOut } from 'src/model/clockinout';
 import * as moment from 'moment';
 
@@ -124,6 +124,13 @@ export const manualReducer = createReducer(initialManualClocks,
       clocks: clocks,
       date: date
     }
+  })
+);
+
+const initialUserState = {};
+export const userReducer = createReducer(initialUserState,
+  on(userChange, (_, action) => {
+    return action.user
   })
 );
 

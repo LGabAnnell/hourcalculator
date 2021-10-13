@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { TimeCalculator } from '../utils/time-calculator';
 import * as moment from "moment";
 import { ClockInOut } from 'src/model/clockinout';
@@ -30,8 +30,11 @@ export class StartStopCalculationComponent {
   storesub: Subscription;
   totalSupposedAmountSub: Subscription;
 
+  @ViewChildren('timeinput') 
+  inputs: QueryList<ElementRef<HTMLInputElement>>;
+
   constructor(private store: Store<{ manualClocks: clockInOutWithDateAction, timeChange: { duration: moment.Duration } }>) {
-    this.storesub = this.store.select('manualClocks')
+    this.storesub = this.store.select(state => state.manualClocks)
       .subscribe(this.setClocks);
     this.totalSupposedAmountSub = this.store.select('timeChange').subscribe(({ duration }) => {
       this.supposedTotal = { hours: duration.hours(), minutes: duration.minutes() };
@@ -53,9 +56,7 @@ export class StartStopCalculationComponent {
     this.store.dispatch(saveManualClocks(null));
 
     setTimeout(() => {
-      const inputs: HTMLInputElement[] = 
-        Array.from(document.querySelector("#clockInOutForm").querySelectorAll("input"));
-      inputs[inputs.length - 1].click();
+      this.inputs.toArray()[this.inputs.length - 1].nativeElement.click();
     });
   }
 

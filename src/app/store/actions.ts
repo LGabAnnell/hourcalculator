@@ -1,5 +1,6 @@
 import { createAction, createSelector, props } from '@ngrx/store';
 import * as moment from 'moment';
+import { UserFromToken } from '../model/user-from-token';
 
 
 export interface TimeChange {
@@ -21,3 +22,5 @@ export const deleteManualClocks = createAction('Delete manual clocks');
 export const dateChange = createAction('Date changed', props<{ date: moment.Moment }>());
 
 export const totalTimeChange = createAction('Total time changed', props<{ duration: moment.Duration }>());
+
+export const userChange = createAction('User changed!', props<{ user: UserFromToken }>());

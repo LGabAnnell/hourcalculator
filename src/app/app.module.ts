@@ -20,15 +20,18 @@ import { AutoClockComponent } from './auto-clock/auto-clock.component';
 import { routes } from './app-routes';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { autoClockReducer, manualReducer, totalTimeReducer } from './store/reducers';
+import { autoClockReducer, manualReducer, totalTimeReducer, userReducer } from './store/reducers';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { TotalTimeChooserComponent } from './total-time-chooser/total-time-chooser.component';
-import { DurationToStringPipe } from './pipes/duration-to-string'
+import { DurationToStringPipe } from './pipes/duration-to-string';
+import { RemoteModule } from './modules/remote/remote.module';
+import { HttpClientModule } from '@angular/common/http';
 
 export const autoClocks = autoClockReducer
 export const manualClocks = manualReducer
 export const timeChange = totalTimeReducer
+export const userChange = userReducer
 
 export const materialImports = [
     MatTabsModule,
@@ -56,11 +59,13 @@ export const materialImports = [
     BrowserModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
+    HttpClientModule,
     ...materialImports,
     StoreModule.forRoot({
       autoClocks,
       manualClocks,
-      timeChange
+      timeChange,
+      userChange
     }),
     ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' })
   ],
