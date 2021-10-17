@@ -1,12 +1,22 @@
 <form action="javascript:void(0)" [formGroup]="formGroup" (submit)="submit()">
-  <mat-form-field flex>
-    <input type="text" matInput placeholder="Username" formControlName="username">
-  </mat-form-field>
-  <mat-form-field flex>
-    <input type="text" matInput placeholder="Password" formControlName="password">
-  </mat-form-field>
-  <div>
-    <button mat-raised-button color="primary" type="submit">OK</button>
-    <p><a routerLink="../register">Not registered yet?</a></p>
-  </div>
+  <mat-card>
+
+    <mat-card-content>
+      <div class="grid-2-rows grid-gap-10">
+        <mat-form-field flex>
+          <input type="text" autocomplete="off" matInput placeholder="Username" formControlName="username">
+        </mat-form-field>
+        <mat-form-field flex>
+          <input type="password" matInput placeholder="Password" formControlName="password">
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+      <div class="grid-2-columns">
+        <button mat-raised-button color="primary" type="submit">OK</button>
+        <button mat-button routerLink="../register">Not registered yet?</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
 </form>

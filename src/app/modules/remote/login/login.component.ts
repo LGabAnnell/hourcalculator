@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { UserService } from '../user.service';
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  constructor(private store: Store, private userService: UserService, private router: Router) { }
+  constructor(private store: Store, private userService: UserService, private router: Router,
+    private snack: MatSnackBar) { }
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
@@ -34,7 +36,12 @@ export class LoginComponent implements OnInit {
           })
           this.router.navigateByUrl('remote'); 
         }, 
-        () => { subscription?.unsubscribe(); },
+        () => { 
+          subscription?.unsubscribe();
+          this.snack.open('Username or password were incorrect', null, {
+            duration: 2000
+          });
+        },
         () => { subscription?.unsubscribe(); });
   }
 }

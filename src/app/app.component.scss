@@ -1,14 +1,5 @@
-.mat-button-wrapper {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-}
-
-.date-picker-bar {
+:host {
   display: flex;
-  justify-content: center; 
-  align-items: center;
-  &:hover {
-    cursor: pointer;
-  }
+  flex-direction: column;
+  min-height: 100%;
 }

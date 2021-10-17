@@ -11,22 +11,19 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatDatepickerModule, } from '@angular/material/datepicker'
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StartStopCalculationComponent } from './start-stop-calculation/start-stop-calculation.component';
-import { StartPauseCalculationComponent } from './start-pause-calculation/start-pause-calculation.component';
-import { AutoClockComponent } from './auto-clock/auto-clock.component';
 import { routes } from './app-routes';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { autoClockReducer, manualReducer, totalTimeReducer, userReducer } from './store/reducers';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { TotalTimeChooserComponent } from './total-time-chooser/total-time-chooser.component';
 import { DurationToStringPipe } from './pipes/duration-to-string';
-import { RemoteModule } from './modules/remote/remote.module';
 import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export const autoClocks = autoClockReducer
 export const manualClocks = manualReducer
@@ -44,16 +41,13 @@ export const materialImports = [
     MatSnackBarModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatDialogModule,
+    MatDividerModule
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    StartStopCalculationComponent,
-    StartPauseCalculationComponent,
-    AutoClockComponent,
-    TotalTimeChooserComponent,
-    DurationToStringPipe
   ],
   imports: [
     BrowserModule,

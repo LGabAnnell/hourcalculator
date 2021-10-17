@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ClockInOut } from 'src/model/clockinout';
 import * as moment from 'moment';
-import { TimeCalculator } from '../utils/time-calculator';
 import { Store, select } from '@ngrx/store';
-import { deleteAutoClocks, saveAutoClocks, removeOneAutoClock, saveManualClocks } from '../store/actions';
 import { Subscription } from 'rxjs';
-import { map, flatMap } from 'rxjs/operators';
-import { clockInOutAction } from '../store/reducers';
+import { clockInOutAction } from 'src/app/store/reducers';
+import { deleteAutoClocks, removeOneAutoClock, saveAutoClocks } from 'src/app/store/actions';
+import { TimeCalculator } from 'src/app/utils/time-calculator';
 
 @Component({
   selector: 'app-auto-clock',

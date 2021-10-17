@@ -1,12 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
-import { dateChange, userChange } from './store/actions';
 import { UserService } from './modules/remote/user.service';
 import { UserFromToken } from './model/user-from-token';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -20,25 +18,25 @@ export class AppComponent {
 
   user$: Observable<UserFromToken>;
 
-  constructor(private store: Store<any>, private snack: MatSnackBar, private userService: UserService) {
-    const manual$ = this.store.select('manualClocks');
-    const auto$ = this.store.select('autoClocks');
+  isLoggedIn = false;
 
-    this.storeSubscription = merge(manual$, auto$).pipe(filter(({ action }) =>
-      action && (action.type === 'Delete manual clocks' || action.type === 'Delete auto clocks'))
-    ).subscribe(() => {
-      this.snack.open('Delete successful!', null, {
-        duration: 2000,
-      });
-    });
-  }
+  constructor(private store: Store<any>, private userService: UserService,
+    private router: Router) {}
 
   ngOnInit() { 
     this.userService.getUserName().subscribe(user => {
+      this.isLoggedIn = true;
       this.store.dispatch({
         type: 'User changed!',
         user: user
       });
+    });
+    this.store.select(state => state.userChange).subscribe(res => {
+      if (!res.sub || res.sub.length === 0) {
+        this.isLoggedIn = false;
+        return;
+      }
+      this.isLoggedIn = true;
     });
   }
 
@@ -46,18 +44,13 @@ export class AppComponent {
     if (this.storeSubscription) this.storeSubscription.unsubscribe();
   }
 
-  public dateChange(value: string) {
-    this.date = moment(value, 'DD.MM.YYYY');
-    this.store.dispatch(dateChange({ date: this.date }));
-  }
-
-  addDay() {
-    this.date = moment(this.date).add({ days: 1 });
-    this.store.dispatch(dateChange({ date: this.date }));
-  }
-
-  removeDay() {
-    this.date = moment(this.date).subtract({ days: 1 });
-    this.store.dispatch(dateChange({ date: this.date }));
+  logout() {
+    this.userService.logOut().toPromise().then(() => {
+      this.store.dispatch({
+        type: 'User changed!',
+        user: {}
+      });
+      this.router.navigateByUrl('/');
+    });
   }
 }

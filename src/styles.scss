@@ -1,8 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: #eeeeee;
+}
 
 form {
     padding-left: 10px;
@@ -27,10 +36,16 @@ form {
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 10px;
+
+    &-responsive {
+        @media screen and (max-width: 750px) {
+            padding: 0;
+        }
+    }
 }
 
 [flex] {
-    flex: 1;
+    flex: 1 1;
 }
 
 @media screen and (min-width: 1000px) {
@@ -40,14 +55,47 @@ form {
     }
 
     body {
+        width: 45%;
+        min-width: 45%;
         max-width: 45%;
-        padding-top: 25px;
-        padding-bottom: 25px;
-        height: calc(100% - 50px);
     }
 }
 
 .hover-pointer {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+[mb-1] {
+    margin-bottom: 0.5rem;
+}
+
+.grid-2-rows {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+.grid-2-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: stretch;
+}
+
+.grid-gap-10 {
+    gap: 1rem;
+}
+
+.mat-button-wrapper {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.date-picker-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     &:hover {
         cursor: pointer;
     }

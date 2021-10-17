@@ -1,31 +1,15 @@
-<nav mat-tab-nav-bar>
-  <a mat-tab-link routerLink="" routerLinkActive #rl1="routerLinkActive" [routerLinkActiveOptions]="{exact: true}"
-    [active]="rl1.isActive">
-    Pointage manuel
-  </a>
-  <a mat-tab-link routerLink="auto" routerLinkActive #rl2="routerLinkActive" [active]="rl2.isActive">
-    Pointage auto
-  </a>
-  <a mat-tab-link routerLink="pause" routerLinkActive #rl3="routerLinkActive" [active]="rl3.isActive">
-    Déb. Matin + temps pause
-  </a>
-  <a mat-tab-link routerLink="remote" routerLinkActive #rl4="routerLinkActive" [active]="rl4.isActive">
-    Pointage avec badge
-  </a>
-</nav>
-<div style="display: flex; align-items: center; overflow-x: hidden;">
-  <button mat-icon-button (click)="removeDay()">
-    <mat-icon>chevron_left</mat-icon>
-  </button>
-  <span flex class="date-picker-bar" (click)="picker.open()">
-    <mat-datepicker touchUi #picker></mat-datepicker>
-    <input style="width: 0px; height: 0; display: hidden; padding: 0; margin: 0; border: none;" [matDatepicker]="picker"
-      (dateChange)="dateChange($event.targetElement.value)" [value]="date">
-    <span #dateDiv>{{ date.format('DD.MM.YYYY') }}</span>
-  </span>
-  <button mat-icon-button (click)="addDay()">
-    <mat-icon>chevron_right</mat-icon>
-  </button>
-</div>
 <router-outlet></router-outlet>
-<total-time-chooser></total-time-chooser>
+<span flex></span>
+<div class="container-responsive">
+  <mat-toolbar>
+    <button *ngIf="isLoggedIn" routerLink="remote" mat-icon-button>
+      <mat-icon>person_outline</mat-icon>
+    </button>
+    <button mat-button routerLink="">Home</button>
+    <span flex></span>
+    <button *ngIf="isLoggedIn" mat-icon-button (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+    <button *ngIf="!isLoggedIn" routerLink="remote/login" mat-button>Log in</button>
+  </mat-toolbar>
+</div>

@@ -17,10 +17,14 @@ export class UserService {
   }
 
   getUserName() {
-    return this.http.get('api/users/currentuser').pipe(tap(console.log));
+    return this.http.get('api/users/currentuser');
   }
 
   getUserToken() {
-    return this.http.get('api/users/token', { responseType: 'text' }).pipe(tap(console.log));
+    return this.http.get('api/users/token', { responseType: 'text' });
+  }
+
+  logOut() {
+    return this.http.post('api/logout', { responseType: 'text' });
   }
 }

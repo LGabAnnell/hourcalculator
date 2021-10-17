@@ -1,12 +1,20 @@
 <form action="javascript:void(0)" [formGroup]="formGroup" (submit)="submit()">
-  <mat-form-field flex>
-    <input type="text" matInput placeholder="Choose a username" formControlName="username">
-  </mat-form-field>
-  <mat-form-field flex>
-    <input type="text" matInput placeholder="Choose a password" formControlName="password">
-  </mat-form-field>
-  <div>
-    <button mat-raised-button color="primary" type="submit">Let's go!</button>
-  </div>
+  <mat-card>
+    <mat-card-content>
+      <div class="grid-2-rows grid-gap-10">
+        <mat-form-field>
+          <input required autocomplete="off" type="text" matInput placeholder="Choose a username"
+            formControlName="username" #username>
+          <mat-error *ngIf="formGroup.controls.username.invalid">{{ getError(formGroup.controls.username) }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input required type="password" matInput placeholder="Choose a password" formControlName="password" #password>
+          <mat-error *ngIf="formGroup.controls.password.invalid">{{ getError(formGroup.controls.password) }}</mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button type="submit">Let's go!</button>
+    </mat-card-actions>
+  </mat-card>
 </form>
-

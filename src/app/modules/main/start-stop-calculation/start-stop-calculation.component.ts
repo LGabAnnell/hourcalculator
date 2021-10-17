@@ -1,11 +1,11 @@
 import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
-import { TimeCalculator } from '../utils/time-calculator';
 import * as moment from "moment";
 import { ClockInOut } from 'src/model/clockinout';
 import { Store } from '@ngrx/store';
-import { saveManualClocks, removeOneManualClock, deleteManualClocks } from '../store/actions';
 import { Subscription } from 'rxjs';
-import { clockInOutWithDateAction } from '../store/reducers';
+import { clockInOutWithDateAction } from 'src/app/store/reducers';
+import { deleteManualClocks, removeOneManualClock, saveManualClocks } from 'src/app/store/actions';
+import { TimeCalculator } from 'src/app/utils/time-calculator';
 
 @Component({
   selector: 'app-start-stop-calculation',

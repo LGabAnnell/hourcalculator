@@ -1,0 +1,47 @@
+<div class="pad-sides margin-top">
+  <button mat-raised-button style="width:100%" color="warn" (click)="del()">Supprimer tout</button>
+</div>
+<div class="pad-sides margin-top">
+  <button mat-raised-button style="width: 100%;" color="primary" type="submit" (click)="addClockInOrOut()">
+    Ajouter pointage
+  </button>
+</div>
+<div class="container">
+  <mat-card>
+    <mat-card-content>
+      <form class="example-form" onsubmit="javascript:void(0)" id="clockInOutForm">
+        <div style="display: flex; align-items: center;" *ngFor="let clock of clocks; index as i">
+          <mat-form-field flex>
+            <input #timeinput matInput placeholder="Pointage {{i + 1}} ({{ i % 2 === 0 ? 'Entrée' : 'Sortie' }})"
+              type="time" [value]="clock.value" (input)="saveValue(i, $event.target.value)" flex>
+          </mat-form-field>
+          <mat-icon aria-hidden="false" style="margin-left: 5px;" aria-label="Example home icon"
+            (click)="removeClock(i)" [ngStyle]="{'display': clocks.length === 1 ? 'none' : 'inline'}">
+            delete</mat-icon>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div class="container">
+  <mat-card>
+    <table>
+      <tr>
+        <th>Travaillé</th>
+        <th>Restant</th>
+        <th>Fin</th>
+      </tr>
+      <tr>
+        <td>
+          {{worked}}
+        </td>
+        <td>
+          {{leftToDisplay}}
+        </td>
+        <td>
+          {{remaining}}
+        </td>
+      </tr>
+    </table>
+  </mat-card>
+</div>

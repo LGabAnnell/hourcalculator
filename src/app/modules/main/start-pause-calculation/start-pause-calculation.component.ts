@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from "moment";
 import { Subscription } from 'rxjs';
+import { totalTimeChange } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-start-pause-calculation',

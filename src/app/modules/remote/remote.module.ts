@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { remoteRoutes } from './remote-routes';
 import { materialImports } from 'src/app/app.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent, UsernameTakenComponent } from './register/register.component';
 
 
 
@@ -14,7 +14,8 @@ import { RegisterComponent } from './register/register.component';
   declarations: [
     RemoteClockComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    UsernameTakenComponent
   ],
   imports: [
     CommonModule,

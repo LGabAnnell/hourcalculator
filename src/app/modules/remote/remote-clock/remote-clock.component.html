@@ -1,20 +1,42 @@
-<mat-card>
-  <mat-card-title>
-    Hello {{ (user$ | async)?.sub }}
-  </mat-card-title>
-  <mat-card-content>
-    <button mat-raised-button color="primary" #tokenHider (click)="revealToken()" *ngIf="!tokenReveal">Reveal your
-      token</button>
-    <form action="javascript:void(0)" *ngIf="tokenReveal" style="display: flex; flex-direction: column;">
-      <div style="display: flex;">
-        <button mat-icon-button (click)="copyToClipboard()">
-          <mat-icon class="hover-pointer" aria-hidden="false">file_copy</mat-icon>
-        </button>
-        <mat-form-field flex>
-          <input #token matInput placeholder="User token" type="text" [value]="userToken">
-        </mat-form-field>
-      </div>
-    </form>
-    <button *ngIf="tokenReveal" mat-raised-button color="warn" (click)="hide()">Hide</button>
-  </mat-card-content>
-</mat-card>
+<div class="container">
+  <mat-card>
+    <mat-card-title>
+      Hello {{ (user$ | async)?.sub }}
+    </mat-card-title>
+    <mat-card-content>
+      <p>
+        Vous trouverez ici votre token pour pouvoir pointer avec votre téléphone!
+      </p>
+      <p>
+        L'utilisation est simple, installez Tasker sur android, enregistrez un tag NFC avec Tasker, et dans "actions",
+        utilisez http POST vers https://chezgab.ch/hourcalculator/post-time, avec les données suivantes:
+      </p>
+      <pre>
+&#123;
+  "date": date,
+  "time": time,
+  "userToken": token
+&#125;
+      </pre>
+      <p>
+        Vous trouverez votre token en cliquant sur le bouton ci-dessous!
+      </p>
+      <button mat-raised-button color="primary" #tokenHider (click)="revealToken()" *ngIf="!tokenReveal">
+        Révélez votre token!
+      </button>
+      <form action="javascript:void(0)" *ngIf="tokenReveal" style="display: flex; flex-direction: column;">
+        <div style="display: flex;">
+          <button mat-icon-button (click)="copyToClipboard()">
+            <mat-icon class="hover-pointer" aria-hidden="false">file_copy</mat-icon>
+          </button>
+          <mat-form-field flex>
+            <input #token matInput placeholder="User token" type="text" [value]="userToken">
+          </mat-form-field>
+        </div>
+      </form>
+      <button *ngIf="tokenReveal" mat-raised-button color="warn" (click)="hide()">
+        Cacher le token
+      </button>
+    </mat-card-content>
+  </mat-card>
+</div>
