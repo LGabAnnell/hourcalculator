@@ -1,0 +1,11 @@
+<div class="container">
+  <mat-card>
+    <div *ngFor="let clock of userClocks">
+      {{ clock }}
+    </div>
+    <span *ngIf="totalTimeWorked">{{ totalTimeWorked | durationToString }} travaillés, fin à</span>
+    <div>
+      {{ endTime }}
+    </div>
+  </mat-card>
+</div>

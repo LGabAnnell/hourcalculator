@@ -11,8 +11,10 @@ app.use('/hourcalculator/api', createProxyMiddleware({
 app.use("/hourcalculator/", express.static("dist/material-hourcalculator"));
 
 const routes = [
-  "/hourcalculator/auto",
-  "/hourcalculator/pause",
+  "/hourcalculator/main",
+  "/hourcalculator/main/auto",
+  "/hourcalculator/main/pause",
+  "/hourcalculator/main/badge",
   "/hourcalculator/remote",
   "/hourcalculator/remote/login",
   "/hourcalculator/remote/register"

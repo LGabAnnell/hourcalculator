@@ -9,20 +9,10 @@
   <a flex mat-tab-link routerLink="pause" routerLinkActive #rl3="routerLinkActive" [active]="rl3.isActive">
     Déb. Matin + temps pause
   </a>
+  <a flex mat-tab-link routerLink="badge" routerLinkActive #rl4="routerLinkActive" [active]="rl4.isActive">
+    Temps badgés
+  </a>
 </nav>
-<div style="display: flex; align-items: center; overflow-x: hidden;">
-  <button mat-icon-button (click)="removeDay()">
-    <mat-icon>chevron_left</mat-icon>
-  </button>
-  <span flex class="date-picker-bar" (click)="picker.open()">
-    <mat-datepicker touchUi #picker></mat-datepicker>
-    <input style="width: 0px; height: 0; display: hidden; padding: 0; margin: 0; border: none;" [matDatepicker]="picker"
-      (dateChange)="dateChange($event.targetElement.value)" [value]="date">
-    <span #dateDiv>{{ date.format('DD.MM.YYYY') }}</span>
-  </span>
-  <button mat-icon-button (click)="addDay()">
-    <mat-icon>chevron_right</mat-icon>
-  </button>
-</div>
+<app-date-chooser></app-date-chooser>
 <router-outlet></router-outlet>
 <total-time-chooser></total-time-chooser>

@@ -1,10 +1,9 @@
 <form action="javascript:void(0)" [formGroup]="formGroup" (submit)="submit()">
   <mat-card>
-
     <mat-card-content>
       <div class="grid-2-rows grid-gap-10">
         <mat-form-field flex>
-          <input type="text" autocomplete="off" matInput placeholder="Username" formControlName="username">
+          <input type="text" #username autocomplete="off" matInput placeholder="Username" formControlName="username">
         </mat-form-field>
         <mat-form-field flex>
           <input type="password" matInput placeholder="Password" formControlName="password">

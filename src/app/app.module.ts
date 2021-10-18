@@ -18,10 +18,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { routes } from './app-routes';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { autoClockReducer, manualReducer, totalTimeReducer, userReducer } from './store/reducers';
+import { autoClockReducer, manualReducer, simpleDateReducer, startPauseReducer, totalTimeReducer, userReducer } from './store/reducers';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { DurationToStringPipe } from './pipes/duration-to-string';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 
@@ -59,20 +58,13 @@ export const materialImports = [
       autoClocks,
       manualClocks,
       timeChange,
-      userChange
+      userChange,
+      simpleDateChange: simpleDateReducer,
+      startPause: startPauseReducer
     }),
     ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' })
   ],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'ch-FR' },
-    {
-      provide: MAT_DATE_FORMATS, useValue: {
-        display: {
-          dateInput: 'DD.MM.YYYY',
-          monthYearLabel: 'MMM YYYY'
-        }
-      }
-    }
   ],
   bootstrap: [AppComponent]
 })

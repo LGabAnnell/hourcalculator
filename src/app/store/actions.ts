@@ -19,6 +19,8 @@ export const saveManualClocks = createAction('Save manual clocks', props<{ date:
 export const removeOneManualClock = createAction('Remove one manual clock-in', props<{ index: number }>());
 export const deleteManualClocks = createAction('Delete manual clocks');
 
+export const startPauseChange = createAction('Start/pause change', props<{ time: moment.Moment }>())
+
 export const dateChange = createAction('Date changed', props<{ date: moment.Moment }>());
 
 export const totalTimeChange = createAction('Total time changed', props<{ duration: moment.Duration }>());

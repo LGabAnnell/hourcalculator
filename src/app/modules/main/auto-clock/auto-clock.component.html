@@ -1,10 +1,10 @@
-<div class="pad-sides margin-top">
+<div class="margin-top">
   <button mat-raised-button style="width: 100%" color="warn" (click)="del()">Supprimer tout</button>
   <button mat-raised-button style="width: 100%; margin-top: 10px;" (click)="addClock()">Pointer</button>
 </div>
 <div class="container">
   <mat-card>
-    <div *ngFor="let clock of clocks; index as i" style="margin-bottom: 10px; display: flex;">
+    <div *ngFor="let clock of clocks; index as i" style="display: flex;">
       {{ i % 2 === 0 ? 'Entrée à ' : 'Sortie à '}}{{clock.value}}
       <span flex></span>
       <mat-icon aria-hidden="false" style="margin-left: 5px;" aria-label="Example home icon" (click)="removeClock(i)">

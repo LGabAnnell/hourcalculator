@@ -7,7 +7,7 @@ import { remoteRoutes } from './remote-routes';
 import { materialImports } from 'src/app/app.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent, UsernameTakenComponent } from './register/register.component';
-
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -15,13 +15,14 @@ import { RegisterComponent, UsernameTakenComponent } from './register/register.c
     RemoteClockComponent,
     LoginComponent,
     RegisterComponent,
-    UsernameTakenComponent
+    UsernameTakenComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(remoteRoutes),
     ReactiveFormsModule,
-    ...materialImports
+    ...materialImports,
+    SharedModule,
   ]
 })
 export class RemoteModule { }

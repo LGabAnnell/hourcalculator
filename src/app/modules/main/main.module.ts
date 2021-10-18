@@ -7,8 +7,9 @@ import { StartStopCalculationComponent } from './start-stop-calculation/start-st
 import { TotalTimeChooserComponent } from './total-time-chooser/total-time-chooser.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './main-module.routes';
-import { DurationToStringPipe } from 'src/app/pipes/duration-to-string';
 import { MainComponent } from './main.component';
+import { SharedModule } from '../shared/shared.module';
+import { BadgeClockComponent } from './badge-clock/badge-clock.component';
 
 
 
@@ -19,12 +20,13 @@ import { MainComponent } from './main.component';
     StartPauseCalculationComponent,
     StartStopCalculationComponent,
     TotalTimeChooserComponent,
-    DurationToStringPipe
+    BadgeClockComponent,
   ],
   imports: [
     CommonModule,
     ...materialImports,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    SharedModule
   ]
 })
 export class MainModule { }

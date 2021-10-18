@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from "moment";
 import { Subscription } from 'rxjs';
-import { totalTimeChange } from 'src/app/store/actions';
+import { startPauseChange, totalTimeChange } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-start-pause-calculation',
@@ -23,26 +23,38 @@ export class StartPauseCalculationComponent implements OnInit {
     minutes: 45
   });
 
-  endTime: string = moment(this.dayStart, "HH:mm").add(this.supposedTotal).add(moment.duration({ hours: 0, minutes: 30 })).format("HH:mm");
+  endTime: string = moment(this.dayStart, "HH:mm")
+    .add(this.supposedTotal)
+    .add(moment.duration({ hours: 0, minutes: 30 }))
+    .format("HH:mm");
   storeHolder: Subscription;
+  startTimeSub: Subscription;
 
-  constructor(private store: Store<{ timeChange: { duration: moment.Duration } }>) { }
+  constructor(private store: Store<{ timeChange: { duration: moment.Duration },
+    startPause: moment.Moment }>) { }
 
   ngOnInit() {
-    this.storeHolder = this.store.select('timeChange').subscribe(({ duration }) => {
+    this.storeHolder = this.store.select(state => state.timeChange).subscribe(({ duration }) => {
       this.supposedTotal = duration;
+      this.calculate();
+    });
+
+    this.startTimeSub = this.store.select(state => state.startPause).subscribe(time => {
+      this.dayStart = time.format('HH:mm');
       this.calculate();
     });
   }
 
   ngOnDestroy() {
     this.storeHolder.unsubscribe();
+    this.startTimeSub?.unsubscribe();
   }
 
   startChange(value: string) {
     const start = moment(value, "HH:mm");
+    this.store.dispatch(startPauseChange({ time: start }));
 
-    this.endTime = start.add(this.supposedTotal).add(this.pauseDuration).format("HH:mm");
+    this.endTime = start.clone().add(this.supposedTotal).add(this.pauseDuration).format("HH:mm");
   }
 
   calculate() {

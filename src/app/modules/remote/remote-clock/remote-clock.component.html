@@ -1,7 +1,7 @@
 <div class="container">
   <mat-card>
     <mat-card-title>
-      Hello {{ (user$ | async)?.sub }}
+      Bonjour {{ (user$ | async)?.sub }}
     </mat-card-title>
     <mat-card-content>
       <p>
@@ -11,32 +11,14 @@
         L'utilisation est simple, installez Tasker sur android, enregistrez un tag NFC avec Tasker, et dans "actions",
         utilisez http POST vers https://chezgab.ch/hourcalculator/post-time, avec les données suivantes:
       </p>
-      <pre>
+      <textarea #token style="display: block; width: 100%; height: 5rem; margin-bottom: 10px;">
 &#123;
-  "date": date,
-  "time": time,
-  "userToken": token
-&#125;
-      </pre>
-      <p>
-        Vous trouverez votre token en cliquant sur le bouton ci-dessous!
-      </p>
-      <button mat-raised-button color="primary" #tokenHider (click)="revealToken()" *ngIf="!tokenReveal">
-        Révélez votre token!
-      </button>
-      <form action="javascript:void(0)" *ngIf="tokenReveal" style="display: flex; flex-direction: column;">
-        <div style="display: flex;">
-          <button mat-icon-button (click)="copyToClipboard()">
-            <mat-icon class="hover-pointer" aria-hidden="false">file_copy</mat-icon>
-          </button>
-          <mat-form-field flex>
-            <input #token matInput placeholder="User token" type="text" [value]="userToken">
-          </mat-form-field>
-        </div>
-      </form>
-      <button *ngIf="tokenReveal" mat-raised-button color="warn" (click)="hide()">
-        Cacher le token
-      </button>
+  "date": "%DATE",
+  "time": "%TIME",
+  "userToken": "{{ userToken$ | async }}"
+&#125;</textarea>
+      <button (click)="copyToClipboard()" mat-button>Copier dans le presse-papier</button>
+      <p class="text-warn">Attention, ne partagez jamais votre token!</p>
     </mat-card-content>
   </mat-card>
 </div>
