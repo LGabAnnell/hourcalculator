@@ -24,7 +24,7 @@ export class StartStopCalculationComponent {
 
   date: moment.Moment;
 
-  public leftToDisplay = "";
+  public left: moment.Duration;
   public remaining: string = "";
 
   storesub: Subscription;
@@ -56,14 +56,14 @@ export class StartStopCalculationComponent {
     this.store.dispatch(saveManualClocks(null));
 
     setTimeout(() => {
-      this.inputs.toArray()[this.inputs.length - 1].nativeElement.click();
+      this.inputs.last.nativeElement.click();
     });
   }
 
   calculate() {
     if (this.clocks.length % 2 === 0 || this.clocks.length === 1) {
       this.worked = '';
-      this.leftToDisplay = '';
+      this.left = moment.duration();
       this.remaining = '';
       return;
     }
@@ -73,12 +73,12 @@ export class StartStopCalculationComponent {
       total.add(TimeCalculator.getDiff(this.clocks[i].value, this.clocks[i + 1].value));
     }
 
-    const left = moment.duration(this.supposedTotal).subtract(total);
+    this.left = moment.duration(this.supposedTotal).subtract(total);
 
-    this.worked = TimeCalculator.convertToHoursAndMinutes(total);//  hours + ":" + minutes 
-    this.leftToDisplay = TimeCalculator.convertToHoursAndMinutes(left);
+    this.worked = TimeCalculator.convertToHoursAndMinutes(total); //  hours + ":" + minutes 
     const last = moment(this.clocks[this.clocks.length - 1].value, "HH:mm");
-    this.remaining = last.add(left).format("HH:mm");
+    
+    this.remaining = last.add(this.left).format("HH:mm");
   }
 
   removeClock(index: number) {

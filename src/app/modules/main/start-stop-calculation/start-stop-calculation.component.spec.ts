@@ -1,7 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AppModule, manualClocks } from '../app.module';
 
 import { StartStopCalculationComponent } from './start-stop-calculation.component';
 

@@ -23,6 +23,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MomentToStringPipe } from './pipes/moment-to-string.pipe';
 
 export const autoClocks = autoClockReducer
 export const manualClocks = manualReducer

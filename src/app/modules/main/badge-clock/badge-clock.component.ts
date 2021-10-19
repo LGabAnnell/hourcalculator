@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
@@ -12,12 +12,17 @@ import { UserService } from '../../remote/user.service';
 })
 export class BadgeClockComponent implements OnInit {
 
-  userClocks: string[];
+  userClocks: {
+    value: string
+  }[];
   totalTimeToWork: moment.Duration = moment.duration();
 
   dateChangeSub: Subscription;
   clockSub: Subscription;
   totalTimeSub: Subscription;
+
+  @ViewChildren('timeInput')
+  timeInputs: QueryList<HTMLInputElement>;
 
   constructor(private store: Store<{ simpleDateChange: moment.Moment, timeChange: { duration: moment.Duration } }>,
     private userService: UserService) { }
@@ -26,46 +31,46 @@ export class BadgeClockComponent implements OnInit {
     this.dateChangeSub = this.store.select(state => state.simpleDateChange).subscribe(date => {
       this.clockSub = this.userService
         .getUserClocksByDate(date)
-        .pipe(
-          map(dates => dates.map((date, idx) => (idx % 2 === 0 ? 'Entrée ' : 'Sortie ') + date.time))
-        )
+        .pipe(map(dates => dates.map(date => date.time)))
         .subscribe(dates => {
-          this.userClocks = dates;
+          this.userClocks = dates.map(value => {
+            const split = value.split(':');
+            return { value: split[0] + ':' + split[1] };
+          });
           this.calculate();
         });
     });
 
     this.totalTimeSub = this.store.select(state => state.timeChange).subscribe(({ duration }) => {
       this.totalTimeToWork = duration;
-      this.getEndTime();
+      this.calculate();
     });
   }
 
   totalTimeWorked: moment.Duration;
   startTime: moment.Moment;
+  endTime: moment.Moment;
   calculate() {
-    const times: moment.Duration[] = [];
-    if (this.userClocks.length % 2 === 0 && this.userClocks.length > 0) {
-      this.startTime = moment(this.userClocks[0].split(' ')[1], 'HH:mm:ss');
-      for (let i = 0; i < this.userClocks.length; i += 2) {
-        const start = moment(this.userClocks[i].split(' ')[1], 'HH:mm:ss');
-        const end = moment(this.userClocks[i + 1].split(' ')[1], 'HH:mm:ss');
-        times.push(moment.duration({ milliseconds: end.diff(start) }));
-      }
-
-      let newTotal = times[0];
-      for (let i = 1; i < times.length; i++) {
-        newTotal = newTotal.add(times[i]);
+    if (this.totalTimeToWork && this.userClocks && this.userClocks.length > 0) {
+      const newTotal = moment.duration(0);
+      for (let i = 0; i < this.userClocks.length - 1; i += 2) {
+        const start = moment(this.userClocks[i].value, 'HH:mm');
+        const end = moment(this.userClocks[i + 1].value, 'HH:mm');
+        newTotal.add(end.diff(start));
       }
 
       this.totalTimeWorked = newTotal;
+
+      const left = moment.duration(this.totalTimeToWork).subtract(this.totalTimeWorked);
+
+      this.endTime = moment(this.userClocks[this.userClocks.length - 1].value, 'HH:mm').add(left);
     } else {
       this.totalTimeWorked = null;
     }
   }
 
-  endTime: moment.Moment;
-  getEndTime() {
-    if (!this.startTime || !this.totalTimeToWork || !this.totalTimeWorked) return;
+  saveInput(i: number, time: string) {
+    this.userClocks[i].value = time;
+    this.calculate();
   }
 }

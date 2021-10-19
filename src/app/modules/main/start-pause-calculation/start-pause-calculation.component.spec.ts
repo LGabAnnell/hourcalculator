@@ -1,6 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material/card';
-import { StoreModule } from '@ngrx/store';
 import { AppModule } from '../../../app.module';
 
 import { StartPauseCalculationComponent } from './start-pause-calculation.component';

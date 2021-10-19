@@ -1,11 +1,27 @@
 <div class="container">
   <mat-card>
-    <div *ngFor="let clock of userClocks">
-      {{ clock }}
-    </div>
-    <span *ngIf="totalTimeWorked">{{ totalTimeWorked | durationToString }} travaillés, fin à</span>
-    <div>
-      {{ endTime }}
-    </div>
+    <form>
+      <div style="display: flex;" *ngFor="let clock of userClocks; index as i">
+        <mat-form-field flex>
+          <input #timeInput type="time" matInput [value]="clock.value"
+            placeholder="{{ i % 2 === 0 ? 'Entrée' : 'Sortie' }}" (input)="saveInput(i, $event.target.value)">
+        </mat-form-field>
+      </div>
+    </form>
   </mat-card>
+  <div class="container">
+    <mat-card>
+      <table style="width: 100%;">
+        <tr style="text-align: left;">
+          <th>Travaillé</th>
+          <th>Restant</th>
+          <th>Fin</th>
+        </tr>
+        <tbody *ngIf="totalTimeWorked && endTime">
+          <td>{{ totalTimeWorked | durationToString }}</td>
+          <td>{{ endTime | momentToString }}</td>
+        </tbody>
+      </table>
+    </mat-card>
+  </div>
 </div>
