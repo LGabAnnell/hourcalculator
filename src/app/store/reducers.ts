@@ -114,7 +114,7 @@ export const manualReducer = createReducer(initialManualClocks,
       date: state.date
     };
   }),
-  on(dateChange, (state, { type, date }) => {
+  on(dateChange, (_, { type, date }) => {
     let clocks = JSON.parse(localStorage.getItem(moment(date).format('DD.MM.YYYY') + "manualclocks"));
 
     if (clocks === null) clocks = [new ClockInOut('08:00')];

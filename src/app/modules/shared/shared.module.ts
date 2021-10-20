@@ -5,6 +5,7 @@ import { materialImports } from 'src/app/app.module';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DurationToStringPipe } from 'src/app/pipes/duration-to-string';
 import { MomentToStringPipe } from 'src/app/pipes/moment-to-string.pipe';
+import { TimeSheetComponent } from './time-sheet/time-sheet.component';
 
 
 
@@ -13,6 +14,7 @@ import { MomentToStringPipe } from 'src/app/pipes/moment-to-string.pipe';
     DateChooserComponent,
     DurationToStringPipe,
     MomentToStringPipe,
+    TimeSheetComponent,
   ],
   imports: [
     CommonModule,
@@ -22,6 +24,7 @@ import { MomentToStringPipe } from 'src/app/pipes/moment-to-string.pipe';
     DateChooserComponent,
     DurationToStringPipe,
     MomentToStringPipe,
+    TimeSheetComponent,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ch-FR' },

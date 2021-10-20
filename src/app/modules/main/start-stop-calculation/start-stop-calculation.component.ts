@@ -17,10 +17,10 @@ export class StartStopCalculationComponent {
   clocks: ClockInOut[] = [];
 
   worked: string = "";
-  private supposedTotal = {
+  supposedTotal = moment.duration({
     hours: 8,
     minutes: 24
-  };
+  });
 
   date: moment.Moment;
 
@@ -36,16 +36,14 @@ export class StartStopCalculationComponent {
   constructor(private store: Store<{ manualClocks: clockInOutWithDateAction, timeChange: { duration: moment.Duration } }>) {
     this.storesub = this.store.select(state => state.manualClocks)
       .subscribe(this.setClocks);
-    this.totalSupposedAmountSub = this.store.select('timeChange').subscribe(({ duration }) => {
-      this.supposedTotal = { hours: duration.hours(), minutes: duration.minutes() };
-      this.calculate();
-    })
+    this.totalSupposedAmountSub = this.store.select(state => state.timeChange).subscribe(({ duration }) => {
+      this.supposedTotal = moment.duration({ hours: duration.hours(), minutes: duration.minutes() });
+    });
   }
 
   setClocks = (state: clockInOutWithDateAction) => {
     this.date = state.date;
     this.clocks = state.clocks;
-    this.calculate();
   }
 
   addClockInOrOut() {
@@ -54,31 +52,6 @@ export class StartStopCalculationComponent {
     
     this.clocks.push(new ClockInOut(last.value.slice(0, 4) + lastMinute));
     this.store.dispatch(saveManualClocks(null));
-
-    setTimeout(() => {
-      this.inputs.last.nativeElement.click();
-    });
-  }
-
-  calculate() {
-    if (this.clocks.length % 2 === 0 || this.clocks.length === 1) {
-      this.worked = '';
-      this.left = moment.duration();
-      this.remaining = '';
-      return;
-    }
-
-    let total = moment.duration(0);
-    for (let i = 0; i < this.clocks.length - 1; i += 2) {
-      total.add(TimeCalculator.getDiff(this.clocks[i].value, this.clocks[i + 1].value));
-    }
-
-    this.left = moment.duration(this.supposedTotal).subtract(total);
-
-    this.worked = TimeCalculator.convertToHoursAndMinutes(total); //  hours + ":" + minutes 
-    const last = moment(this.clocks[this.clocks.length - 1].value, "HH:mm");
-    
-    this.remaining = last.add(this.left).format("HH:mm");
   }
 
   removeClock(index: number) {
@@ -94,8 +67,8 @@ export class StartStopCalculationComponent {
     this.store.dispatch(deleteManualClocks());
   }
 
-  saveValue(index: number, value: string) {
-    this.clocks[index].value = value;
+  inputListener({ time, index }) {
+    this.clocks[index].value = time;
     this.store.dispatch(saveManualClocks(null));
   }
 }

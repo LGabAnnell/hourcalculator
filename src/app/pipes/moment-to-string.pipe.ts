@@ -11,6 +11,7 @@ export class MomentToStringPipe implements PipeTransform {
   }
 
   public transform(value: moment.Moment) {
+    if (!value) return '';
     const v = `${this.addZero(value.hours())}:${this.addZero(value.minutes())}`;
     return v;
   }

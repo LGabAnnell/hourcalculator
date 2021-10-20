@@ -1,0 +1,31 @@
+<div class="container">
+  <mat-card>
+    <form class="example-form" action="javascript:void(0)">
+      <div style="display: flex; align-items: center;" *ngFor="let clock of clocks; index as i">
+        <mat-form-field flex>
+          <input #timeInput type="time" matInput [value]="clock.value"
+            placeholder="{{ i % 2 === 0 ? 'Entrée' : 'Sortie' }}" (input)="newInput(i, $event.target.value)">
+        </mat-form-field>
+        <mat-icon aria-hidden="false" style="margin-left: 5px; display: inline;" aria-label="Example home icon"
+            (click)="removeClock(i)">
+            delete</mat-icon>
+      </div>
+    </form>
+  </mat-card>
+  <div class="container">
+    <mat-card>
+      <table style="width: 100%;">
+        <tr style="text-align: left;">
+          <th>Travaillé</th>
+          <th>Restant</th>
+          <th>Fin</th>
+        </tr>
+        <tbody>
+          <td>{{ totalTimeWorked | durationToString }}</td>
+          <td>{{ remaining | durationToString }}</td>
+          <td>{{ endTime | momentToString }}</td>
+        </tbody>
+      </table>
+    </mat-card>
+  </div>
+</div>

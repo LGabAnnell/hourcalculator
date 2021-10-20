@@ -73,4 +73,8 @@ export class BadgeClockComponent implements OnInit {
     this.userClocks[i].value = time;
     this.calculate();
   }
+
+  removeClock(i: number) {
+    this.userClocks = this.userClocks.filter((_, index) => index !== i);
+  }
 }

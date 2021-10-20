@@ -10,6 +10,9 @@ export class DurationToStringPipe implements PipeTransform {
   }
 
   public transform(value: moment.Duration) {
+    if (!value) {
+      return '';
+    }
     const v = `${this.addZero(value.hours())}:${this.addZero(value.minutes())}`;
     return v;
   }
