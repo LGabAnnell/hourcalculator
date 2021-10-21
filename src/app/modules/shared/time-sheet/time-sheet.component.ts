@@ -21,7 +21,7 @@ export class TimeSheetComponent implements OnInit {
   onInput: EventEmitter<{ time: string, index: number}> = new EventEmitter();
 
   @Output('onRemove')
-  onRemove: EventEmitter<{ clocks: ClockInOut[] }> = new EventEmitter();
+  onRemove: EventEmitter<{ index: number }> = new EventEmitter();
 
   totalTimeWorked: moment.Duration;
 
@@ -29,15 +29,12 @@ export class TimeSheetComponent implements OnInit {
 
   remaining: moment.Duration;
 
-  constructor(private store: Store) {}
-
   ngOnInit(): void {}
 
-  ngAfterViewInit(): void {
-    this.calculate();
-  }
+  ngAfterViewInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log(changes)
     if (changes.clocks) {
       this.clocks = changes.clocks.currentValue;
     }
@@ -46,6 +43,10 @@ export class TimeSheetComponent implements OnInit {
       this.totalTimeToWork = changes.totalTimeToWork.currentValue;
     }
 
+    this.calculate();
+  }
+
+  ngAfterContentChecked() {
     this.calculate();
   }
 
@@ -58,11 +59,10 @@ export class TimeSheetComponent implements OnInit {
         newTotal.add(end.diff(start));
       }
 
+      this.totalTimeWorked = newTotal;
       const left = moment.duration(this.totalTimeToWork).subtract(this.totalTimeWorked);
 
       this.endTime = moment(this.clocks[this.clocks.length - 1].value, 'HH:mm').add(left);
-
-      this.totalTimeWorked = newTotal;
       this.remaining = left;
     }
   }
@@ -72,12 +72,10 @@ export class TimeSheetComponent implements OnInit {
       index,
       time
     });
-    this.clocks[index].value = time;
-    this.calculate();
   }
 
   removeClock(i: number) {
-    this.clocks = this.clocks.filter((_, index) => index !== i);
-
+    this.onRemove.emit({ index: i });
+    this.calculate();
   }
 }

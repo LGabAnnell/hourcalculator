@@ -1,1 +1,5 @@
-<app-time-sheet [clocks]="userClocks" [totalTimeToWork]="totalTimeToWork"></app-time-sheet>
+<app-time-sheet [clocks]="clocksForInputs" [totalTimeToWork]="totalTimeToWork" (onRemove)="removeClock($event)" 
+  (onInput)="saveInput($event)">
+  <button (click)="saveClocks()" mat-button>Sauvegarder</button>
+  <button (click)="addClock()" mat-button>Ajouter pointage</button>
+</app-time-sheet>

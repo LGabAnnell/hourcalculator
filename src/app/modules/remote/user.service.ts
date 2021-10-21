@@ -3,6 +3,13 @@ import { Injectable } from "@angular/core";
 import * as moment from "moment";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
+import { UserClock } from "src/model/userclock";
+
+export interface TimeUpdateListRequest {
+  date: string;
+  times: string[];
+  userToken: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -38,8 +45,12 @@ export class UserService {
     const params = {
       date: date.format('yyyy-MM-DD')
     };
-    return this.http.get<{ time: string, date: string}[]>('api/user-clocks-by-date', {
+    return this.http.get<UserClock[]>('api/user-clocks-by-date', {
       params
-    })
+    });
+  }
+
+  saveUserClocks(request: TimeUpdateListRequest) {
+    return this.http.put('api/update-times', request);
   }
 }

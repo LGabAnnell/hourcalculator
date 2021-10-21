@@ -1,8 +1,11 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ClockInOut } from 'src/model/clockinout';
+import { UserClock } from 'src/model/userclock';
 import { UserService } from '../../remote/user.service';
 
 @Component({
@@ -12,9 +15,8 @@ import { UserService } from '../../remote/user.service';
 })
 export class BadgeClockComponent implements OnInit {
 
-  userClocks: {
-    value: string
-  }[];
+  userClocks: UserClock[];
+  clocksForInputs: ClockInOut[];
   totalTimeToWork: moment.Duration = moment.duration();
 
   dateChangeSub: Subscription;
@@ -25,56 +27,56 @@ export class BadgeClockComponent implements OnInit {
   timeInputs: QueryList<HTMLInputElement>;
 
   constructor(private store: Store<{ simpleDateChange: moment.Moment, timeChange: { duration: moment.Duration } }>,
-    private userService: UserService) { }
+    private userService: UserService, private snack: MatSnackBar) { }
 
   ngOnInit(): void {
     this.dateChangeSub = this.store.select(state => state.simpleDateChange).subscribe(date => {
       this.clockSub = this.userService
         .getUserClocksByDate(date)
-        .pipe(map(dates => dates.map(date => date.time)))
-        .subscribe(dates => {
-          this.userClocks = dates.map(value => {
-            const split = value.split(':');
-            return { value: split[0] + ':' + split[1] };
-          });
-          this.calculate();
+        .subscribe(userClocks => {
+          this.userClocks = userClocks;
+          this.clocksForInputs = userClocks.map(clock => new ClockInOut(clock.time));
         });
     });
 
     this.totalTimeSub = this.store.select(state => state.timeChange).subscribe(({ duration }) => {
       this.totalTimeToWork = duration;
-      this.calculate();
     });
   }
 
-  totalTimeWorked: moment.Duration;
-  startTime: moment.Moment;
-  endTime: moment.Moment;
-  calculate() {
-    if (this.totalTimeToWork && this.userClocks && this.userClocks.length > 0) {
-      const newTotal = moment.duration(0);
-      for (let i = 0; i < this.userClocks.length - 1; i += 2) {
-        const start = moment(this.userClocks[i].value, 'HH:mm');
-        const end = moment(this.userClocks[i + 1].value, 'HH:mm');
-        newTotal.add(end.diff(start));
-      }
+  saveInput({ index, time }: { index: number, time: string }) {
+    this.userClocks[index].time = time;
+    this.clocksForInputs[index].value = time;
+    // this.clocksForInputs = [...this.clocksForInputs];
+  }
 
-      this.totalTimeWorked = newTotal;
+  removeClock({ index }: { index: number }) {
+    this.userClocks = this.userClocks.filter((_, idx) => idx !== index);
+    this.clocksForInputs = this.clocksForInputs.filter((_, idx) => idx !== index);
+  }
 
-      const left = moment.duration(this.totalTimeToWork).subtract(this.totalTimeWorked);
+  async saveClocks() {
+    const token = await this.userService.getUserToken().toPromise();
+    this.userService.saveUserClocks({
+        date: this.userClocks[0].date,
+        times: this.userClocks.map(uc => uc.time),
+        userToken: token
+    }).toPromise()
+      .then(() => {
+        this.snack.open('Enregistré!', null, {
+          duration: 2000
+        });
+      });
+  }
 
-      this.endTime = moment(this.userClocks[this.userClocks.length - 1].value, 'HH:mm').add(left);
-    } else {
-      this.totalTimeWorked = null;
+  async addClock() {
+    const clock = moment();
+    const newClock = {
+      time: clock.format('HH:mm'),
+      date: clock.format('yyyy-MM-DD'),
     }
-  }
 
-  saveInput(i: number, time: string) {
-    this.userClocks[i].value = time;
-    this.calculate();
-  }
-
-  removeClock(i: number) {
-    this.userClocks = this.userClocks.filter((_, index) => index !== i);
+    this.userClocks = [...this.userClocks, newClock];
+    this.clocksForInputs = [...this.clocksForInputs, new ClockInOut(newClock.time)];
   }
 }
