@@ -47,12 +47,12 @@ export class BadgeClockComponent implements OnInit {
   saveInput({ index, time }: { index: number, time: string }) {
     this.userClocks[index].time = time;
     this.clocksForInputs[index].value = time;
-    // this.clocksForInputs = [...this.clocksForInputs];
+    this.clocksForInputs = [...this.clocksForInputs];
   }
 
   removeClock({ index }: { index: number }) {
     this.userClocks = this.userClocks.filter((_, idx) => idx !== index);
-    this.clocksForInputs = this.clocksForInputs.filter((_, idx) => idx !== index);
+    this.clocksForInputs = [...this.clocksForInputs.filter((_, idx) => idx !== index)];
   }
 
   async saveClocks() {

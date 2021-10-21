@@ -46,10 +46,6 @@ export class TimeSheetComponent implements OnInit {
     this.calculate();
   }
 
-  ngAfterContentChecked() {
-    this.calculate();
-  }
-
   calculate() {
     if (this.totalTimeToWork && this.clocks && this.clocks.length > 1) {
       const newTotal = moment.duration(0);
@@ -58,8 +54,8 @@ export class TimeSheetComponent implements OnInit {
         const end = moment(this.clocks[i + 1].value, 'HH:mm');
         newTotal.add(end.diff(start));
       }
-
       this.totalTimeWorked = newTotal;
+      
       const left = moment.duration(this.totalTimeToWork).subtract(this.totalTimeWorked);
 
       this.endTime = moment(this.clocks[this.clocks.length - 1].value, 'HH:mm').add(left);
