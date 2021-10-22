@@ -23,9 +23,6 @@ export class BadgeClockComponent implements OnInit {
   clockSub: Subscription;
   totalTimeSub: Subscription;
 
-  @ViewChildren('timeInput')
-  timeInputs: QueryList<HTMLInputElement>;
-
   constructor(private store: Store<{ simpleDateChange: moment.Moment, timeChange: { duration: moment.Duration } }>,
     private userService: UserService, private snack: MatSnackBar) { }
 
@@ -33,6 +30,13 @@ export class BadgeClockComponent implements OnInit {
     this.dateChangeSub = this.store.select(state => state.simpleDateChange).subscribe(date => {
       this.clockSub = this.userService
         .getUserClocksByDate(date)
+        .pipe(map(userClocks => {
+          userClocks.forEach(clock => {
+            const split = clock.time.split(':');
+            clock.time = split[0] + ':' + split[1];
+          })
+          return userClocks;
+        }))
         .subscribe(userClocks => {
           this.userClocks = userClocks;
           this.clocksForInputs = userClocks.map(clock => new ClockInOut(clock.time));
@@ -58,9 +62,9 @@ export class BadgeClockComponent implements OnInit {
   async saveClocks() {
     const token = await this.userService.getUserToken().toPromise();
     this.userService.saveUserClocks({
-        date: this.userClocks[0].date,
-        times: this.userClocks.map(uc => uc.time),
-        userToken: token
+      date: this.userClocks[0].date,
+      times: this.userClocks.map(uc => uc.time),
+      userToken: token
     }).toPromise()
       .then(() => {
         this.snack.open('Enregistré!', null, {
@@ -69,7 +73,7 @@ export class BadgeClockComponent implements OnInit {
       });
   }
 
-  async addClock() {
+  addClock() {
     const clock = moment();
     const newClock = {
       time: clock.format('HH:mm'),
