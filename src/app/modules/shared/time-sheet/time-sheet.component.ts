@@ -34,7 +34,6 @@ export class TimeSheetComponent implements OnInit {
   ngAfterViewInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
     if (changes.clocks) {
       this.clocks = changes.clocks.currentValue;
     }

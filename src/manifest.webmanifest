@@ -1,11 +1,11 @@
 {
-  "name": "material-hourcalculator",
-  "short_name": "material-hourcalculator",
+  "name": "hourcalculator",
+  "short_name": "hourcalculator",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/hourcalculator/",
-  "start_url": "/hourcalculator/",
+  "start_url": "/hourcalculator/main",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",

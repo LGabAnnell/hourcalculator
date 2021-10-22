@@ -1,5 +1,5 @@
-<app-time-sheet *ngIf="clocksForInputs && clocksForInputs.length > 0" [clocks]="clocksForInputs" [totalTimeToWork]="totalTimeToWork" (onRemove)="removeClock($event)" 
+<app-time-sheet [clocks]="clocksForInputs" [totalTimeToWork]="totalTimeToWork" (onRemove)="removeClock($event)" 
   (onInput)="saveInput($event)">
-  <button (click)="saveClocks()" mat-button>Sauvegarder</button>
+  <button [disabled]="!(clocksForInputs && clocksForInputs.length > 0)" (click)="saveClocks()" mat-button>Sauvegarder</button>
   <button (click)="addClock()" mat-button>Ajouter pointage</button>
 </app-time-sheet>
