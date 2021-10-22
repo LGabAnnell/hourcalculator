@@ -3,3 +3,8 @@
   flex-direction: column;
   min-height: 100vh;
 }
+
+.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+}
