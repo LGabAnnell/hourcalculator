@@ -1,6 +1,6 @@
 <div class="container">
-  <mat-card>
-    <form class="example-form" action="javascript:void(0)" *ngIf="clocks.length > 0">
+  <mat-card *ngIf="clocks.length > 0">
+    <form class="example-form" action="javascript:void(0)">
       <div style="display: flex; align-items: center;" *ngFor="let clock of clocks; index as i">
         <mat-form-field flex>
           <input #timeInput type="time" matInput [value]="clock.value"
