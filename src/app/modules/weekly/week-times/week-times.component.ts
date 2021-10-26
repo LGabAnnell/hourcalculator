@@ -21,7 +21,7 @@ export class WeekTimesComponent implements OnInit {
     date?: string,
     clocks?: UserClock[]
   }[] = [];
-  array = [];
+  dynamicColumnArray = [];
   displayedColumns = ['date'];
   initialized = false;
 
@@ -30,14 +30,14 @@ export class WeekTimesComponent implements OnInit {
     [key: string]: string,
   }[] = [];
 
-  @ViewChild(MatSort) 
+  @ViewChild(MatSort)
   matSort: MatSort;
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     const weekNumber = moment(moment.now()).isoWeek();
-    
+
     this.createTable(weekNumber).then(() => {
       setTimeout(() => {
         this.matSort.start = 'desc';
@@ -48,10 +48,11 @@ export class WeekTimesComponent implements OnInit {
   createTable(weekNum: number): Promise<void> {
     let maxlen = 0;
     this.displayedColumns = ['date'];
-    this.toDisplay = []
-    this.data = [];
     return this.userService.getByWeek(weekNum).toPromise().then(data => {
       let i = 0;
+      this.toDisplay = []
+      this.data = [];
+
       for (let p in data.weeklyClocks) {
         this.data[i] = {};
         this.data[i].date = moment(p, 'YYYY-MM-DD').format('DD.MM');
@@ -64,17 +65,22 @@ export class WeekTimesComponent implements OnInit {
         i++;
       }
 
-      this.array = new Array(maxlen).fill(0).map((_, i) => {
+      this.dynamicColumnArray = new Array(maxlen).fill(0).map((_, i) => {
         return i % 2 === 0 ? 'entree' + i : 'sortie' + i;
       });
 
-      this.data.forEach((d, firstIndex) => {
+      /**
+       * Array ends up looking like 
+       * [ { date: 'dd.mm', entree0: 'hh:mm', sortie1: 'hh:mm', entree2: 'hh:mm', etc. } ]
+       * This way we can have dynamic columns
+       */
+      this.data.forEach((d, index) => {
         this.toDisplay.push({
           date: d.date
         });
 
-        this.array.forEach((_, i) => {
-          this.toDisplay[firstIndex][i % 2 === 0 ? 'entree' + i : 'sortie' + i] = d.clocks[i]?.time.substring(0, 5) || '';
+        this.dynamicColumnArray.forEach((_, i) => {
+          this.toDisplay[index][i % 2 === 0 ? 'entree' + i : 'sortie' + i] = d.clocks[i]?.time.substring(0, 5) || '';
         });
       });
 
@@ -83,7 +89,7 @@ export class WeekTimesComponent implements OnInit {
         active: 'date'
       });
 
-      this.displayedColumns = this.displayedColumns.concat(this.array);
+      this.displayedColumns = this.displayedColumns.concat(this.dynamicColumnArray);
       this.initialized = true;
     });
   }
@@ -91,7 +97,9 @@ export class WeekTimesComponent implements OnInit {
   sort({ direction, active }) {
     this.toDisplay = [...this.toDisplay.sort((a, b) => {
       let f = a[active] < b[active] ? -1 : a[active] > b[active] ? 1 : 0;
-      if (direction === 'desc') f *= -1;
+      if (direction === 'desc') { 
+        f *= -1;
+      }
       return f;
     })];
   }
