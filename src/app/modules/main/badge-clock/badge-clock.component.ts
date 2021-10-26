@@ -18,6 +18,7 @@ export class BadgeClockComponent implements OnInit {
   userClocks: UserClock[];
   clocksForInputs: ClockInOut[];
   totalTimeToWork: moment.Duration = moment.duration();
+  date: string;
 
   dateChangeSub: Subscription;
   clockSub: Subscription;
@@ -28,6 +29,7 @@ export class BadgeClockComponent implements OnInit {
 
   ngOnInit(): void {
     this.dateChangeSub = this.store.select(state => state.simpleDateChange).subscribe(date => {
+      this.date = date.format('yyyy-MM-DD');
       this.clockSub = this.userService
         .getUserClocksByDate(date)
         .pipe(map(userClocks => {
@@ -62,7 +64,7 @@ export class BadgeClockComponent implements OnInit {
   async saveClocks() {
     const token = await this.userService.getUserToken().toPromise();
     this.userService.saveUserClocks({
-      date: this.userClocks[0].date,
+      date: this.date,
       times: this.userClocks.map(uc => uc.time),
       userToken: token
     }).toPromise()

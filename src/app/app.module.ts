@@ -12,6 +12,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatDatepickerModule, } from '@angular/material/datepicker'
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,6 +25,9 @@ import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MomentToStringPipe } from './pipes/moment-to-string.pipe';
+import { MatSortModule } from '@angular/material/sort';
+import { BottomNavigationComponent } from './bottom-navigation/bottom-navigation.component';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 export const autoClocks = autoClockReducer
 export const manualClocks = manualReducer
@@ -42,12 +46,16 @@ export const materialImports = [
     MatDatepickerModule,
     MatMomentDateModule,
     MatDialogModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule,
+    MatSortModule,
+    MatBottomSheetModule
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
+    BottomNavigationComponent,
   ],
   imports: [
     BrowserModule,

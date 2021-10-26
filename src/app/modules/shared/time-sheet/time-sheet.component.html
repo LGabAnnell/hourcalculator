@@ -1,6 +1,5 @@
 <div class="container">
-  hello world
-  <mat-card *ngIf="clocks.length > 0">
+  <mat-card *ngIf="clocks?.length > 0">
     <form class="example-form" action="javascript:void(0)">
       <div style="display: flex; align-items: center;" *ngFor="let clock of clocks; index as i">
         <mat-form-field flex>
@@ -15,7 +14,7 @@
   </mat-card>
   <div class="container">
     <mat-card>
-      <table style="width: 100%;">
+      <table style="width: 100%;" *ngIf="clocks?.length > 0">
         <tr style="text-align: left;">
           <th>Travaillé</th>
           <th>Restant</th>

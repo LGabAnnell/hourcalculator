@@ -1,10 +1,13 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Query, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { UserService } from './modules/remote/user.service';
 import { UserFromToken } from './model/user-from-token';
 import { Router } from '@angular/router';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { BottomNavigationComponent } from './bottom-navigation/bottom-navigation.component';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
@@ -20,8 +23,11 @@ export class AppComponent {
 
   isLoggedIn = false;
 
+  @ViewChild('menuButton')
+  menuButton: MatButton;
+
   constructor(private store: Store<any>, private userService: UserService,
-    private router: Router) {}
+    private router: Router, private bottomSheet: MatBottomSheet) {}
 
   ngOnInit() { 
     this.userService.getUserName().subscribe(user => {
@@ -38,6 +44,12 @@ export class AppComponent {
       }
       this.isLoggedIn = true;
     });
+  }
+
+  openBottomSheet() {
+    this.bottomSheet.open(BottomNavigationComponent).afterDismissed().subscribe(() => {
+      this.menuButton._elementRef.nativeElement.blur();
+    })
   }
 
   ngOnDestroy() {

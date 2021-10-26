@@ -4,6 +4,7 @@ import * as moment from "moment";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { UserClock } from "src/model/userclock";
+import { WeeklyClocksResponse } from "../weekly/week-times/week-times.component";
 
 export interface TimeUpdateListRequest {
   date: string;
@@ -52,5 +53,11 @@ export class UserService {
 
   saveUserClocks(request: TimeUpdateListRequest) {
     return this.http.put('api/update-times', request);
+  }
+
+  getByWeek(week: number): Observable<WeeklyClocksResponse> {
+    return this.http.get<WeeklyClocksResponse>('api/week', {
+      params: { week }
+    });
   }
 }

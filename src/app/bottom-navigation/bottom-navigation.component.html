@@ -1,0 +1,17 @@
+<div style="display: flex; flex-direction: column; justify-content: stretch; align-items: stretch;">
+  <button #button mat-button flex routerLink="main" routerLinkActive="mat-primary" [routerLinkActiveOptions]="{exact: true}">
+    Pointage manuel
+  </button>
+  <button #button mat-button flex routerLink="main/auto" routerLinkActive="mat-primary">
+    Pointage auto
+  </button>
+  <button #button mat-button flex routerLink="main/pause" routerLinkActive="mat-primary">
+    Déb. Matin + temps pause
+  </button>
+  <button #button mat-button flex routerLink="main/badge" routerLinkActive="mat-primary">
+    Temps badgés
+  </button>
+  <button #button mat-button flex routerLink="/week" routerLinkActive="mat-primary">
+    Par semaine
+  </button>
+</div>

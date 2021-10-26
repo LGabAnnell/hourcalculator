@@ -2,14 +2,20 @@
 <span flex></span>
 <div class="container-responsive sticky-bottom">
   <mat-toolbar>
-    <button *ngIf="isLoggedIn" routerLink="remote" mat-icon-button>
+    <div flex style="display: flex; height: 100%; align-items: center;">
+      <button flex style="height: 80%;" mat-button routerLink="/">
+        Home
+      </button>
+      <button flex *ngIf="isLoggedIn" routerLink="remote" mat-button style="height: 80%;">
+        <mat-icon>person_outline</mat-icon>
+      </button>
+    </div>
+    <button #menuButton mat-button style="width: 60%; height: 80%;" (click)="openBottomSheet()">
       <mat-icon>person_outline</mat-icon>
     </button>
-    <button mat-button routerLink="">Home</button>
-    <span flex></span>
-    <button *ngIf="isLoggedIn" mat-icon-button (click)="logout()">
+    <button flex *ngIf="isLoggedIn" mat-button style="height: 80%;" (click)="logout()">
       <mat-icon>exit_to_app</mat-icon>
     </button>
-    <button *ngIf="!isLoggedIn" routerLink="remote/login" mat-button>Log in</button>
+    <button flex *ngIf="!isLoggedIn" routerLink="remote/login" style="height: 80%;" mat-button>Log in</button>
   </mat-toolbar>
 </div>
