@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 import { UserClock } from 'src/model/userclock';
 import { UserService } from '../../remote/user.service';
 
 export interface WeeklyClocksResponse {
-  weeklyClocks: {
-    [key: string]: UserClock[]
-  };
+  weeklyClocks: string
 }
 
 @Component({
@@ -23,12 +22,12 @@ export class WeekTimesComponent implements OnInit {
   }[] = [];
   dynamicColumnArray = [];
   displayedColumns = ['date'];
-  initialized = false;
 
-  toDisplay: {
+  toDisplayHolder: {
     date?: string,
     [key: string]: string,
-  }[] = [];
+  }[] = [{}];
+  toDisplay = new MatTableDataSource();
 
   @ViewChild(MatSort)
   matSort: MatSort;
@@ -36,68 +35,51 @@ export class WeekTimesComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    const weekNumber = moment(moment.now()).isoWeek();
+  }
 
-    this.createTable(weekNumber).then(() => {
-      setTimeout(() => {
-        this.matSort.start = 'desc';
+  createTable(weekNum: number) {
+    this.userService.getByWeek(weekNum).toPromise().then(data => {
+      this.toDisplayHolder = JSON.parse(data.weeklyClocks);
+      
+      if (this.toDisplayHolder.length === 0) {
+        this.displayedColumns = [];
+        this.toDisplay.data = [];
+        return;
+      }
+
+      this.displayedColumns = ['date'];
+      this.dynamicColumnArray = [];
+
+      this.toDisplayHolder.forEach(d => {
+        for (let p in d) {
+          if (p === 'date')
+            continue;
+          if (!this.dynamicColumnArray.includes(p)) {
+            this.dynamicColumnArray.push(p);
+          }
+        }
       });
+
+      this.dynamicColumnArray.sort();
+      console.log(this.dynamicColumnArray);
+      console.log(this.toDisplayHolder);
+
+      this.displayedColumns = [...this.displayedColumns.concat(this.dynamicColumnArray)];
+      this.toDisplay.data = this.toDisplayHolder;
     });
   }
 
-  createTable(weekNum: number): Promise<void> {
-    let maxlen = 0;
-    this.displayedColumns = ['date'];
-    return this.userService.getByWeek(weekNum).toPromise().then(data => {
-      let i = 0;
-      this.toDisplay = []
-      this.data = [];
+  ngAfterViewInit() {
+    const weekNumber = moment(moment.now()).isoWeek();
 
-      for (let p in data.weeklyClocks) {
-        this.data[i] = {};
-        this.data[i].date = moment(p, 'YYYY-MM-DD').format('DD.MM');
-        this.data[i].clocks = data.weeklyClocks[p];
-
-        if (this.data[i].clocks.length > maxlen) {
-          maxlen = this.data[i].clocks.length;
-        }
-
-        i++;
-      }
-
-      this.dynamicColumnArray = new Array(maxlen).fill(0).map((_, i) => {
-        return i % 2 === 0 ? 'entree' + i : 'sortie' + i;
-      });
-
-      /**
-       * Array ends up looking like 
-       * [ { date: 'dd.mm', entree0: 'hh:mm', sortie1: 'hh:mm', entree2: 'hh:mm', etc. } ]
-       * This way we can have dynamic columns
-       */
-      this.data.forEach((d, index) => {
-        this.toDisplay.push({
-          date: d.date
-        });
-
-        this.dynamicColumnArray.forEach((_, i) => {
-          this.toDisplay[index][i % 2 === 0 ? 'entree' + i : 'sortie' + i] = d.clocks[i]?.time.substring(0, 5) || '';
-        });
-      });
-
-      this.sort({
-        direction: 'asc',
-        active: 'date'
-      });
-
-      this.displayedColumns = this.displayedColumns.concat(this.dynamicColumnArray);
-      this.initialized = true;
-    });
+    this.createTable(weekNumber);
+    this.toDisplay.sort = this.matSort;
   }
 
   sort({ direction, active }) {
-    this.toDisplay = [...this.toDisplay.sort((a, b) => {
+    this.toDisplayHolder = [...this.toDisplayHolder.sort((a, b) => {
       let f = a[active] < b[active] ? -1 : a[active] > b[active] ? 1 : 0;
-      if (direction === 'desc') { 
+      if (direction === 'desc') {
         f *= -1;
       }
       return f;

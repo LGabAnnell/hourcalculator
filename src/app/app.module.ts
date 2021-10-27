@@ -1,6 +1,5 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser/';
 import { NgModule } from '@angular/core';
-import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatInputModule } from '@angular/material/input'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -24,7 +23,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MomentToStringPipe } from './pipes/moment-to-string.pipe';
 import { MatSortModule } from '@angular/material/sort';
 import { BottomNavigationComponent } from './bottom-navigation/bottom-navigation.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
@@ -49,7 +47,7 @@ export const materialImports = [
     MatDividerModule,
     MatTableModule,
     MatSortModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
 ];
 
 @NgModule({
@@ -60,7 +58,9 @@ export const materialImports = [
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    BrowserAnimationsModule,
+    BrowserAnimationsModule.withConfig({
+      disableAnimations: false
+    }),
     HttpClientModule,
     ...materialImports,
     StoreModule.forRoot({

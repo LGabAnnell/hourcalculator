@@ -1,21 +1,3 @@
-<nav mat-tab-nav-bar>
-  <a flex mat-tab-link routerLink="../main" routerLinkActive #rl1="routerLinkActive"
-    [routerLinkActiveOptions]="{exact: true}" [active]="rl1.isActive">
-    Pointage manuel
-  </a>
-  <a flex mat-tab-link routerLink="auto" routerLinkActive #rl2="routerLinkActive" [active]="rl2.isActive">
-    Pointage auto
-  </a>
-  <a flex mat-tab-link routerLink="pause" routerLinkActive #rl3="routerLinkActive" [active]="rl3.isActive">
-    Déb. Matin + temps pause
-  </a>
-  <a flex mat-tab-link routerLink="badge" routerLinkActive #rl4="routerLinkActive" [active]="rl4.isActive">
-    Temps badgés
-  </a>
-  <a flex mat-tab-link routerLink="week" routerLinkActive #rl5="routerLinkActive" [active]="rl5.isActive">
-    Par semaine
-  </a>
-</nav>
 <app-date-chooser></app-date-chooser>
 <router-outlet></router-outlet>
 <total-time-chooser></total-time-chooser>
