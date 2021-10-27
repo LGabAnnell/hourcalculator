@@ -61,11 +61,10 @@ export class WeekTimesComponent implements OnInit {
       });
 
       this.dynamicColumnArray.sort();
-      console.log(this.dynamicColumnArray);
-      console.log(this.toDisplayHolder);
 
       this.displayedColumns = [...this.displayedColumns.concat(this.dynamicColumnArray)];
       this.toDisplay.data = this.toDisplayHolder;
+      this.matSort.start = 'desc';
     });
   }
 
