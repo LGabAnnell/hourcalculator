@@ -1,3 +1,4 @@
+
 <div class="container">
   <mat-card *ngIf="clocks?.length > 0">
     <form class="example-form" action="javascript:void(0)">
@@ -14,18 +15,25 @@
   </mat-card>
   <div class="container">
     <mat-card>
-      <table style="width: 100%;" *ngIf="clocks?.length > 0">
-        <tr style="text-align: left;">
-          <th>Travaillé</th>
-          <th>Restant</th>
-          <th>Fin</th>
-        </tr>
-        <tbody>
-          <td>{{ totalTimeWorked | durationToString }}</td>
-          <td>{{ remaining | durationToString }}</td>
-          <td>{{ endTime | momentToString }}</td>
-        </tbody>
-      </table>
+      <mat-table [dataSource]="tableData">
+        <ng-container matColumnDef="timeWorked">
+          <mat-header-cell *matHeaderCellDef>Temps travaillé</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.timeWorked | durationToString }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="timeLeft">
+          <mat-header-cell *matHeaderCellDef>Temps restant</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.timeLeft | durationToString }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endTime">
+          <mat-header-cell *matHeaderCellDef>Fin</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.endTime | momentToString }}</mat-cell>
+        </ng-container>
+        
+        <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: tableColumns"></mat-row>
+      </mat-table>
       <mat-card-actions>
         <ng-content></ng-content>
       </mat-card-actions>

@@ -3,3 +3,14 @@ mat-icon {
     cursor: pointer;
   }
 }
+table {
+  width: 100%;
+}
+.mat-cell {
+  width: 33.33333333%;
+  justify-content: center;
+}
+
+.mat-header-cell {
+  justify-content: center;
+}

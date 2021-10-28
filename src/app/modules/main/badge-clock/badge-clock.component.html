@@ -1,6 +1,11 @@
-<button (click)="addClock()" mat-button>Ajouter pointage</button>
-<app-time-sheet [clocks]="clocksForInputs" [totalTimeToWork]="totalTimeToWork" (onRemove)="removeClock($event)"
-  (onInput)="saveInput($event)">
-  <button [disabled]="!(clocksForInputs && clocksForInputs.length > 0)" (click)="saveClocks()"
-    mat-button>Sauvegarder</button>
-</app-time-sheet>
+<div *ngIf="!clocksForInputs" style="display: flex; justify-content: center;">
+  <mat-spinner></mat-spinner>
+</div>
+<ng-container *ngIf="clocksForInputs?.length > 0">
+  <button (click)="addClock()" mat-button>Ajouter pointage</button>
+  <app-time-sheet [clocks]="clocksForInputs" [totalTimeToWork]="totalTimeToWork" (onRemove)="removeClock($event)"
+    (onInput)="saveInput($event)">
+    <button [disabled]="!(clocksForInputs && clocksForInputs.length > 0)" (click)="saveClocks()"
+      mat-button>Sauvegarder</button>
+  </app-time-sheet>
+</ng-container>

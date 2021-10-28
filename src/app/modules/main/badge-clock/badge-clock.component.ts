@@ -36,7 +36,7 @@ export class BadgeClockComponent implements OnInit {
           userClocks.forEach(clock => {
             const split = clock.time.split(':');
             clock.time = split[0] + ':' + split[1];
-          })
+          });
           return userClocks;
         }))
         .subscribe(userClocks => {
@@ -67,12 +67,11 @@ export class BadgeClockComponent implements OnInit {
       date: this.date,
       times: this.userClocks.map(uc => uc.time),
       userToken: token
-    }).toPromise()
-      .then(() => {
-        this.snack.open('Enregistré!', null, {
-          duration: 2000
-        });
+    }).toPromise().then(() => {
+      this.snack.open('Enregistré!', null, {
+        duration: 1000
       });
+    });
   }
 
   addClock() {
@@ -80,7 +79,7 @@ export class BadgeClockComponent implements OnInit {
     const newClock = {
       time: clock.format('HH:mm'),
       date: clock.format('yyyy-MM-DD'),
-    }
+    };
 
     this.userClocks = [...this.userClocks, newClock];
     this.clocksForInputs = [...this.clocksForInputs, new ClockInOut(newClock.time)];
