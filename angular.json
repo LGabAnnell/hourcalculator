@@ -38,6 +38,7 @@
           },
           "configurations": {
             "development": {
+              "aot": false,
               "buildOptimizer": false,
               "optimization": {
                 "scripts": false,

@@ -1,5 +1,5 @@
-import { Component, ContentChildren, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { Component, ContentChildren, ElementRef, Inject, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { MatBottomSheet, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatButton } from '@angular/material/button';
 
 @Component({
@@ -12,7 +12,8 @@ export class BottomNavigationComponent implements OnInit {
   @ViewChildren('button')
   buttons: QueryList<MatButton>;
 
-  constructor(private bottomSheet: MatBottomSheet) { }
+  constructor(private bottomSheet: MatBottomSheet, @Inject(MAT_BOTTOM_SHEET_DATA) public data: { isLoggedIn: boolean }) { 
+  }
 
   ngOnInit(): void {
   }

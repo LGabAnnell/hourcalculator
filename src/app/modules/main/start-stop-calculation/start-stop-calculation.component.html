@@ -1,9 +1,0 @@
-<div class="margin-top">
-  <button mat-raised-button style="width:100%" color="warn" (click)="del()">Supprimer tout</button>
-</div>
-<div class="margin-top">
-  <button mat-raised-button style="width: 100%;" color="primary" type="submit" (click)="addClockInOrOut()">
-    Ajouter pointage
-  </button>
-</div>
-<app-time-sheet (onInput)="inputListener($event)" [clocks]="clocks" [totalTimeToWork]="supposedTotal"></app-time-sheet>

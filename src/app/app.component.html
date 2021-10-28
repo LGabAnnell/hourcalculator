@@ -1,13 +1,7 @@
 <nav mat-tab-nav-bar>
   <a flex mat-tab-link routerLink="main" routerLinkActive #rl1="routerLinkActive"
     [routerLinkActiveOptions]="{exact: true}" [active]="rl1.isActive">
-    Pointage manuel
-  </a>
-  <a flex mat-tab-link routerLink="main/auto" routerLinkActive #rl2="routerLinkActive" [active]="rl2.isActive">
-    Pointage auto
-  </a>
-  <a flex mat-tab-link routerLink="main/pause" routerLinkActive #rl3="routerLinkActive" [active]="rl3.isActive">
-    Déb. Matin + temps pause
+    Déb. matin + temps pause
   </a>
   <a flex mat-tab-link routerLink="main/badge" routerLinkActive #rl4="routerLinkActive" [active]="rl4.isActive">
     Temps badgés

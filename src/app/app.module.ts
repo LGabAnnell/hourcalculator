@@ -26,6 +26,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
 import { BottomNavigationComponent } from './bottom-navigation/bottom-navigation.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 export const autoClocks = autoClockReducer
 export const manualClocks = manualReducer
@@ -48,6 +49,7 @@ export const materialImports = [
     MatTableModule,
     MatSortModule,
     MatBottomSheetModule,
+    MatProgressSpinnerModule
 ];
 
 @NgModule({

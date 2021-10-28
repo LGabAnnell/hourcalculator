@@ -47,9 +47,11 @@ export class AppComponent {
   }
 
   openBottomSheet() {
-    this.bottomSheet.open(BottomNavigationComponent).afterDismissed().subscribe(() => {
+    this.bottomSheet.open(BottomNavigationComponent, {
+      data: { isLoggedIn: this.isLoggedIn }
+    }).afterDismissed().subscribe(() => {
       this.menuButton._elementRef.nativeElement.blur();
-    })
+    });
   }
 
   ngOnDestroy() {

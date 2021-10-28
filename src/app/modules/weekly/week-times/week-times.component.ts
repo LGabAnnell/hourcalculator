@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
-import { UserClock } from 'src/model/userclock';
+import { Subject } from 'rxjs';
 import { UserService } from '../../remote/user.service';
 
 export interface WeeklyClocksResponse {
@@ -14,36 +14,41 @@ export interface WeeklyClocksResponse {
   templateUrl: './week-times.component.html',
   styleUrls: ['./week-times.component.scss']
 })
-export class WeekTimesComponent implements OnInit {
+export class WeekTimesComponent implements AfterViewInit {
 
-  data: {
-    date?: string,
-    clocks?: UserClock[]
-  }[] = [];
   dynamicColumnArray = [];
-  displayedColumns = ['date'];
+  displayedColumns = [];
 
-  toDisplayHolder: {
-    date?: string,
-    [key: string]: string,
-  }[] = [{}];
+  toDisplayHolder = [];
+
   toDisplay = new MatTableDataSource();
 
   @ViewChild(MatSort)
   matSort: MatSort;
 
-  constructor(private userService: UserService) { }
+  subj: Subject<string> = new Subject();
 
-  ngOnInit(): void {
+  constructor(private userService: UserService) {
   }
 
-  createTable(weekNum: number) {
-    this.userService.getByWeek(weekNum).toPromise().then(data => {
+  ngOnInit() {
+    this.subj.next('ha');
+  }
+
+  ngAfterViewInit(): void {
+    const weekNumber = moment(moment.now()).isoWeek();
+
+    this.createTable(weekNumber);
+  }
+
+  async createTable(weekNum: number) {
+    return this.userService.getByWeek(weekNum).toPromise().then(data => {
       this.toDisplayHolder = JSON.parse(data.weeklyClocks);
-      
+
       if (this.toDisplayHolder.length === 0) {
         this.displayedColumns = [];
         this.toDisplay.data = [];
+        this.subj.next('a');
         return;
       }
 
@@ -61,27 +66,15 @@ export class WeekTimesComponent implements OnInit {
       });
 
       this.dynamicColumnArray.sort();
-
-      this.displayedColumns = [...this.displayedColumns.concat(this.dynamicColumnArray)];
+      this.displayedColumns = this.displayedColumns.concat(this.dynamicColumnArray);
       this.toDisplay.data = this.toDisplayHolder;
-      this.matSort.start = 'desc';
+      this.subj.next('h');
+      
+      setTimeout(() => {
+        this.toDisplay.sort = this.matSort;
+        this.matSort.disableClear = true;
+        this.matSort.start = 'desc';
+      });
     });
-  }
-
-  ngAfterViewInit() {
-    const weekNumber = moment(moment.now()).isoWeek();
-
-    this.createTable(weekNumber);
-    this.toDisplay.sort = this.matSort;
-  }
-
-  sort({ direction, active }) {
-    this.toDisplayHolder = [...this.toDisplayHolder.sort((a, b) => {
-      let f = a[active] < b[active] ? -1 : a[active] > b[active] ? 1 : 0;
-      if (direction === 'desc') {
-        f *= -1;
-      }
-      return f;
-    })];
   }
 }
