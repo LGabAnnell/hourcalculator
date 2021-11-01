@@ -2,8 +2,8 @@
 <div *ngIf="!clocksForInputs" style="display: flex; justify-content: center;">
   <mat-spinner></mat-spinner>
 </div>
+<button style="margin-right: 10px;" (click)="addClock()" mat-flat-button>Ajouter pointage</button>
 <ng-container *ngIf="clocksForInputs?.length > 0">
-  <button style="margin-right: 10px;" (click)="addClock()" mat-flat-button>Ajouter pointage</button>
   <button mat-flat-button [disabled]="!(clocksForInputs && clocksForInputs.length > 0)" (click)="saveClocks()">
     Sauvegarder
   </button>
