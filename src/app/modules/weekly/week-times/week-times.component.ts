@@ -1,12 +1,12 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { UserService } from '../../remote/user.service';
-import {Store} from '@ngrx/store';
-import {dateChange} from '../../../store/actions';
-import {Router} from '@angular/router';
+import { Store } from '@ngrx/store';
+import { dateChange } from '../../../store/actions';
+import { Router } from '@angular/router';
 
 export interface WeeklyClocksResponse {
   weeklyClocks: string
@@ -17,7 +17,7 @@ export interface WeeklyClocksResponse {
   templateUrl: './week-times.component.html',
   styleUrls: ['./week-times.component.scss']
 })
-export class WeekTimesComponent implements OnInit, AfterViewInit {
+export class WeekTimesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   dynamicColumnArray = [];
   displayedColumns = [];
@@ -30,10 +30,18 @@ export class WeekTimesComponent implements OnInit, AfterViewInit {
   matSort: MatSort;
 
   subj: Subject<string> = new Subject();
+  totalTimeSub: Subscription;
+  totalTimeToWork: moment.Duration;
 
-  constructor(private userService: UserService, private store: Store, private router: Router) {}
+  constructor(private userService: UserService,
+              private store: Store<{ timeChange: { duration: moment.Duration } }>,
+              private router: Router) {
+  }
 
   ngOnInit() {
+    this.totalTimeSub = this.store.select(state => state.timeChange).subscribe(({ duration }) => {
+      this.totalTimeToWork = duration;
+    });
     this.subj.next('ha');
   }
 
@@ -73,7 +81,7 @@ export class WeekTimesComponent implements OnInit, AfterViewInit {
         this.addTotalColumn(index, el);
       });
 
-      this.displayedColumns = this.displayedColumns.concat(this.dynamicColumnArray).concat(['total']);
+      this.displayedColumns = this.displayedColumns.concat(this.dynamicColumnArray).concat(['total', 'diff']);
       this.toDisplay.data = this.toDisplayHolder;
       this.subj.next('h');
 
@@ -92,6 +100,7 @@ export class WeekTimesComponent implements OnInit, AfterViewInit {
     this.store.dispatch(dateChange({
       date: newDate
     }));
+
     this.router.navigateByUrl('/main/badge');
   }
 
@@ -99,8 +108,7 @@ export class WeekTimesComponent implements OnInit, AfterViewInit {
     const total = moment.duration(0);
     const timeArray: moment.Moment[] = [];
     for (const p in row) {
-      if (p === 'date') continue;
-      if (p === 'total') continue;
+      if (p === 'date' || p === 'total') continue;
       if (row.hasOwnProperty(p))
         timeArray.push(moment(row[p], 'HH.mm'));
     }
@@ -112,5 +120,10 @@ export class WeekTimesComponent implements OnInit, AfterViewInit {
     }
 
     this.toDisplayHolder[index].total = total;
+    this.toDisplayHolder[index].diff = total.clone().subtract(this.totalTimeToWork);
+  }
+
+  ngOnDestroy() {
+    this.totalTimeSub.unsubscribe();
   }
 }
