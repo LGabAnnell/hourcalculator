@@ -68,7 +68,12 @@ export class WeekTimesComponent implements OnInit, AfterViewInit {
       });
 
       this.dynamicColumnArray.sort();
-      this.displayedColumns = this.displayedColumns.concat(this.dynamicColumnArray);
+
+      this.toDisplayHolder.forEach((el, index) => {
+        this.addTotalColumn(index, el);
+      });
+
+      this.displayedColumns = this.displayedColumns.concat(this.dynamicColumnArray).concat(['total']);
       this.toDisplay.data = this.toDisplayHolder;
       this.subj.next('h');
 
@@ -88,5 +93,24 @@ export class WeekTimesComponent implements OnInit, AfterViewInit {
       date: newDate
     }));
     this.router.navigateByUrl('/main/badge');
+  }
+
+  addTotalColumn(index: number, row: { [key: string]: string }) {
+    const total = moment.duration(0);
+    const timeArray: moment.Moment[] = [];
+    for (const p in row) {
+      if (p === 'date') continue;
+      if (p === 'total') continue;
+      if (row.hasOwnProperty(p))
+        timeArray.push(moment(row[p], 'HH.mm'));
+    }
+
+    timeArray.sort();
+
+    for (let i = 0; i < timeArray.length - 1; i += 2) {
+      total.add(timeArray[i + 1].diff(timeArray[i]));
+    }
+
+    this.toDisplayHolder[index].total = total;
   }
 }

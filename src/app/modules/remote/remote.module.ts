@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RemoteClockComponent } from './remote-clock/remote-clock.component';
+import { UserInfoComponent } from './user-info/user-info.component.';
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
 import { remoteRoutes } from './remote-routes';
@@ -12,7 +12,7 @@ import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
-    RemoteClockComponent,
+    UserInfoComponent,
     LoginComponent,
     RegisterComponent,
     UsernameTakenComponent,

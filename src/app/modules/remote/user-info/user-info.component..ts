@@ -9,11 +9,11 @@ import { totalTimeChange } from 'src/app/store/actions';
 import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-remote-clock',
-  templateUrl: './remote-clock.component.html',
-  styleUrls: ['./remote-clock.component.scss']
+  selector: 'app-user-info',
+  templateUrl: './user-info.component.html',
+  styleUrls: ['./user-info.component..scss']
 })
-export class RemoteClockComponent implements OnInit {
+export class UserInfoComponent implements OnInit {
   public userToken$: Observable<string>;
 
   @ViewChild('token')

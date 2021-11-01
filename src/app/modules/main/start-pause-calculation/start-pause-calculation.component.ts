@@ -11,7 +11,7 @@ import { startPauseChange, totalTimeChange } from 'src/app/store/actions';
 })
 export class StartPauseCalculationComponent implements OnInit, OnDestroy {
 
-  dayStart: string = '08:00';
+  dayStart = '08:00';
 
   supposedTotal = moment.duration({
     hours: 8,
@@ -73,8 +73,6 @@ export class StartPauseCalculationComponent implements OnInit, OnDestroy {
 
     this.pauseDuration = pauseDuration;
 
-    const supposedTotalCopy = this.supposedTotal.clone();
-
-    this.endTime = ds.add(supposedTotalCopy).add(pauseDuration).format('HH:mm');
+    this.endTime = ds.add(this.supposedTotal).add(pauseDuration).format('HH:mm');
   }
 }

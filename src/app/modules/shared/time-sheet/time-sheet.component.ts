@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { removeOneManualClock } from 'src/app/store/actions';
@@ -9,7 +9,7 @@ import { ClockInOut } from 'src/model/clockinout';
   templateUrl: './time-sheet.component.html',
   styleUrls: ['./time-sheet.component.scss']
 })
-export class TimeSheetComponent implements OnInit {
+export class TimeSheetComponent implements OnChanges {
 
   @Input('clocks')
   clocks: ClockInOut[];
@@ -45,9 +45,7 @@ export class TimeSheetComponent implements OnInit {
     endTime: moment(0)
   }];
 
-  ngOnInit(): void { }
-
-  ngAfterViewInit(): void { }
+  showTable = false;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.clocks) {
@@ -61,7 +59,6 @@ export class TimeSheetComponent implements OnInit {
     this.calculate();
   }
 
-  showTable = false;
   calculate() {
     if (this.totalTimeToWork && this.clocks && this.clocks.length > 1) {
       const newTotal = moment.duration(0);
