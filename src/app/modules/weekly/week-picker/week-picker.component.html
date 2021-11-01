@@ -2,12 +2,6 @@
   <button mat-icon-button (click)="removeWeek()">
     <mat-icon>chevron_left</mat-icon>
   </button>
-  <!-- <span flex class="date-picker-bar" (click)="picker.open()">
-    <mat-datepicker touchUi #picker></mat-datepicker>
-    <input style="width: 0; height: 0; padding: 0; margin: 0; border: none;" [matDatepicker]="picker"
-      (dateChange)="dateChange($event.targetElement.value)" [value]="date">
-    <span #dateDiv>{{ date.format('DD.MM.YYYY') }}</span>
-  </span> -->
   {{ weekRange }}
   <button mat-icon-button (click)="addWeek()">
     <mat-icon>chevron_right</mat-icon>

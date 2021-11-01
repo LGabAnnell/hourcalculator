@@ -1,12 +1,12 @@
-<mat-card>
+<mat-card style="margin-top: 10px;">
   <form class="example-form" onsubmit="javascript:void(0)">
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="Arrivée" type="time" [(value)]="dayStart" (input)="startChange($event.target.value)">
+      <input matInput placeholder="Arrivée" type="time" [value]="dayStart" #inp (input)="startChange(inp.value)">
     </mat-form-field>
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="Durée pause" type="time" [value]="pauseDuration | durationToString"
-        (input)="pauseDurationChange($event.target.value)">
+      <input #pauseDurationInput matInput placeholder="Durée pause" type="time" [value]="pauseDuration | durationToString"
+             (input)="pauseDurationChange(pauseDurationInput.value)">
     </mat-form-field>
-    Fin: {{endTime}}
+    Fin: {{ endTime }}
   </form>
 </mat-card>

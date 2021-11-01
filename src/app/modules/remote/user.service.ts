@@ -1,10 +1,9 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import * as moment from "moment";
-import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
-import { UserClock } from "src/model/userclock";
-import { WeeklyClocksResponse } from "../weekly/week-times/week-times.component";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { UserClock } from 'src/model/userclock';
+import { WeeklyClocksResponse } from '../weekly/week-times/week-times.component';
 
 export interface TimeUpdateListRequest {
   date: string;
@@ -36,10 +35,6 @@ export class UserService {
 
   logOut() {
     return this.http.post('api/logout', { responseType: 'text' });
-  }
-
-  getUserClocks(): Observable<{ time: string, date: string}> {
-    return this.http.get<{ time: string, date: string}>('api/user-clocks');
   }
 
   getUserClocksByDate(date: moment.Moment) {

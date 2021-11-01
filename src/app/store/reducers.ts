@@ -13,7 +13,7 @@ export type clockInOutWithDateAction = clockInOutAction & {
 }
 
 const initialAutoClocks: clockInOutWithDateAction = (() => {
-  let clocks: ClockInOut[] = JSON.parse(localStorage.getItem(moment().format('DD.MM.YYYY') + "autoclocks"));
+  let clocks: ClockInOut[] = JSON.parse(localStorage.getItem(moment().format('DD.MM.YYYY') + 'autoclocks'));
   if (clocks === null)
     clocks = [];
   return {
@@ -24,18 +24,18 @@ const initialAutoClocks: clockInOutWithDateAction = (() => {
 })();
 
 const initialManualClocks: clockInOutWithDateAction = (() => {
-  const clocks = JSON.parse(localStorage.getItem(moment().format('DD.MM.YYYY') + "manualclocks"));
+  const clocks = JSON.parse(localStorage.getItem(moment().format('DD.MM.YYYY') + 'manualclocks'));
   if (clocks === null || clocks.length === 0) {
     return {
       action: null,
-      clocks: [new ClockInOut("08:00")],
+      clocks: [new ClockInOut('08:00')],
       date: moment()
     };
   }
 
   return {
     action: null,
-    clocks: clocks,
+    clocks,
     date: moment()
   };
 })();
@@ -49,7 +49,7 @@ const initialTotalTime = (() => ({
 
 export const autoClockReducer = createReducer(initialAutoClocks,
   on(saveAutoClocks, (state, action) => {
-    localStorage.setItem(state.date.format('DD.MM.YYYY') + "autoclocks", JSON.stringify(state.clocks));
+    localStorage.setItem(state.date.format('DD.MM.YYYY') + 'autoclocks', JSON.stringify(state.clocks));
     return {
       action,
       clocks: state.clocks,
@@ -57,7 +57,7 @@ export const autoClockReducer = createReducer(initialAutoClocks,
     };
   }),
   on(deleteAutoClocks, (state, action) => {
-    localStorage.removeItem(state.date.format('DD.MM.YYYY') + "autoclocks");
+    localStorage.removeItem(state.date.format('DD.MM.YYYY') + 'autoclocks');
     return {
       action,
       clocks: [],
@@ -66,7 +66,7 @@ export const autoClockReducer = createReducer(initialAutoClocks,
   }),
   on(removeOneAutoClock, (state, { index }) => {
     const newState = state.clocks.filter((_, idx) => idx !== index);
-    localStorage.setItem(state.date.format('DD.MM.YYYY') + "autoclocks", JSON.stringify(newState));
+    localStorage.setItem(state.date.format('DD.MM.YYYY') + 'autoclocks', JSON.stringify(newState));
     return {
       action: state.action,
       clocks: newState,
@@ -74,21 +74,21 @@ export const autoClockReducer = createReducer(initialAutoClocks,
     };
   }),
   on(dateChange, (state, { type, date }) => {
-    let clocks = JSON.parse(localStorage.getItem(moment(date).format('DD.MM.YYYY') + "autoclocks"));
+    let clocks = JSON.parse(localStorage.getItem(moment(date).format('DD.MM.YYYY') + 'autoclocks'));
 
     if (clocks === null) clocks = [];
 
     return {
       action: { type },
-      clocks: clocks,
-      date: date
+      clocks,
+      date
     }
   })
 );
 
 export const manualReducer = createReducer(initialManualClocks,
   on(saveManualClocks, (state, action) => {
-    localStorage.setItem(state.date.format('DD.MM.YYYY') + "manualclocks", JSON.stringify(state.clocks));
+    localStorage.setItem(state.date.format('DD.MM.YYYY') + 'manualclocks', JSON.stringify(state.clocks));
     return {
       action,
       clocks: state.clocks,
@@ -96,18 +96,18 @@ export const manualReducer = createReducer(initialManualClocks,
     };
   }),
   on(deleteManualClocks, ({ date }, action) => {
-    localStorage.removeItem(moment(date).format('DD.MM.YYYY') + "manualclocks");
+    localStorage.removeItem(moment(date).format('DD.MM.YYYY') + 'manualclocks');
     return {
       action,
       clocks: [
-        new ClockInOut("08:00")
+        new ClockInOut('08:00')
       ],
       date: date
     };
   }),
   on(removeOneManualClock, (state, { index }) => {
     const newState = state.clocks.filter((_, idx) => idx !== index);
-    localStorage.setItem(state.date.format('DD.MM.YYYY') + "manualclocks", JSON.stringify(newState));
+    localStorage.setItem(state.date.format('DD.MM.YYYY') + 'manualclocks', JSON.stringify(newState));
     return {
       action: state.action,
       clocks: newState,
@@ -115,14 +115,14 @@ export const manualReducer = createReducer(initialManualClocks,
     };
   }),
   on(dateChange, (_, { type, date }) => {
-    let clocks = JSON.parse(localStorage.getItem(moment(date).format('DD.MM.YYYY') + "manualclocks"));
+    let clocks = JSON.parse(localStorage.getItem(moment(date).format('DD.MM.YYYY') + 'manualclocks'));
 
     if (clocks === null) clocks = [new ClockInOut('08:00')];
 
     return {
-      action: { type: type },
-      clocks: clocks,
-      date: date
+      action: { type },
+      clocks,
+      date
     }
   })
 );

@@ -4,6 +4,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { UserService } from '../../remote/user.service';
+import {Store} from '@ngrx/store';
+import {dateChange} from '../../../store/actions';
+import {Router} from '@angular/router';
 
 export interface WeeklyClocksResponse {
   weeklyClocks: string
@@ -14,7 +17,7 @@ export interface WeeklyClocksResponse {
   templateUrl: './week-times.component.html',
   styleUrls: ['./week-times.component.scss']
 })
-export class WeekTimesComponent implements AfterViewInit {
+export class WeekTimesComponent implements OnInit, AfterViewInit {
 
   dynamicColumnArray = [];
   displayedColumns = [];
@@ -28,17 +31,16 @@ export class WeekTimesComponent implements AfterViewInit {
 
   subj: Subject<string> = new Subject();
 
-  constructor(private userService: UserService) {
-  }
+  constructor(private userService: UserService, private store: Store, private router: Router) {}
 
   ngOnInit() {
     this.subj.next('ha');
   }
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit(): Promise<void> {
     const weekNumber = moment(moment.now()).isoWeek();
 
-    this.createTable(weekNumber);
+    await this.createTable(weekNumber);
   }
 
   async createTable(weekNum: number) {
@@ -56,7 +58,7 @@ export class WeekTimesComponent implements AfterViewInit {
       this.dynamicColumnArray = [];
 
       this.toDisplayHolder.forEach(d => {
-        for (let p in d) {
+        for (const p in d) {
           if (p === 'date')
             continue;
           if (!this.dynamicColumnArray.includes(p)) {
@@ -69,12 +71,22 @@ export class WeekTimesComponent implements AfterViewInit {
       this.displayedColumns = this.displayedColumns.concat(this.dynamicColumnArray);
       this.toDisplay.data = this.toDisplayHolder;
       this.subj.next('h');
-      
+
       setTimeout(() => {
-        this.toDisplay.sort = this.matSort;
         this.matSort.disableClear = true;
         this.matSort.start = 'desc';
+        this.toDisplay.sort = this.matSort;
       });
     });
+  }
+
+  dateClick(date: string) {
+    const newDate = moment(date, 'DD.MM');
+    newDate.year(2021);
+
+    this.store.dispatch(dateChange({
+      date: newDate
+    }));
+    this.router.navigateByUrl('/main/badge');
   }
 }

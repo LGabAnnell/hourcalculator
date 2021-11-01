@@ -1,8 +1,8 @@
-import { Route } from "@angular/router";
-import { AuthGuardService } from "../remote/services/authguard.service";
-import { BadgeClockComponent } from "./badge-clock/badge-clock.component";
-import { MainComponent } from "./main.component";
-import { StartPauseCalculationComponent } from "./start-pause-calculation/start-pause-calculation.component";
+import { Route } from '@angular/router';
+import { AuthGuardService } from '../remote/services/authguard.service';
+import { BadgeClockComponent } from './badge-clock/badge-clock.component';
+import { MainComponent } from './main.component';
+import { StartPauseCalculationComponent } from './start-pause-calculation/start-pause-calculation.component';
 
 export const routes: Route[] = [
   {

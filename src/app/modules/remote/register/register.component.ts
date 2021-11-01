@@ -16,7 +16,8 @@ export class RegisterComponent implements OnInit {
   formGroup: FormGroup;
   userAlreadyExists: boolean = false;
 
-  constructor(private userService: UserService, private router: Router, private dialog: MatDialog) { }
+  constructor(private userService: UserService, private router: Router, private dialog: MatDialog) {
+  }
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
@@ -32,32 +33,31 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const subscription = this.userService.registerNewUser(this.formGroup.get('username').value, this.formGroup.get('password').value)
+    this.userService.registerNewUser(this.formGroup.get('username').value, this.formGroup.get('password').value)
       .subscribe(() => {
         this.router.navigateByUrl('remote/login');
       }, (error: HttpErrorResponse) => {
-        subscription?.unsubscribe();
         if (error.status === 409) {
           const formSub = this.dialog.open(UsernameTakenComponent, {
             data: { username: this.formGroup.get('username').value }
-          }).afterClosed().pipe(finalize(() => { formSub?.unsubscribe(); })).subscribe(() => {
-            for (let p in this.formGroup.controls) {
-              this.formGroup.controls[p].setValue('');
+          }).afterClosed().subscribe(() => {
+
+            for (const p in this.formGroup.controls) {
+              if (this.formGroup.controls.hasOwnProperty(p))
+                this.formGroup.controls[p].setValue('');
             }
           });
         }
-      }, () => {
-        subscription?.unsubscribe()
       });
   }
 
   getError(formControl: AbstractControl): string {
     if (formControl.hasError('required')) {
-      return 'Field is required';
+      return 'Il faut y mettre une valeur';
     }
 
     if (formControl.hasError('minlength')) {
-      return 'A minimum length of ' + formControl.errors.minlength.requiredLength + ' is required';
+      return 'Un minimum de ' + formControl.errors.minlength.requiredLength + ' charactère(s) est requis';
     }
 
     return '';
@@ -66,16 +66,19 @@ export class RegisterComponent implements OnInit {
 
 @Component({
   template: `
-  <h4 mat-dialog-title>
-    Error
-  </h4>
-  <mat-dialog-content>Username {{ data.username }} is already taken!</mat-dialog-content>
-  <mat-dialog-actions>
-    <button flex mat-raised-button color="primary" (click)="dialogRef.close()">Ok</button>
-  </mat-dialog-actions>
-`})
+    <h4 mat-dialog-title>
+      Error
+    </h4>
+    <mat-dialog-content>Le nom d'utilisateur {{ data.username }} est déjà utilisé!</mat-dialog-content>
+    <mat-dialog-actions>
+      <button flex mat-raised-button color="primary" (click)="dialogRef.close()">Ok</button>
+    </mat-dialog-actions>
+  `
+})
 export class UsernameTakenComponent {
   username: string;
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: { username: string },
-    public dialogRef: MatDialogRef<UsernameTakenComponent>) { }
+              public dialogRef: MatDialogRef<UsernameTakenComponent>) {
+  }
 }

@@ -25,4 +25,4 @@ import { BadgeClockComponent } from './badge-clock/badge-clock.component';
     SharedModule
   ]
 })
-export class MainModule { }
+export class MainModule {}

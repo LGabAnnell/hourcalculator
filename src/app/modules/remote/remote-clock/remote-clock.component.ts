@@ -32,7 +32,7 @@ export class RemoteClockComponent implements OnInit {
 
   copyToClipboard(): void {
     this.token.nativeElement.select();
-    document.execCommand("copy");
+    document.execCommand('copy');
     this.token.nativeElement.blur();
     this.snack.open('Texte copié!!', null, {
       duration: 2000,

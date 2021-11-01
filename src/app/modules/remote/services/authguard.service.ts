@@ -10,10 +10,10 @@ export class AuthGuardService implements CanActivate {
   constructor(private http: HttpClient, private router: Router) {}
 
   canActivate(_: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-    return <Promise<boolean>>this.http.get('api/test-auth').toPromise()
+    return this.http.get<boolean>('api/test-auth').toPromise()
       .then(() => true)
-      .catch(() => {
-        this.router.navigate(['remote/login'], { queryParams: { returnUrl: state.url } });
+      .catch(async () => {
+        await this.router.navigate(['remote/login'], { queryParams: { returnUrl: state.url } });
         return false;
       });
   }
