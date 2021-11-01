@@ -17,7 +17,8 @@ const routes = [
   "/hourcalculator/main/badge",
   "/hourcalculator/remote",
   "/hourcalculator/remote/login",
-  "/hourcalculator/remote/register"
+  "/hourcalculator/remote/register",
+  "/hourcalculator/week"
 ];
 
 const appGet = route => app.get(route, (_, res) => {
