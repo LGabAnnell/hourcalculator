@@ -19,16 +19,17 @@
   <ng-container matColumnDef="total">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Total travaillé</mat-header-cell>
     <mat-cell *matCellDef="let element">
-      {{ element.total | durationToString }}
+      <span class="mat-flat-button bg-grey">{{ element.total | durationToString }}</span>
     </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="diff">
     <mat-header-cell *matHeaderCellDef>Différence</mat-header-cell>
     <mat-cell *matCellDef="let element">
-        <span [ngClass]="element.diff?.hours() < 0 || element.diff?.minutes() < 0 ? 'time-nok' : 'time-ok'"
-              class="mat-flat-button no-hover">{{ element.diff | durationToString }}
-        </span>
+          <span [ngClass]="element.diff?.hours() < 0 || element.diff?.minutes() < 0 ? 'time-nok' : 'time-ok'"
+                class="mat-flat-button no-hover">{{ (element.diff > 0 ? '&nbsp;' + (element.diff | durationToString) :
+            element.diff | durationToString) + '&nbsp;' }}
+          </span>
     </mat-cell>
   </ng-container>
 

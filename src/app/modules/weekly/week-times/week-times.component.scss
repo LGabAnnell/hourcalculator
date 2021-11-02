@@ -3,6 +3,8 @@
 }
 
 [class*=mat-column-] {
+  @media screen and (max-width: 1920px) {;
+  }
   @media screen and (max-width: 900px) {
     min-width: 100px;
     max-width: 100px;

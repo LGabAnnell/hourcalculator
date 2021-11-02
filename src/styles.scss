@@ -4,9 +4,17 @@
 
 $warn: mat-palette($mat-red);
 $ok: mat-palette($mat-green);
+$grey: mat-palette($mat-grey);
+
+$grey-color: mat-color($grey);
 
 .text-warn {
     color: mat-color($warn);
+}
+
+.bg-grey {
+  background-color: $grey-color;
+  color: white;
 }
 
 .time-ok {
@@ -70,19 +78,6 @@ form {
 
 [flex] {
     flex: 1 1;
-}
-
-@media screen and (min-width: 1000px) {
-    html {
-        display: flex;
-        justify-content: center;
-    }
-
-    body {
-        width: 45%;
-        min-width: 45%;
-        max-width: 45%;
-    }
 }
 
 .hover-pointer {
