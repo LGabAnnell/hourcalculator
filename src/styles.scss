@@ -1,12 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/theming';
-@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
-
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 $warn: mat-palette($mat-red);
+$ok: mat-palette($mat-green);
 
 .text-warn {
     color: mat-color($warn);
+}
+
+.time-ok {
+  background-color: mat-color($ok);
+  color: white;
+}
+
+.no-hover:hover {
+  cursor: default;
+}
+
+.time-nok {
+  background-color: mat-color($warn);
+  color: white;
+}
+
+.text-ok {
+  color: mat-color($ok);
 }
 
 html,

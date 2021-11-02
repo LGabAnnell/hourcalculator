@@ -9,7 +9,6 @@ export class DurationToStringPipe implements PipeTransform {
     return v + '';
   }
 
-
   public transform(value: moment.Duration) {
     if (!value) {
       return '';
