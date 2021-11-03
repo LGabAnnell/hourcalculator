@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
-import { Subscription } from 'rxjs';
-import { startPauseChange, totalTimeChange } from 'src/app/store/actions';
+import { Subscription, Obser } from 'rxjs';
+import { startPauseChange } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-start-pause-calculation',

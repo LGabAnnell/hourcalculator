@@ -5,6 +5,13 @@
   min-height: 100vh;
 }
 
+.app-container {
+  @media screen and (min-width: 1337px) {
+    width: 70%;
+    align-self: center;
+  }
+}
+
 .sticky-bottom {
   position: sticky;
   bottom: 0;

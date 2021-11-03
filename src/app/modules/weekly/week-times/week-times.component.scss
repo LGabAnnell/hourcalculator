@@ -1,18 +1,40 @@
+:host {}
+
 .mat-table {
   overflow-x: auto;
+}
+
+.mat-row, mat-header-row {
+  border: none;
+}
+
+.mat-cell, mat-header-cell {
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
+  border-bottom-width: 1px;
+  border-color: rgba(0, 0, 0, .12);
+  border-style: solid;
+  padding-left: 5px;
 }
 
 [class*=mat-column-] {
   @media screen and (max-width: 1920px) {;
   }
   @media screen and (max-width: 900px) {
-    min-width: 100px;
-    max-width: 100px;
+    min-width: 80px;
+    max-width: 80px;
   }
 }
 
 .mat-cell, mat-header-cell {
   &:last-of-type {
     padding-right: 0;
+  }
+}
+
+.mat-header-cell:first-of-type {
+  @media screen and (max-width: 900px) {
+    padding-left: 5px;
   }
 }
