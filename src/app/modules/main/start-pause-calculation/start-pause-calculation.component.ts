@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
-import { Subscription, Obser } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { startPauseChange } from 'src/app/store/actions';
 
 @Component({
