@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser/';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatInputModule } from '@angular/material/input'
@@ -18,7 +18,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { routes } from './app-routes';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { autoClockReducer, manualReducer, simpleDateReducer, startPauseReducer, totalTimeReducer, userReducer } from './store/reducers';
+import {
+  autoClockReducer,
+  manualReducer,
+  simpleDateReducer,
+  startPauseReducer,
+  totalTimeReducer,
+  userReducer
+} from './store/reducers';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
@@ -28,28 +35,28 @@ import { BottomNavigationComponent } from './bottom-navigation/bottom-navigation
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
-export const autoClocks = autoClockReducer
-export const manualClocks = manualReducer
-export const timeChange = totalTimeReducer
-export const userChange = userReducer
+export const autoClocks = autoClockReducer;
+export const manualClocks = manualReducer;
+export const timeChange = totalTimeReducer;
+export const userChange = userReducer;
 
 export const materialImports = [
-    MatTabsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSnackBarModule,
-    MatDatepickerModule,
-    MatMomentDateModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatTableModule,
-    MatSortModule,
-    MatBottomSheetModule,
-    MatProgressSpinnerModule
+  MatTabsModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatButtonModule,
+  MatCardModule,
+  MatIconModule,
+  MatToolbarModule,
+  MatSnackBarModule,
+  MatDatepickerModule,
+  MatMomentDateModule,
+  MatDialogModule,
+  MatDividerModule,
+  MatTableModule,
+  MatSortModule,
+  MatBottomSheetModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({
@@ -73,10 +80,13 @@ export const materialImports = [
       simpleDateChange: simpleDateReducer,
       startPause: startPauseReducer
     }),
-    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' })
+    ServiceWorkerModule.register('./ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerImmediately'
+    })
   ],
-  providers: [
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
