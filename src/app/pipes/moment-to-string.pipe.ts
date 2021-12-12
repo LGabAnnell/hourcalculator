@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import * as moment from "moment";
 
-@Pipe({
-  name: 'momentToString'
-})
+@Pipe({ name: 'momentToString' })
 export class MomentToStringPipe implements PipeTransform {
   private addZero = v => {
     if (v < 1) return '00';
@@ -12,7 +11,6 @@ export class MomentToStringPipe implements PipeTransform {
 
   public transform(value: moment.Moment) {
     if (!value) return '';
-    const v = `${this.addZero(value.hours())}:${this.addZero(value.minutes())}`;
-    return v;
+    return`${this.addZero(value.hours())}:${this.addZero(value.minutes())}`;
   }
 }

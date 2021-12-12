@@ -1,7 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import * as moment from 'moment';
-import { removeOneManualClock } from 'src/app/store/actions';
 import { ClockInOut } from 'src/model/clockinout';
 
 @Component({

@@ -19,8 +19,6 @@ import { routes } from './app-routes';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import {
-  autoClockReducer,
-  manualReducer,
   simpleDateReducer,
   startPauseReducer,
   totalTimeReducer,
@@ -35,8 +33,6 @@ import { BottomNavigationComponent } from './bottom-navigation/bottom-navigation
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
-export const autoClocks = autoClockReducer;
-export const manualClocks = manualReducer;
 export const timeChange = totalTimeReducer;
 export const userChange = userReducer;
 
@@ -73,8 +69,6 @@ export const materialImports = [
     HttpClientModule,
     ...materialImports,
     StoreModule.forRoot({
-      autoClocks,
-      manualClocks,
       timeChange,
       userChange,
       simpleDateChange: simpleDateReducer,
@@ -85,7 +79,6 @@ export const materialImports = [
       registrationStrategy: 'registerImmediately'
     })
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -30,8 +30,11 @@ export class StartPauseCalculationComponent implements OnInit, OnDestroy {
   storeHolder: Subscription;
   startTimeSub: Subscription;
 
-  constructor(private store: Store<{ timeChange: { duration: moment.Duration },
-    startPause: moment.Moment }>) { }
+  constructor(private store: Store<{
+    timeChange: { duration: moment.Duration },
+    startPause: moment.Moment
+  }>) {
+  }
 
   ngOnInit() {
     this.storeHolder = this.store.select(state => state.timeChange).subscribe(({ duration }) => {

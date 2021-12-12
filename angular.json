@@ -46,10 +46,10 @@
                 "fonts": false
               },
               "baseHref": "/",
-              "vendorChunk": true,
+              "vendorChunk": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": false
             },
             "production": {
               "fileReplacements": [
@@ -119,7 +119,7 @@
               "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": []
           }
         },
         "lint": {

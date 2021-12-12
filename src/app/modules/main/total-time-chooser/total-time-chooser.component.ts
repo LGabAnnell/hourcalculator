@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store'
+import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { totalTimeChange } from 'src/app/store/actions';
@@ -10,22 +10,28 @@ import { totalTimeChange } from 'src/app/store/actions';
   styleUrls: ['./total-time-chooser.component.scss']
 })
 export class TotalTimeChooserComponent implements OnInit, OnDestroy {
-  storeSub: Subscription
+  storeSub: Subscription;
   value: moment.Duration;
   displayValue: string;
 
-  constructor(private store: Store<{ timeChange: { duration: moment.Duration } }>) {}
+  constructor(private store: Store<{ timeChange: { duration: moment.Duration } }>) {
+  }
 
   ngOnInit(): void {
-    this.storeSub = this.store.select('timeChange').subscribe(({ duration }) => {
+    this.storeSub = this.store.select(state => state.timeChange).subscribe(({ duration }) => {
       this.value = duration;
-      this.displayValue = `${this.addZeroIfNeeded(this.value.hours())}:${this.addZeroIfNeeded(this.value.minutes())}`
+      this.displayValue = `${this.addZeroIfNeeded(this.value.hours())}:${this.addZeroIfNeeded(this.value.minutes())}`;
     });
   }
 
   valueChange(value: string) {
     const hoursAndMinutes = value.split(':').map(v => +v);
-    this.store.dispatch(totalTimeChange({ duration: moment.duration({ hours: hoursAndMinutes[0], minutes: hoursAndMinutes[1] }) }))
+    this.store.dispatch(totalTimeChange({
+      duration: moment.duration({
+        hours: hoursAndMinutes[0],
+        minutes: hoursAndMinutes[1]
+      })
+    }));
   }
 
   ngOnDestroy() {
@@ -35,5 +41,5 @@ export class TotalTimeChooserComponent implements OnInit, OnDestroy {
   addZeroIfNeeded = (v: number) => {
     if (v < 10) return `0${v}`;
     return v;
-  }
+  };
 }

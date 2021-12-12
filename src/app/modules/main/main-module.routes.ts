@@ -25,4 +25,4 @@ export const routes: Route[] = [
       }
     ]
   }
-]
+];

@@ -21,9 +21,7 @@ export class WeekTimesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   dynamicColumnArray = [];
   displayedColumns = [];
-
   toDisplayHolder = [];
-
   toDisplay = new MatTableDataSource();
 
   @ViewChild(MatSort)
@@ -47,7 +45,6 @@ export class WeekTimesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async ngAfterViewInit(): Promise<void> {
     const weekNumber = moment(moment.now()).isoWeek();
-
     await this.createTable(weekNumber);
   }
 
